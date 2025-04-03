@@ -16,7 +16,6 @@ export default ({ attributes, setAttributes }) => {
             onSelect={(image) => setAttributes({ image: image.id })}
           />
         )}
-        onChange={(image) => setAttributes({ image })}
       ></MediaUpload>
     </section>
   );
