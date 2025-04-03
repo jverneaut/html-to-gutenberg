@@ -1,3 +1,5 @@
+![](https://github.com/jverneaut/html-to-gutenberg/actions/workflows/test.yml/badge.svg)
+
 # HTML To Gutenberg
 
 A Webpack plugin that turns raw HTML into dynamic Gutenberg blocks built with React and Twig.
