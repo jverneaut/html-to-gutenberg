@@ -114,8 +114,15 @@ class HTMLToGutenbergPlugin {
           "utf-8",
         );
 
+        const blockName = this.generateBlockName(HTMLFile);
         const blockSlug = this.generateBlockSlug(HTMLFile);
-        const blockJsonOutput = await printBlockJSON(jsonAst, blockSlug);
+
+        const blockJsonOutput = await printBlockJSON(
+          jsonAst,
+          blockName,
+          blockSlug,
+        );
+
         fs.writeFileSync(
           path.join(outputDirectoryPath, "block.json"),
           blockJsonOutput,
