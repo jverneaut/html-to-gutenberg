@@ -1,6 +1,6 @@
 # HTML To Gutenberg
 
-A **WIP** experimental webpack plugin that turns raw html into dynamic Gutenberg Blocks built with React and Twig.
+A webpack plugin that turns raw HTML into dynamic Gutenberg Blocks built with React and Twig.
 
 It uses magic attributes like `data-name="title"` to make dom elements editable.
 
