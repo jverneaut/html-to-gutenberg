@@ -55,7 +55,7 @@ export default {
 
 ## 🚀 Quick Start (Example Project)
 
-**An example** is available in `the example/` folder. You can test it by running:
+**An example** is available in the `example/` folder. You can test it by running:
 
 ```sh
 cd example
