@@ -13,9 +13,20 @@ import printIndex from "./lib/printIndex.js";
 import printBlockJSON from "./lib/printBlockJSON.js";
 
 class HTMLToGutenbergPlugin {
-  constructor(inputDirectory, outputDirectory) {
-    this.inputDirectory = inputDirectory;
-    this.outputDirectory = outputDirectory;
+  /**
+   * @param {Object} options - Additional plugin options.
+   * @param {string} options.inputDirectory - The directory containing source HTML files.
+   * @param {string} options.outputDirectory - The directory where Gutenberg blocks will be generated.
+   * @param {string} [options.blockPrefix="custom"] - The prefix for the generated block names.
+   */
+  constructor(options = {}) {
+    if (!options.inputDirectory) {
+      throw new Error("inputDirectory is required");
+    }
+
+    this.inputDirectory = options.inputDirectory;
+    this.outputDirectory = options.outputDirectory || options.inputDirectory;
+    this.blockPrefix = options.blockPrefix || "custom";
   }
 
   apply(compiler) {
@@ -71,7 +82,7 @@ class HTMLToGutenbergPlugin {
   }
 
   generateBlockName(HTMLFile) {
-    return `custom/${this.generateBlockSlug(HTMLFile)}`;
+    return `${this.blockPrefix}/${this.generateBlockSlug(HTMLFile)}`;
   }
 
   generateBlockPath(HTMLFile) {
