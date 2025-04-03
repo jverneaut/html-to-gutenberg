@@ -1,19 +1,71 @@
 # HTML To Gutenberg
 
-A webpack plugin that turns raw HTML into dynamic Gutenberg Blocks built with React and Twig.
+A Webpack plugin that turns raw HTML into dynamic Gutenberg blocks built with React and Twig.
 
-It uses magic attributes like `data-name="title"` to make dom elements editable.
+Instead of manually coding both React and Twig components, simply write an HTML file with some special attributes, and this plugin will automatically generate all necessary files for you:
 
-## Features
+- ✅ **React-based edit.js** for the WordPress editor
+- ✅ **Twig-based render.twig** for frontend rendering
+- ✅ **block.json** with automatically defined attributes
+- ✅ **index.js** to register the block type
 
-- RichText component support when adding `data-name="String"` on non img elements
-- MediaUpload component support when adding `data-name="String"` on img elements
-- Automatic dependency management inside the generated edit components
-- Automatic attributes creation inside block.json
+This plugin **renders blocks with Twig instead of PHP**, making it ideal for projects using Timber and integrates seamlessly with my other project:
+👉 [gutenberg-tailwindcss-bedrock-timber-twig](https://github.com/jverneaut/gutenberg-tailwindcss-bedrock-timber-twig/)
+
+## ✨ Features
+
+- **Automatic Gutenberg block generation** from simple HTML
+- **Use attributes** (`data-name="title"`, etc.) to define editable fields
+- **Supports RichText and MediaUpload**:
+  - Non-`<img>` elements with `data-name="something"` → **Editable RichTex**
+  - `<img>` elements with `data-name="something"` → **Image selection via MediaUpload**
+- **Fully automates block.json attributes creation**
+
+## 📦 Installation
+
+```sh
+npm install --save-dev @jverneaut/html-to-gutenberg
+```
+
+## ⚙️ Webpack Configuration
+
+This plugin is designed to work with Webpack. Here's how to integrate it:
+
+```js
+// webpack.config.js
+
+import path from "path";
+import HTMLToGutenbergPlugin from "@jverneaut/html-to-gutenberg";
+
+export default {
+  plugins: [
+    new HTMLToGutenbergPlugin({
+      inputDirectory: "blocks", // Your source HTML files
+      outputDirectory: "generated-blocks", // Where generated Gutenberg blocks will be placed
+      blockPrefix: "custom", // Block namespace
+    }),
+  ],
+};
+```
+
+📌 This setup will:
+
+- Scan `blocks/` for `.html` files
+- Generate Gutenberg blocks inside `generated-blocks/`
+
+## 🚀 Quick Start (Example Project)
+
+**An example** is available in `the example/` folder. You can test it by running:
+
+```sh
+cd example
+npm install
+npm run dev
+```
 
 ## Example
 
-### Input HTML
+### 📝 Input HTML
 
 ```html
 <section class="container mx-auto px-6">
@@ -32,7 +84,9 @@ It uses magic attributes like `data-name="title"` to make dom elements editable.
 </section>
 ```
 
-### Generated edit.js file
+### 🔄 Generated files
+
+✅ `edit.js` **(for Gutenberg editor)**
 
 ```jsx
 import { MediaUpload, useBlockProps, RichText } from "@wordpress/block-editor";
@@ -76,7 +130,7 @@ export default ({ attributes, setAttributes }) => {
 };
 ```
 
-### Generated render.twig file
+✅ `render.twig` **(for frontend rendering)**
 
 ```twig
 <section
@@ -104,7 +158,7 @@ export default ({ attributes, setAttributes }) => {
 </section>
 ```
 
-### Generated block.json file
+✅ `block.json` **(auto-generated block metadata)**
 
 ```json
 {
@@ -129,4 +183,19 @@ export default ({ attributes, setAttributes }) => {
   "editorScript": "file:./index.js",
   "render": "file:./render.twig"
 }
+```
+
+✅ `index.js` **(register the block type)**
+
+```js
+import { registerBlockType } from "@wordpress/blocks";
+import { InnerBlocks } from "@wordpress/block-editor";
+
+import Edit from "./edit.js";
+import metadata from "./block.json";
+
+registerBlockType(metadata.name, {
+  edit: Edit,
+  save: () => <InnerBlocks.Content />,
+});
 ```
