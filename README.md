@@ -33,8 +33,6 @@ This plugin is designed to work with Webpack. Here's how to integrate it:
 
 ```js
 // webpack.config.js
-
-import path from "path";
 import HTMLToGutenbergPlugin from "@jverneaut/html-to-gutenberg";
 
 export default {
