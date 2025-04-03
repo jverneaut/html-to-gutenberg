@@ -17,7 +17,7 @@ class HTMLToGutenbergPlugin {
    * @param {Object} options - Additional plugin options.
    * @param {string} options.inputDirectory - The directory containing source HTML files.
    * @param {string} options.outputDirectory - The directory where Gutenberg blocks will be generated.
-   * @param {string} [options.blockPrefix="custom"] - The prefix for the generated block names.
+   * @param {string} [options.blocksPrefix="custom"] - The prefix for the generated block names.
    */
   constructor(options = {}) {
     if (!options.inputDirectory) {
@@ -26,7 +26,7 @@ class HTMLToGutenbergPlugin {
 
     this.inputDirectory = options.inputDirectory;
     this.outputDirectory = options.outputDirectory || options.inputDirectory;
-    this.blockPrefix = options.blockPrefix || "custom";
+    this.blocksPrefix = options.blocksPrefix || "custom";
   }
 
   apply(compiler) {
@@ -82,7 +82,7 @@ class HTMLToGutenbergPlugin {
   }
 
   generateBlockName(HTMLFile) {
-    return `${this.blockPrefix}/${this.generateBlockSlug(HTMLFile)}`;
+    return `${this.blocksPrefix}/${this.generateBlockSlug(HTMLFile)}`;
   }
 
   generateBlockPath(HTMLFile) {

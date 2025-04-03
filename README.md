@@ -40,7 +40,7 @@ export default {
     new HTMLToGutenbergPlugin({
       inputDirectory: "blocks", // Your source HTML files
       outputDirectory: "generated-blocks", // Where generated Gutenberg blocks will be placed
-      blockPrefix: "custom", // Block namespace
+      blocksPrefix: "custom", // Blocks namespace
     }),
   ],
 };

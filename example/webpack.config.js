@@ -8,7 +8,7 @@ export default {
     new HTMLToGutenbergPlugin({
       inputDirectory: "./blocks",
       outputDirectory: "./generated",
-      blockPrefix: "custom",
+      blocksPrefix: "custom",
     }),
   ],
 };
