@@ -1,30 +1,57 @@
 import fs from "fs";
-import path from "path";
+import path, { dirname } from "path";
 
-const generateFiles = () => {
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+import generateAst from "../lib/generateAst";
+
+import processTwigAst from "../lib/twig/processTwigAst";
+import processJsxAst from "../lib/jsx/processJsxAst";
+
+import printTwigAst from "../lib/twig/printTwigAst.js";
+import printJsxAst from "../lib/jsx/printJsxAst.js";
+
+const generateFiles = async (input) => {
+  const twigAst = generateAst(input);
+  const jsxAst = generateAst(input);
+
+  processTwigAst(twigAst);
+  processJsxAst(jsxAst);
+
+  const twigOutput = await printTwigAst(twigAst);
+  const jsxOutput = await printJsxAst(jsxAst);
+
   return {
-    jsx: "",
-    twig: "",
+    jsx: jsxOutput,
+    twig: twigOutput,
     json: "",
   };
 };
 
-const FIXTURES_DIR = path.join(__dirname, "fixtures");
+const PROCESSABLE_FIXTURES_DIR = path.join(__dirname, "fixtures/processable");
+const UNPROCESSABLE_FIXTURES_DIR = path.join(
+  __dirname,
+  "fixtures/unprocessable",
+);
 
 describe("HTML Parser", () => {
-  const testCases = fs.readdirSync(FIXTURES_DIR);
+  const processableTestCases = fs.readdirSync(PROCESSABLE_FIXTURES_DIR);
+  const unProcessableTestCases = fs.readdirSync(UNPROCESSABLE_FIXTURES_DIR);
 
-  testCases.forEach((testCase) => {
-    test(`should correctly parse ${testCase}`, () => {
+  processableTestCases.forEach((testCase) => {
+    test(`should correctly parse ${testCase}`, async () => {
       expect(1).toBe(1);
 
-      const caseDir = path.join(FIXTURES_DIR, testCase);
+      const caseDir = path.join(PROCESSABLE_FIXTURES_DIR, testCase);
       const inputHTML = fs.readFileSync(
         path.join(caseDir, "input.html"),
         "utf-8",
       );
 
-      const { json, twig, jsx } = generateFiles(inputHTML);
+      const { json, twig, jsx } = await generateFiles(inputHTML);
 
       const expectedJSONPath = path.join(caseDir, "expected.json");
       if (fs.existsSync(expectedJSONPath)) {
@@ -43,6 +70,17 @@ describe("HTML Parser", () => {
         const expectedJsx = fs.readFileSync(expectedJsxPath, "utf-8");
         expect(jsx).toEqual(expectedJsx);
       }
+    });
+  });
+
+  unProcessableTestCases.forEach((testCase) => {
+    test(`should fail to parse ${testCase}`, async () => {
+      const inputHTML = fs.readFileSync(
+        path.join(UNPROCESSABLE_FIXTURES_DIR, testCase),
+        "utf-8",
+      );
+
+      await expect(generateFiles(inputHTML)).rejects.toThrow();
     });
   });
 });
