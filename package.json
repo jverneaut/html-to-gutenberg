@@ -2,12 +2,23 @@
   "name": "@jverneaut/html-to-gutenberg",
   "version": "1.0.0",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jverneaut/html-to-gutenberg.git"
+  },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Gutenberg",
+    "WordPress",
+    "Webpack",
+    "HTML",
+    "Plugin",
+    "Twig"
+  ],
+  "author": "Julien Verneaut <jverneaut@gmail.com>",
   "license": "ISC",
   "type": "module",
   "description": "",
