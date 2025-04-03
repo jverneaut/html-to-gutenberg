@@ -6,10 +6,10 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-import generateAst from "../lib/generateAst";
+import generateAst from "../lib/generateAst.js";
 
-import processTwigAst from "../lib/twig/processTwigAst";
-import processJsxAst from "../lib/jsx/processJsxAst";
+import processTwigAst from "../lib/twig/processTwigAst.js";
+import processJsxAst from "../lib/jsx/processJsxAst.js";
 
 import printTwigAst from "../lib/twig/printTwigAst.js";
 import printJsxAst from "../lib/jsx/printJsxAst.js";
