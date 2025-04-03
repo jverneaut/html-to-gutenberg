@@ -1,5 +1,5 @@
 {
-  "name": "gutenberg",
+  "name": "@jverneaut/html-to-gutenberg",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
