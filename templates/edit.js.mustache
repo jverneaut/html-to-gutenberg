@@ -1,0 +1,28 @@
+{{#hasContent}}
+import {
+useBlockProps,
+{{#hasRichText}}
+RichText,
+{{/hasRichText}}
+{{#hasMedia}}
+MediaUpload,
+{{/hasMedia}}
+} from '@wordpress/block-editor';
+{{#hasMedia}}
+import { Image } from "@10up/block-components";
+{{/hasMedia}}
+{{/hasContent}}
+
+{{#hasContent}}
+export default (
+{{#hasAttributes}}
+{ attributes, setAttributes }
+{{/hasAttributes}}
+) => {
+return ({{{ content }}})
+};
+{{/hasContent}}
+
+{{^hasContent}}
+export default () => null;
+{{/hasContent}}
