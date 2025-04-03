@@ -108,9 +108,9 @@ export default ({ attributes, setAttributes }) => {
 
 ```json
 {
-  "name": "custom/tectect",
-  "title": "Tectect",
-  "textdomain": "tectect",
+  "name": "custom/demo",
+  "title": "Demo",
+  "textdomain": "demo",
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "version": "0.1.0",
