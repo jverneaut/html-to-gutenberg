@@ -17,7 +17,7 @@ This plugin **renders blocks with Twig instead of PHP**, making it ideal for pro
 - **Automatic Gutenberg block generation** from simple HTML
 - **Use attributes** (`data-name="title"`, etc.) to define editable fields
 - **Supports RichText and MediaUpload**:
-  - Non-`<img>` elements with `data-name="something"` → **Editable RichTex**
+  - Non-`<img>` elements with `data-name="something"` → **Editable RichText**
   - `<img>` elements with `data-name="something"` → **Image selection via MediaUpload**
 - **Fully automates block.json attributes creation**
 
