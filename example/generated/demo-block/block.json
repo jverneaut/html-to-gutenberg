@@ -1,0 +1,25 @@
+{
+  "name": "custom/demo-block",
+  "title": "Demo-block",
+  "textdomain": "demo-block",
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "0.1.0",
+  "category": "theme",
+  "example": {},
+  "attributes": {
+    "align": { "type": "string", "default": "full" },
+    "title": {
+      "type": "string",
+      "default": "Hello, <strong>Gutenberg!</strong>"
+    },
+    "content": {
+      "type": "string",
+      "default": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis facere deleniti nam magni. Aspernatur, obcaecati fuga."
+    },
+    "image": { "type": "integer" }
+  },
+  "supports": { "html": false, "align": ["full"] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.twig"
+}

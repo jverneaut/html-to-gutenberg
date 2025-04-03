@@ -9,6 +9,8 @@ import processJsxAst from "./lib/jsx/processJsxAst.js";
 
 import printTwigAst from "./lib/twig/printTwigAst.js";
 import printJsxAst from "./lib/jsx/printJsxAst.js";
+import printIndex from "./lib/printIndex.js";
+import printBlockJSON from "./lib/printBlockJSON.js";
 
 class HTMLToGutenbergPlugin {
   constructor(inputDirectory, outputDirectory) {
@@ -83,6 +85,7 @@ class HTMLToGutenbergPlugin {
 
         const twigAst = generateAst(HTMLFileContent);
         const jsxAst = generateAst(HTMLFileContent);
+        const jsonAst = generateAst(HTMLFileContent);
 
         processTwigAst(twigAst);
         processJsxAst(jsxAst);
@@ -101,6 +104,21 @@ class HTMLToGutenbergPlugin {
         fs.writeFileSync(
           path.join(outputDirectoryPath, "render.twig"),
           twigOutput,
+          "utf-8",
+        );
+
+        const indexOutput = await printIndex();
+        fs.writeFileSync(
+          path.join(outputDirectoryPath, "index.js"),
+          indexOutput,
+          "utf-8",
+        );
+
+        const blockSlug = this.generateBlockSlug(HTMLFile);
+        const blockJsonOutput = await printBlockJSON(jsonAst, blockSlug);
+        fs.writeFileSync(
+          path.join(outputDirectoryPath, "block.json"),
+          blockJsonOutput,
           "utf-8",
         );
       }
