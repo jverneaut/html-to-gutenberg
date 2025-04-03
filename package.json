@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@zackad/prettier-plugin-twig": "^0.16.0",
+    "glob": "^11.0.1",
     "hast-util-to-html": "^9.0.5",
     "mustache": "^4.2.0",
     "rehype-parse": "^9.0.1",

@@ -1,3 +1,7 @@
+import * as glob from "glob";
+import path from "path";
+import fs from "fs";
+
 import generateAst from "./lib/generateAst.js";
 
 import processTwigAst from "./lib/twig/processTwigAst.js";
@@ -6,18 +10,104 @@ import processJsxAst from "./lib/jsx/processJsxAst.js";
 import printTwigAst from "./lib/twig/printTwigAst.js";
 import printJsxAst from "./lib/jsx/printJsxAst.js";
 
-const input =
-  "<section><h1 class='text-h2' data-test='test' data-name='title'>Hello, World!</h1><img data-name='image'></section>";
+class HTMLToGutenbergPlugin {
+  constructor(inputDirectory, outputDirectory) {
+    this.inputDirectory = inputDirectory;
+    this.outputDirectory = outputDirectory;
+  }
 
-const twigAst = generateAst(input);
-const jsxAst = generateAst(input);
+  apply(compiler) {
+    this.inputDirectoryPath = path.join(
+      compiler.options.context,
+      this.inputDirectory,
+    );
+    this.outputDirectoryPath = path.join(
+      compiler.options.context,
+      this.outputDirectory,
+    );
 
-processTwigAst(twigAst);
-processJsxAst(jsxAst);
+    this.convertBlocks();
 
-(async () => {
-  const twigOutput = await printTwigAst(twigAst);
-  const jsxOutput = await printJsxAst(jsxAst);
+    compiler.hooks.afterCompile.tap("HTMLToGutenbergPlugin", (compilation) => {
+      const htmlFiles = this.HTMLFiles;
 
-  console.log({ twigOutput, jsxOutput });
-})();
+      htmlFiles.forEach((file) => {
+        compilation.fileDependencies.add(file);
+      });
+
+      compilation.contextDependencies.add(this.inputDirectoryPath);
+    });
+
+    compiler.hooks.watchRun.tapPromise(
+      "HTMLToGutenbergPlugin",
+      async (comp) => {
+        const changedFiles =
+          comp.modifiedFiles ||
+          (comp.watchFileSystem.watcher &&
+            comp.watchFileSystem.watcher.getTimes &&
+            Object.keys(comp.watchFileSystem.watcher.getTimes())) ||
+          [];
+
+        if (
+          [...changedFiles].some((changeFile) =>
+            this.HTMLFiles.includes(changeFile),
+          )
+        ) {
+          this.convertBlocks();
+        }
+      },
+    );
+  }
+
+  get HTMLFiles() {
+    return glob.sync(path.join(this.inputDirectoryPath, "/**/*.html"));
+  }
+
+  generateBlockSlug(HTMLFile) {
+    const blockSlug = HTMLFile.split("/").reverse()[0].replace(".html", "");
+    return blockSlug;
+  }
+
+  generateBlockName(HTMLFile) {
+    return `custom/${this.generateBlockSlug(HTMLFile)}`;
+  }
+
+  generateBlockPath(HTMLFile) {
+    return `${this.outputDirectoryPath}/${this.generateBlockSlug(HTMLFile)}`;
+  }
+
+  async convertBlocks() {
+    try {
+      for (const HTMLFile of this.HTMLFiles) {
+        const HTMLFileContent = fs.readFileSync(HTMLFile, "utf-8");
+
+        const twigAst = generateAst(HTMLFileContent);
+        const jsxAst = generateAst(HTMLFileContent);
+
+        processTwigAst(twigAst);
+        processJsxAst(jsxAst);
+
+        const outputDirectoryPath = this.generateBlockPath(HTMLFile);
+        fs.mkdirSync(outputDirectoryPath, { recursive: true });
+
+        const jsxOutput = await printJsxAst(jsxAst);
+        fs.writeFileSync(
+          path.join(outputDirectoryPath, "edit.js"),
+          jsxOutput,
+          "utf-8",
+        );
+
+        const twigOutput = await printTwigAst(twigAst);
+        fs.writeFileSync(
+          path.join(outputDirectoryPath, "render.twig"),
+          twigOutput,
+          "utf-8",
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
+export default HTMLToGutenbergPlugin;
