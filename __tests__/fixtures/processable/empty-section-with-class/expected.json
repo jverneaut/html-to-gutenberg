@@ -1,0 +1,14 @@
+{
+  "name": "custom/test",
+  "title": "Test",
+  "textdomain": "test",
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "0.1.0",
+  "category": "theme",
+  "example": {},
+  "attributes": { "align": { "type": "string", "default": "full" } },
+  "supports": { "html": false, "align": ["full"] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.twig"
+}

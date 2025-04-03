@@ -13,21 +13,24 @@ import processJsxAst from "../lib/jsx/processJsxAst.js";
 
 import printTwigAst from "../lib/twig/printTwigAst.js";
 import printJsxAst from "../lib/jsx/printJsxAst.js";
+import printBlockJSON from "../lib/printBlockJSON.js";
 
 const generateFiles = async (input) => {
   const twigAst = generateAst(input);
   const jsxAst = generateAst(input);
+  const jsonAst = generateAst(input);
 
   processTwigAst(twigAst);
   processJsxAst(jsxAst);
 
   const twigOutput = await printTwigAst(twigAst);
   const jsxOutput = await printJsxAst(jsxAst);
+  const blockJsonOutput = await printBlockJSON(jsonAst, "custom/test", "test");
 
   return {
     jsx: jsxOutput,
     twig: twigOutput,
-    json: "",
+    json: blockJsonOutput,
   };
 };
 
