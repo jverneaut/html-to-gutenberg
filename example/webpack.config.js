@@ -9,6 +9,7 @@ export default {
       inputDirectory: "./blocks",
       outputDirectory: "./generated",
       blocksPrefix: "custom",
+      flavor: "twig",
     }),
   ],
 };
