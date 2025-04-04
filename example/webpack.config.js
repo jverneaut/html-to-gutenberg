@@ -5,6 +5,7 @@ export default {
   entry: "./index.js",
 
   plugins: [
+    // Build blocks with twig rendering
     new HTMLToGutenbergPlugin({
       inputDirectory: "./blocks",
       outputDirectory: "./generated",
@@ -12,6 +13,7 @@ export default {
       flavor: "twig",
     }),
 
+    // Build blocks with PHP rendering
     new HTMLToGutenbergPlugin({
       inputDirectory: "./blocks",
       outputDirectory: "./generated",
