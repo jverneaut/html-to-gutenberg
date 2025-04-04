@@ -26,7 +26,7 @@ new HTMLToGutenbergPlugin({
 });
 ```
 
-👉 Personally, **I highly recommend Twig** for rendering blocks. It feels closer to HTML, is easier to read and write, and is much nicer to maintain—especially if you're a front-end developer. Plus, the plugin's output is designed to take full advantage of Twig's structure and syntax.
+👉 Personally, **I highly recommend Twig** for rendering blocks. It feels closer to HTML, is easier to read and write, and is much nicer to maintain—especially if you're a front-end developer.
 
 > For a full Twig-based Gutenberg-ready setup, check out my other project [gutenberg-tailwindcss-bedrock-timber-twig](https://github.com/jverneaut/gutenberg-tailwindcss-bedrock-timber-twig/)
 
