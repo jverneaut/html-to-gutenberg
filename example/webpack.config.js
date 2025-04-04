@@ -11,5 +11,12 @@ export default {
       blocksPrefix: "custom",
       flavor: "twig",
     }),
+
+    new HTMLToGutenbergPlugin({
+      inputDirectory: "./blocks",
+      outputDirectory: "./generated",
+      blocksPrefix: "custom",
+      flavor: "php",
+    }),
   ],
 };
