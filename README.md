@@ -38,6 +38,7 @@ new HTMLToGutenbergPlugin({
   - Non-`<img>` elements with `data-name="something"` → **Editable RichText**
   - `<img>` elements with `data-name="something"` → **Image selection via MediaUpload**
 - **Fully automates block.json attributes creation**
+- **Add additional styles** via the `data-styles="primary secondary"` attribute on the root block element
 - **InnerBlocks handling** with `<blocks>` and `<block>` elements
 - **Automatic `style` strings to JS objects conversion** for `edit.js`
 - **Supports both PHP and Twig** for frontend rendering
