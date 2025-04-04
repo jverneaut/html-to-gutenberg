@@ -5,7 +5,7 @@
 
 A Webpack plugin that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.
 
-Instead of manually coding both React and Twig components, simply write an HTML file with some special attributes, and this plugin will automatically generate all necessary files for you:
+Instead of manually coding both React and PHP/Twig components, simply write an HTML file with some special attributes, and this plugin will automatically generate all necessary files for you:
 
 - ✅ **React-based** `edit.js` for the WordPress editor
 - ✅ **Frontend rendering with** `render.php` by default
