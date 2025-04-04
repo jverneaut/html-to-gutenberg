@@ -100,7 +100,7 @@ You can then edit `demo-block.html` and see the generated block inside `example/
 ### 📝 Input HTML
 
 ```html
-<section class="container">
+<section class="container" data-styles="primary secondary">
   <div class="grid grid-cols-12 px-8 gap-x-6">
     <div class="col-span-6 flex flex-col justify-center">
       <h1 data-name="title">Hello, <strong>Gutenberg!</strong></h1>
@@ -272,6 +272,10 @@ $image_alt = get_post_meta($attributes['image'], '_wp_attachment_image_alt', tru
   "version": "0.1.0",
   "category": "theme",
   "example": {},
+  "styles": [
+    { "name": "primary", "label": "Primary", "isDefault": true },
+    { "name": "secondary", "label": "Secondary" }
+  ],
   "attributes": {
     "align": { "type": "string", "default": "full" },
     "title": {

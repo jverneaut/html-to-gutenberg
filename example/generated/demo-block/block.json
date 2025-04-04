@@ -7,6 +7,10 @@
   "version": "0.1.0",
   "category": "theme",
   "example": {},
+  "styles": [
+    { "name": "primary", "label": "Primary", "isDefault": true },
+    { "name": "secondary", "label": "Secondary" }
+  ],
   "attributes": {
     "align": { "type": "string", "default": "full" },
     "title": {
