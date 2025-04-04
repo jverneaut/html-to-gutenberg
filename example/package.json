@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack",
-    "dev": "webpack --watch"
+    "dev": "webpack --watch",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",

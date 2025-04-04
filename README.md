@@ -84,6 +84,20 @@ npm run dev
     <div class="col-span-6">
       <img data-name="image" src="w-full aspect-video rounded-lg" />
     </div>
+
+    <div class="col-span-12 flex gap-x-6">
+      <blocks templateLock>
+        <block name="custom/child-block" title="Title 1" number="42"></block>
+        <block name="custom/child-block">
+          <attribute name="title"><strong>Title 2</strong></attribute>
+          <attribute name="number">42</attribute>
+        </block>
+        <block name="custom/other-child-block">
+          <attribute name="title" value="Title 3"></attribute>
+          <attribute name="number" value="42"></attribute>
+        </block>
+      </blocks>
+    </div>
   </div>
 </section>
 ```
@@ -129,6 +143,21 @@ export default ({ attributes, setAttributes }) => {
             )}
           ></MediaUpload>
         </div>
+
+        <div className="col-span-12 flex gap-x-6">
+          <InnerBlocks
+            allowedBlocks={["custom/child-block", "custom/other-child-block"]}
+            template={[
+              ["custom/child-block", { title: "Title 1", number: 42 }],
+              [
+                "custom/child-block",
+                { title: "<strong>Title 2</strong>", number: 42 },
+              ],
+              ["custom/other-child-block", { title: "Title 3", number: 42 }],
+            ]}
+            templateLock
+          ></InnerBlocks>
+        </div>
       </div>
     </section>
   );
@@ -159,6 +188,10 @@ export default ({ attributes, setAttributes }) => {
         src="{{ get_image(attributes.image).src }}"
         alt="{{ get_image(attributes.image).alt }}"
       />
+    </div>
+
+    <div class="col-span-12 flex gap-x-6">
+      {{ content }}
     </div>
   </div>
 </section>
