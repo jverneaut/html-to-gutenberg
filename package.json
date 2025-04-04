@@ -1,6 +1,6 @@
 {
   "name": "@jverneaut/html-to-gutenberg",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "mustache": "^4.2.0",
     "prettier": "^3.5.3",
     "rehype-parse": "^9.0.1",
+    "style-to-object": "^1.0.8",
     "unified": "^11.0.5",
     "unist-util-remove": "^4.0.0",
     "unist-util-visit": "^5.0.0"
