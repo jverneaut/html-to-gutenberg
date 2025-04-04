@@ -64,7 +64,7 @@ export default {
       blocksPrefix: "custom", // Blocks namespace
 
       // Optional: switch to Twig-based rendering (recommended)
-      flavor: "twig",
+      flavor: "twig", // either 'php' (default) or 'twig'
     }),
   ],
 };
@@ -278,7 +278,8 @@ $image_alt = get_post_meta($attributes['image'], '_wp_attachment_image_alt', tru
   },
   "supports": { "html": false, "align": ["full"] },
   "editorScript": "file:./index.js",
-  "render": "file:./render.twig"
+  "render": "file:./render.twig", // if using Twig flavor
+  "render": "file:./render.php" // if using PHP flavor
 }
 ```
 
