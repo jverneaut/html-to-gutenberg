@@ -20,6 +20,7 @@ class HTMLToGutenbergPlugin {
    * @param {string} options.inputDirectory - The directory containing source HTML files.
    * @param {string} options.outputDirectory - The directory where Gutenberg blocks will be generated.
    * @param {string} [options.blocksPrefix="custom"] - The prefix for the generated block names.
+   * @param {string} [options.flavor="php"] - The kind of generated render file, either twig or PHP.
    */
   constructor(options = {}) {
     if (!options.inputDirectory) {
@@ -29,6 +30,7 @@ class HTMLToGutenbergPlugin {
     this.inputDirectory = options.inputDirectory;
     this.outputDirectory = options.outputDirectory || options.inputDirectory;
     this.blocksPrefix = options.blocksPrefix || "custom";
+    this.flavor = options.flavor || "php";
   }
 
   apply(compiler) {
@@ -116,19 +118,23 @@ class HTMLToGutenbergPlugin {
           "utf-8",
         );
 
-        const twigOutput = await printTwigAst(twigAst);
-        fs.writeFileSync(
-          path.join(outputDirectoryPath, "render.twig"),
-          twigOutput,
-          "utf-8",
-        );
+        if (this.flavor === "twig") {
+          const twigOutput = await printTwigAst(twigAst);
+          fs.writeFileSync(
+            path.join(outputDirectoryPath, "render.twig"),
+            twigOutput,
+            "utf-8",
+          );
+        }
 
-        const phpOutput = await printPHPAst(processedPHPAst, phpInitialAst);
-        fs.writeFileSync(
-          path.join(outputDirectoryPath, "render.php"),
-          phpOutput,
-          "utf-8",
-        );
+        if (this.flavor === "php") {
+          const phpOutput = await printPHPAst(processedPHPAst, phpInitialAst);
+          fs.writeFileSync(
+            path.join(outputDirectoryPath, "render.php"),
+            phpOutput,
+            "utf-8",
+          );
+        }
 
         const indexOutput = await printIndex();
         fs.writeFileSync(
@@ -144,6 +150,7 @@ class HTMLToGutenbergPlugin {
           jsonAst,
           blockName,
           blockSlug,
+          this.flavor,
         );
 
         fs.writeFileSync(
