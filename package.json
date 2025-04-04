@@ -19,7 +19,7 @@
     "Twig"
   ],
   "author": "Julien Verneaut <contact@julienverneaut.com>",
-  "license": "ISC",
+  "license": "MIT",
   "type": "module",
   "description": "",
   "devDependencies": {
