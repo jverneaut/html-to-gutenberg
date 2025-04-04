@@ -1,4 +1,4 @@
-import { useBlockProps } from "@wordpress/block-editor";
+import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 
 export default () => {
   return (

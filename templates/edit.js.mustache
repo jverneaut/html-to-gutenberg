@@ -7,6 +7,9 @@ RichText,
 {{#hasMedia}}
 MediaUpload,
 {{/hasMedia}}
+{{#hasInnerBlocks}}
+InnerBlocks,
+{{/hasInnerBlocks}}
 } from '@wordpress/block-editor';
 {{#hasMedia}}
 import { Image } from "@10up/block-components";

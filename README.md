@@ -107,7 +107,12 @@ npm run dev
 ✅ `edit.js` **(for Gutenberg editor)**
 
 ```jsx
-import { useBlockProps, RichText, MediaUpload } from "@wordpress/block-editor";
+import {
+  useBlockProps,
+  RichText,
+  MediaUpload,
+  InnerBlocks,
+} from "@wordpress/block-editor";
 import { Image } from "@10up/block-components";
 
 export default ({ attributes, setAttributes }) => {
