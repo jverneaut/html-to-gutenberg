@@ -91,7 +91,7 @@ You can then edit `demo-block.html` and see the generated block inside `example/
 
 > _Documentation writing in progress..._
 >
-> In the meantime, you can explore a variety of examples in the \_\_tests\_\_/fixtures/processable directory. These include both Twig and PHP rendering examples to help you understand how to generate blocks using HTML with this plugin.
+> In the meantime, you can explore a variety of examples in the [\_\_tests\_\_/fixtures/processable](https://github.com/jverneaut/html-to-gutenberg/tree/main/__tests__/fixtures/processable) directory. These include both Twig and PHP rendering examples to help you understand how to generate blocks using HTML with this plugin.
 >
 > As long as the input HTML is valid, the plugin should correctly parse it and generate the corresponding translated JS/Twig/PHP files. If you come across any edge cases or manage to break the plugin in unexpected ways, feel free to open an issue.
 
