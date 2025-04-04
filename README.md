@@ -69,18 +69,20 @@ npm run dev
 ### 📝 Input HTML
 
 ```html
-<section class="container mx-auto px-6">
-  <div class="col-span-6 flex flex-col justify-center">
-    <h1 data-name="title" class="text-4xl">Hello, Gutenberg!</h1>
+<section class="container">
+  <div class="grid grid-cols-12 px-8 gap-x-6">
+    <div class="col-span-6 flex flex-col justify-center">
+      <h1 data-name="title">Hello, <strong>Gutenberg!</strong></h1>
 
-    <p data-name="content">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem odio
-      dolorem obcaecati deserunt totam soluta voluptas.
-    </p>
-  </div>
+      <p data-name="content">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
+        facere deleniti nam magni. Aspernatur, obcaecati fuga.
+      </p>
+    </div>
 
-  <div class="col-span-6">
-    <img class="w-full aspect-video object-cover" data-name="image" />
+    <div class="col-span-6">
+      <img data-name="image" src="w-full aspect-video rounded-lg" />
+    </div>
   </div>
 </section>
 ```
@@ -90,41 +92,42 @@ npm run dev
 ✅ `edit.js` **(for Gutenberg editor)**
 
 ```jsx
-import { MediaUpload, useBlockProps, RichText } from "@wordpress/block-editor";
+import { useBlockProps, RichText, MediaUpload } from "@wordpress/block-editor";
 import { Image } from "@10up/block-components";
 
 export default ({ attributes, setAttributes }) => {
   return (
-    <section {...useBlockProps({ className: "container mx-auto px-6" })}>
-      <div className="col-span-6 flex flex-col justify-center">
-        <RichText
-          className="text-4xl"
-          tagName="h1"
-          value={attributes.title}
-          onChange={(title) => setAttributes({ title })}
-        ></RichText>
+    <section {...useBlockProps({ className: "container" })}>
+      <div className="grid grid-cols-12 px-8 gap-x-6">
+        <div className="col-span-6 flex flex-col justify-center">
+          <RichText
+            tagName="h1"
+            value={attributes.title}
+            onChange={(title) => setAttributes({ title })}
+          ></RichText>
 
-        <RichText
-          tagName="p"
-          value={attributes.content}
-          onChange={(content) => setAttributes({ content })}
-        ></RichText>
-      </div>
+          <RichText
+            tagName="p"
+            value={attributes.content}
+            onChange={(content) => setAttributes({ content })}
+          ></RichText>
+        </div>
 
-      <div className="col-span-6">
-        <MediaUpload
-          value={attributes.image}
-          onSelect={(image) => setAttributes({ image: image.id })}
-          render={({ open }) => (
-            <Image
-              style={{ cursor: "pointer" }}
-              onClick={open}
-              className="w-full aspect-video object-cover"
-              id={attributes.image}
-              onSelect={(image) => setAttributes({ image: image.id })}
-            />
-          )}
-        ></MediaUpload>
+        <div className="col-span-6">
+          <MediaUpload
+            src="w-full aspect-video rounded-lg"
+            value={attributes.image}
+            onSelect={(image) => setAttributes({ image: image.id })}
+            render={({ open }) => (
+              <Image
+                style={{ cursor: "pointer" }}
+                onClick={open}
+                id={attributes.image}
+                onSelect={(image) => setAttributes({ image: image.id })}
+              />
+            )}
+          ></MediaUpload>
+        </div>
       </div>
     </section>
   );
@@ -137,24 +140,25 @@ export default ({ attributes, setAttributes }) => {
 <section
   {{
   wrapper_attributes({
-    class: 'container mx-auto px-6'
+    class: 'container'
   })
   }}
 >
-  <div class="col-span-6 flex flex-col justify-center">
-    <h1 class="text-4xl">{{ attributes.title }}</h1>
+  <div class="grid grid-cols-12 px-8 gap-x-6">
+    <div class="col-span-6 flex flex-col justify-center">
+      <h1>{{ attributes.title }}</h1>
 
-    <p>
-      {{ attributes.content }}
-    </p>
-  </div>
+      <p>
+        {{ attributes.content }}
+      </p>
+    </div>
 
-  <div class="col-span-6">
-    <img
-      class="w-full aspect-video object-cover"
-      src="{{ get_image(attributes.image).src }}"
-      alt="{{ get_image(attributes.image).alt }}"
-    />
+    <div class="col-span-6">
+      <img
+        src="{{ get_image(attributes.image).src }}"
+        alt="{{ get_image(attributes.image).alt }}"
+      />
+    </div>
   </div>
 </section>
 ```
@@ -163,9 +167,9 @@ export default ({ attributes, setAttributes }) => {
 
 ```json
 {
-  "name": "custom/demo",
-  "title": "Demo",
-  "textdomain": "demo",
+  "name": "custom/demo-block",
+  "title": "Demo Block",
+  "textdomain": "demo-block",
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "version": "0.1.0",
@@ -173,10 +177,13 @@ export default ({ attributes, setAttributes }) => {
   "example": {},
   "attributes": {
     "align": { "type": "string", "default": "full" },
-    "title": { "type": "string", "default": "Hello, Gutenberg!" },
+    "title": {
+      "type": "string",
+      "default": "Hello, <strong>Gutenberg!</strong>"
+    },
     "content": {
       "type": "string",
-      "default": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem odio dolorem obcaecati deserunt totam soluta voluptas."
+      "default": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis facere deleniti nam magni. Aspernatur, obcaecati fuga."
     },
     "image": { "type": "integer" }
   },
