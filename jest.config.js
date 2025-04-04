@@ -5,5 +5,5 @@ export default {
 
   testPathIgnorePatterns: ["/node_modules/", "/__tests__/fixtures/"],
 
-  moduleFileExtensions: ["js", "jsx", "json", "html", "twig"],
+  moduleFileExtensions: ["js", "jsx", "json", "html", "twig", "php"],
 };
