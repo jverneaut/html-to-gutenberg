@@ -12,9 +12,7 @@ Instead of manually coding both React and Twig components, simply write an HTML 
 - ✅ **block.json** with automatically defined attributes
 - ✅ **index.js** to register the block type
 
-
 https://github.com/user-attachments/assets/d9ee9410-9529-4664-a7a4-82b0eb1ad306
-
 
 This plugin **renders blocks with Twig instead of PHP**, making it ideal for projects using Timber and integrates seamlessly with my other project:
 👉 [gutenberg-tailwindcss-bedrock-timber-twig](https://github.com/jverneaut/gutenberg-tailwindcss-bedrock-timber-twig/)
@@ -28,6 +26,7 @@ This plugin **renders blocks with Twig instead of PHP**, making it ideal for pro
   - `<img>` elements with `data-name="something"` → **Image selection via MediaUpload**
 - **Fully automates block.json attributes creation**
 - **InnerBlocks handling** with `<blocks>` and `<block>` elements
+- **Automatic `style` string to object conversion** for edit.js components
 
 ## 📦 Installation
 
