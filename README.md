@@ -310,7 +310,7 @@ registerBlockType(metadata.name, {
 
 ### Can I add more fields beyond RichText and MediaUpload?
 
-Right now, the plugin auto-generates fields for text and images as well as InnerBlocks. Support for additional fiels may come later based on my experience building production sites with this tool.
+Right now, the plugin auto-generates fields for text and images as well as InnerBlocks. Support for additional fields may come later based on my experience building production sites with this tool.
 
 ### Should generated blocks be versioned, or should the source HTML file be?
 
