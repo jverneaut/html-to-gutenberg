@@ -279,4 +279,4 @@ Check out [gutenberg-tailwindcss-bedrock-timber-twig](https://github.com/jvernea
 
 This setup uses Timber and integrates tightly with TailwindCSS and Bedrock, giving you full control over the front-end and a seamless Twig-based authoring experience.
 
-| I plan to release this integration as a standalone package in the future to make it easier to use in other projects.
+> I plan to release this integration as a standalone package in the future to make it easier to use in other projects.
