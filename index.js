@@ -6,11 +6,13 @@ import generateAst from "./lib/generateAst.js";
 
 import processTwigAst from "./lib/twig/processTwigAst.js";
 import processJsxAst from "./lib/jsx/processJsxAst.js";
+import processPHPAst from "./lib/php/processPHPAst.js";
 
 import printTwigAst from "./lib/twig/printTwigAst.js";
 import printJsxAst from "./lib/jsx/printJsxAst.js";
 import printIndex from "./lib/printIndex.js";
 import printBlockJSON from "./lib/printBlockJSON.js";
+import printPHPAst from "./lib/php/printPHPAst.js";
 
 class HTMLToGutenbergPlugin {
   /**
@@ -97,9 +99,12 @@ class HTMLToGutenbergPlugin {
         const twigAst = generateAst(HTMLFileContent);
         const jsxAst = generateAst(HTMLFileContent);
         const jsonAst = generateAst(HTMLFileContent);
+        const phpAst = await generateAst(HTMLFileContent);
+        const phpInitialAst = generateAst(HTMLFileContent);
 
         processTwigAst(twigAst);
         processJsxAst(jsxAst);
+        const processedPHPAst = await processPHPAst(phpAst);
 
         const outputDirectoryPath = this.generateBlockPath(HTMLFile);
         fs.mkdirSync(outputDirectoryPath, { recursive: true });
@@ -115,6 +120,13 @@ class HTMLToGutenbergPlugin {
         fs.writeFileSync(
           path.join(outputDirectoryPath, "render.twig"),
           twigOutput,
+          "utf-8",
+        );
+
+        const phpOutput = await printPHPAst(processedPHPAst, phpInitialAst);
+        fs.writeFileSync(
+          path.join(outputDirectoryPath, "render.php"),
+          phpOutput,
           "utf-8",
         );
 
