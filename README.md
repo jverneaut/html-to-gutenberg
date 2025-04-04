@@ -3,7 +3,7 @@
 
 # HTML To Gutenberg
 
-A Webpack plugin that turns raw HTML into dynamic Gutenberg blocks built with React and Twig.
+A Webpack plugin that generates dynamic Gutenberg blocks built with React and Twig from a single HTML file.
 
 Instead of manually coding both React and Twig components, simply write an HTML file with some special attributes, and this plugin will automatically generate all necessary files for you:
 
