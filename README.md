@@ -246,3 +246,37 @@ registerBlockType(metadata.name, {
   save: () => <InnerBlocks.Content />,
 });
 ```
+
+## ❓ FAQ
+
+### Can I add more fields beyond RichText and MediaUpload?
+
+Right now, the plugin auto-generates fields for text and images as well as InnerBlocks. Support for additional fiels may come later based on my experience building production sites with this tool.
+
+### Should generated blocks be versioned, or should the source HTML file be?
+
+That depends on your strategy:
+
+- **Versioning the source HTML files only:**
+
+  You treat the `.html` files as **the single source of truth**, and let this plugin regenerate the entire block every time. This is ideal when using this plugin as a **build tool**, fully automating block creation and updates. You don’t version the generated files—just the `.html`.
+
+- **Versioning the generated files only:**
+
+  You use the HTML input files as a **block scaffolding tool**, generate the files once, delete or ignore the `.html` files, and then **manually edit the generated React/Twig code**. This approach gives you more control over customization at the cost of automation.
+
+👉 Choose the one that fits your workflow best—**automated generation** vs **manual control**.
+
+### Why Twig instead of PHP for rendering blocks?
+
+Personally, I find **Twig much friendlier** for templating. It’s closer to HTML, which makes it easier to read, write, and maintain—especially for front-end developers.
+
+On top of that, **writing code generation for Twig is simpler** than for PHP. Since the syntax is less verbose and more structured, it’s a better fit for the kind of programmatic output this plugin produces.
+
+### How do I use the Twig-generated blocks inside my project?
+
+Check out [gutenberg-tailwindcss-bedrock-timber-twig](https://github.com/jverneaut/gutenberg-tailwindcss-bedrock-timber-twig/) — a companion project that enables you to use **Twig as the rendering engine for Gutenberg blocks**.
+
+This setup uses Timber and integrates tightly with TailwindCSS and Bedrock, giving you full control over the front-end and a seamless Twig-based authoring experience.
+
+| I plan to release this integration as a standalone package in the future to make it easier to use in other projects.
