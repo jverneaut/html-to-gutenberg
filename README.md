@@ -3,19 +3,32 @@
 
 # HTML To Gutenberg
 
-A Webpack plugin that generates dynamic Gutenberg blocks built with React and Twig from a single HTML file.
+A Webpack plugin that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.
 
 Instead of manually coding both React and Twig components, simply write an HTML file with some special attributes, and this plugin will automatically generate all necessary files for you:
 
-- ✅ **React-based edit.js** for the WordPress editor
-- ✅ **Twig-based render.twig** for frontend rendering
+- ✅ **React-based** `edit.js` for the WordPress editor
+- ✅ **Frontend rendering with** `render.twig` by default
+- ✅ Or use **Twig-based** `render.twig` if you prefer (recommended!)
 - ✅ **block.json** with automatically defined attributes
 - ✅ **index.js** to register the block type
 
 https://github.com/user-attachments/assets/d9ee9410-9529-4664-a7a4-82b0eb1ad306
 
-This plugin **renders blocks with Twig instead of PHP**, making it ideal for projects using Timber and integrates seamlessly with my other project:
-👉 [gutenberg-tailwindcss-bedrock-timber-twig](https://github.com/jverneaut/gutenberg-tailwindcss-bedrock-timber-twig/)
+This plugin now **defaults to PHP rendering**, making it more compatible with typical WordPress projects.
+
+However, if you're working with **Timber, Bedrock**, or just want a more **frontend-friendly templating experience**, you can enable Twig rendering by setting:
+
+```js
+new HTMLToGutenbergPlugin({
+  ...
+  flavor: "twig", // Enables render.twig instead of render.php
+});
+```
+
+👉 Personally, **I highly recommend Twig** for rendering blocks. It feels closer to HTML, is easier to read and write, and is much nicer to maintain—especially if you're a front-end developer. Plus, the plugin's output is designed to take full advantage of Twig's structure and syntax.
+
+> For a full Twig-based Gutenberg-ready setup, check out my other project [gutenberg-tailwindcss-bedrock-timber-twig](https://github.com/jverneaut/gutenberg-tailwindcss-bedrock-timber-twig/)
 
 ## ✨ Features
 
@@ -26,7 +39,8 @@ This plugin **renders blocks with Twig instead of PHP**, making it ideal for pro
   - `<img>` elements with `data-name="something"` → **Image selection via MediaUpload**
 - **Fully automates block.json attributes creation**
 - **InnerBlocks handling** with `<blocks>` and `<block>` elements
-- **Automatic `style` string to object conversion** for edit.js components
+- **Automatic `style` strings to JS objects conversion** for `edit.js`
+- **Supports both PHP and Twig** for frontend rendering
 
 ## 📦 Installation
 
@@ -48,6 +62,9 @@ export default {
       inputDirectory: "blocks", // Your source HTML files
       outputDirectory: "generated-blocks", // Where generated Gutenberg blocks will be placed
       blocksPrefix: "custom", // Blocks namespace
+
+      // Optional: switch to Twig-based rendering (recommended)
+      flavor: "twig",
     }),
   ],
 };
@@ -67,6 +84,8 @@ cd example
 npm install
 npm run dev
 ```
+
+You can then edit `demo-block.html` and see the generated block inside `example/generated/demo-block`. It is setup to output both `render.php` as well as `render.twig` for demonstration purposes.
 
 ## Example
 
@@ -205,6 +224,34 @@ export default ({ attributes, setAttributes }) => {
 </section>
 ```
 
+✅ `render.php` **(for frontend rendering)**
+
+```php
+<?php
+
+$image = wp_get_attachment_image_src($attributes['image'], 'full');
+$image_alt = get_post_meta($attributes['image'], '_wp_attachment_image_alt', true);
+?>
+
+<section <?php echo get_block_wrapper_attributes(['class' => 'container']); ?>>
+  <div class="grid grid-cols-12 px-8 gap-x-6">
+    <div class="col-span-6 flex flex-col justify-center">
+      <h1><?php echo esc_html($attributes['title'] ?? ''); ?></h1>
+
+      <p><?php echo esc_html($attributes['content'] ?? ''); ?></p>
+    </div>
+
+    <div class="col-span-6">
+      <img src="<?php echo esc_url($image[0]); ?>" alt="<?php echo esc_attr($image_alt); ?>" />
+    </div>
+
+    <div class="col-span-12 flex gap-x-6">
+      <?php echo $content; ?>
+    </div>
+  </div>
+</section>
+```
+
 ✅ `block.json` **(auto-generated block metadata)**
 
 ```json
@@ -266,11 +313,11 @@ That depends on your strategy:
 
 - **Versioning the generated files only:**
 
-  You use the HTML input files as a **block scaffolding tool**, generate the files once, delete or ignore the `.html` files, and then **manually edit the generated React/Twig code**. This approach gives you more control over customization at the cost of automation.
+  You use the HTML input files as a **block scaffolding tool**, generate the files once, delete or ignore the `.html` files, and then **manually edit the generated React/Twig/PHP code**. This approach gives you more control over customization at the cost of automation.
 
 👉 Choose the one that fits your workflow best—**automated generation** vs **manual control**.
 
-### Why Twig instead of PHP for rendering blocks?
+### Why would I chose Twig instead of PHP for rendering blocks?
 
 Personally, I find **Twig much friendlier** for templating. It’s closer to HTML, which makes it easier to read, write, and maintain—especially for front-end developers.
 
