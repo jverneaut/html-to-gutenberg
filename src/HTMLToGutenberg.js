@@ -36,7 +36,7 @@ class HTMLToGutenberg {
     this.outputDirectory =
       result.data.outputDirectory || result.data.inputDirectory;
     this.blocksPrefix = result.data.blocksPrefix;
-    this.flavor = result.data.flavor;
+    this.engine = result.data.engine;
   }
 
   get HTMLFiles() {
@@ -92,7 +92,7 @@ class HTMLToGutenberg {
           jsonAst,
           blockName,
           blockSlug,
-          this.flavor,
+          this.engine,
         );
 
         files.push({
@@ -100,7 +100,7 @@ class HTMLToGutenberg {
           content: blockJsonFileCotent,
         });
 
-        if (this.flavor === "php") {
+        if (["php", "all"].includes(this.engine)) {
           // Generate render.php file
           const phpAst = await generateAst(HTMLFileContent);
           const phpInitialAst = generateAst(HTMLFileContent);
@@ -117,7 +117,7 @@ class HTMLToGutenberg {
           });
         }
 
-        if (this.flavor === "twig") {
+        if (["twig", "all"].includes(this.engine)) {
           // Generate render.twig file
           const twigAst = generateAst(HTMLFileContent);
           processTwigAst(twigAst);

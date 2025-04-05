@@ -23,29 +23,29 @@ describe("HTMLToGutenberg", () => {
     expect(htmlToGutenberg.blocksPrefix).toBe("custom");
   });
 
-  test('should set flavor to "php" by default', () => {
+  test('should set engine to "php" by default', () => {
     const htmlToGutenberg = new HTMLToGutenberg({
       inputDirectory: "./",
     });
 
-    expect(htmlToGutenberg.flavor).toBe("php");
+    expect(htmlToGutenberg.engine).toBe("php");
   });
 
-  test("should use twig flavor when set", () => {
+  test("should use twig engine when set", () => {
     const htmlToGutenberg = new HTMLToGutenberg({
       inputDirectory: "./",
-      flavor: "twig",
+      engine: "twig",
     });
 
-    expect(htmlToGutenberg.flavor).toBe("twig");
+    expect(htmlToGutenberg.engine).toBe("twig");
   });
 
-  test("should throw if unrecognized flavor", () => {
+  test("should throw if unrecognized engine", () => {
     expect(
       () =>
         new HTMLToGutenberg({
           inputDirectory: "./",
-          flavor: "go",
+          engine: "go",
         }),
     ).toThrow();
   });

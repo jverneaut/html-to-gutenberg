@@ -5,5 +5,5 @@ export const OptionsSchema = z.object({
   outputDirectory: z.string().optional(),
 
   blocksPrefix: z.string().default("custom"),
-  flavor: z.enum(["php", "twig"]).default("php"),
+  engine: z.enum(["php", "twig", "all"]).default("php"),
 });

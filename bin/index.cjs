@@ -15,7 +15,11 @@ program
   .option("-i, --input <path>", "HTML blocks input path", ".")
   .option("-o, --output <path>", "Gutenberg blocks output path", "")
   .option("-p, --prefix <type>", "Blocks namespace", "custom")
-  .option("-f, --flavor <type>", 'Flavor (either "php" or "twig")', "php")
+  .option(
+    "-e, --engine <type>",
+    'Engine (either "php", "twig" or "all")',
+    "php",
+  )
   .option(
     "-w, --watch",
     "Watch the input directory for changes and regenerate blocks",
@@ -29,7 +33,7 @@ const htmlToGutenbergOptions = {
   inputDirectory: options.input,
   outputDirectory: options.output || options.input,
   blocksPrefix: options.prefix,
-  flavor: options.flavor,
+  engine: options.engine,
 };
 
 const htmlToGutenberg = new HTMLToGutenberg(htmlToGutenbergOptions);

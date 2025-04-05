@@ -5,20 +5,11 @@ export default {
   entry: "./index.js",
 
   plugins: [
-    // Build blocks with twig rendering
     new HTMLToGutenbergPlugin({
       inputDirectory: "./blocks",
       outputDirectory: "./generated",
       blocksPrefix: "custom",
-      flavor: "twig",
-    }),
-
-    // Build blocks with PHP rendering
-    new HTMLToGutenbergPlugin({
-      inputDirectory: "./blocks",
-      outputDirectory: "./generated",
-      blocksPrefix: "custom",
-      flavor: "php",
+      engine: "all", // For demonstration purposes only. Use either "twig" or "php" for production environments
     }),
   ],
 };

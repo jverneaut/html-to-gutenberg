@@ -22,7 +22,7 @@ However, if you're working with **Timber, Bedrock**, or just want a more **front
 ```js
 new HTMLToGutenbergPlugin({
   ...
-  flavor: "twig", // Enables render.twig instead of render.php
+  engine: "twig", // Enables render.twig instead of render.php
 });
 ```
 
@@ -65,7 +65,7 @@ export default {
       blocksPrefix: "custom", // Blocks namespace
 
       // Optional: switch to Twig-based rendering (recommended)
-      flavor: "twig", // either 'php' (default) or 'twig'
+      engine: "twig", // either 'php' (default) or 'twig'
     }),
   ],
 };
@@ -291,8 +291,8 @@ $image_alt = get_post_meta($attributes['image'], '_wp_attachment_image_alt', tru
   },
   "supports": { "html": false, "align": ["full"] },
   "editorScript": "file:./index.js",
-  "render": "file:./render.twig", // if using Twig flavor
-  "render": "file:./render.php" // if using PHP flavor
+  "render": "file:./render.twig", // if using Twig engine
+  "render": "file:./render.php" // if using PHP engine
 }
 ```
 

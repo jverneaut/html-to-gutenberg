@@ -18,26 +18,19 @@ const getGenerateFileByType = (generateFiles, type) =>
   generateFiles[0].files.filter((file) => file.type === type)[0].content;
 
 const generateFiles = async (caseDir) => {
-  const htmlToGutenbergPHP = new HTMLToGutenberg({
+  const htmlToGutenberg = new HTMLToGutenberg({
     inputDirectory: caseDir,
-    flavor: "php",
+    engine: "all",
   });
 
-  const generatedFilesPHP = await htmlToGutenbergPHP.generateFiles();
-
-  const htmlToGutenbergTwig = new HTMLToGutenberg({
-    inputDirectory: caseDir,
-    flavor: "twig",
-  });
-
-  const generatedFilesTwig = await htmlToGutenbergTwig.generateFiles();
+  const generatedFiles = await htmlToGutenberg.generateFiles();
 
   return {
-    index: getGenerateFileByType(generatedFilesPHP, "index"),
-    jsx: getGenerateFileByType(generatedFilesPHP, "jsx"),
-    json: getGenerateFileByType(generatedFilesPHP, "json"),
-    php: getGenerateFileByType(generatedFilesPHP, "php"),
-    twig: getGenerateFileByType(generatedFilesTwig, "twig"),
+    index: getGenerateFileByType(generatedFiles, "index"),
+    jsx: getGenerateFileByType(generatedFiles, "jsx"),
+    json: getGenerateFileByType(generatedFiles, "json"),
+    php: getGenerateFileByType(generatedFiles, "php"),
+    twig: getGenerateFileByType(generatedFiles, "twig"),
   };
 };
 
