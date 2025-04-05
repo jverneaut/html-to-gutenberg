@@ -41,16 +41,24 @@ const htmlToGutenberg = new HTMLToGutenberg(htmlToGutenbergOptions);
 
 const generateAndWriteFiles = async () => {
   try {
+    if (options.watch) {
+      console.clear();
+    }
+
     console.log(chalk.cyan("Generating Gutenberg blocks..."));
     const generatedFiles = await htmlToGutenberg.generateFiles();
 
     console.log(chalk.cyan("Writing generated files..."));
-    htmlToGutenberg.writeFiles(generatedFiles);
+    const generatedBlocksPaths = htmlToGutenberg.writeFiles(generatedFiles);
 
     console.log(chalk.green("Block generation complete."));
+    generatedBlocksPaths.forEach((path, index) => {
+      console.log(
+        chalk.green("\t✓") + chalk.dim(` ${index + 1}. ${chalk.bold(path)}`),
+      );
+    });
   } catch (error) {
     console.error(chalk.red("Error occurred:"), chalk.red(error.message));
-    process.exit(1); // Exit with an error code
   }
 };
 
