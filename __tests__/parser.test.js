@@ -58,8 +58,6 @@ describe("HTML Parser", () => {
 
   processableTestCases.forEach((testCase) => {
     test(`should correctly parse ${testCase}`, async () => {
-      expect(1).toBe(1);
-
       const caseDir = path.join(PROCESSABLE_FIXTURES_DIR, testCase);
       const inputHTML = fs.readFileSync(
         path.join(caseDir, "input.html"),
