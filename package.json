@@ -37,6 +37,7 @@
     "style-to-object": "^1.0.8",
     "unified": "^11.0.5",
     "unist-util-remove": "^4.0.0",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "zod": "^3.24.2"
   }
 }
