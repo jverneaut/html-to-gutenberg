@@ -6,51 +6,40 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-import generateAst from "../lib/generateAst.js";
-
-import processTwigAst from "../lib/twig/processTwigAst.js";
-import processJsxAst from "../lib/jsx/processJsxAst.js";
-import processPHPAst from "../lib/php/processPHPAst.js";
-
-import printTwigAst from "../lib/twig/printTwigAst.js";
-import printJsxAst from "../lib/jsx/printJsxAst.js";
-import printBlockJSON from "../lib/printBlockJSON.js";
-import printPHPAst from "../lib/php/printPHPAst.js";
-
-const generateFiles = async (input) => {
-  const twigAst = generateAst(input);
-  const jsxAst = generateAst(input);
-  const jsonAst = generateAst(input);
-  const phpAst = await generateAst(input);
-  const phpInitialAst = generateAst(input);
-
-  processTwigAst(twigAst);
-  processJsxAst(jsxAst);
-  const processedPHPAst = await processPHPAst(phpAst);
-
-  const twigOutput = await printTwigAst(twigAst);
-  const jsxOutput = await printJsxAst(jsxAst);
-  const phpOutput = await printPHPAst(processedPHPAst, phpInitialAst);
-  const blockJsonOutput = await printBlockJSON(
-    jsonAst,
-    "custom/test",
-    "test",
-    "twig",
-  );
-
-  return {
-    jsx: jsxOutput,
-    twig: twigOutput,
-    json: blockJsonOutput,
-    php: phpOutput,
-  };
-};
+import HTMLToGutenberg from "../src/HTMLToGutenberg.js";
 
 const PROCESSABLE_FIXTURES_DIR = path.join(__dirname, "fixtures/processable");
 const UNPROCESSABLE_FIXTURES_DIR = path.join(
   __dirname,
   "fixtures/unprocessable",
 );
+
+const getGenerateFileByType = (generateFiles, type) =>
+  generateFiles[0].files.filter((file) => file.type === type)[0].content;
+
+const generateFiles = async (caseDir) => {
+  const htmlToGutenbergPHP = new HTMLToGutenberg({
+    inputDirectory: caseDir,
+    flavor: "php",
+  });
+
+  const generatedFilesPHP = await htmlToGutenbergPHP.generateFiles();
+
+  const htmlToGutenbergTwig = new HTMLToGutenberg({
+    inputDirectory: caseDir,
+    flavor: "twig",
+  });
+
+  const generatedFilesTwig = await htmlToGutenbergTwig.generateFiles();
+
+  return {
+    index: getGenerateFileByType(generatedFilesPHP, "index"),
+    jsx: getGenerateFileByType(generatedFilesPHP, "jsx"),
+    json: getGenerateFileByType(generatedFilesPHP, "json"),
+    php: getGenerateFileByType(generatedFilesPHP, "php"),
+    twig: getGenerateFileByType(generatedFilesTwig, "twig"),
+  };
+};
 
 describe("HTML Parser", () => {
   const processableTestCases = fs.readdirSync(PROCESSABLE_FIXTURES_DIR);
@@ -59,12 +48,8 @@ describe("HTML Parser", () => {
   processableTestCases.forEach((testCase) => {
     test(`should correctly parse ${testCase}`, async () => {
       const caseDir = path.join(PROCESSABLE_FIXTURES_DIR, testCase);
-      const inputHTML = fs.readFileSync(
-        path.join(caseDir, "input.html"),
-        "utf-8",
-      );
 
-      const { json, twig, jsx, php } = await generateFiles(inputHTML);
+      const { json, twig, jsx, php } = await generateFiles(caseDir);
 
       const expectedJSONPath = path.join(caseDir, "expected.json");
       if (fs.existsSync(expectedJSONPath)) {

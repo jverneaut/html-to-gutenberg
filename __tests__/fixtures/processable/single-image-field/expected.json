@@ -1,7 +1,7 @@
 {
-  "name": "custom/test",
-  "title": "Test",
-  "textdomain": "test",
+  "name": "custom/input",
+  "title": "Input",
+  "textdomain": "input",
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "version": "0.1.0",
@@ -13,5 +13,5 @@
   },
   "supports": { "html": false, "align": ["full"] },
   "editorScript": "file:./index.js",
-  "render": "file:./render.twig"
+  "render": "file:./render.php"
 }
