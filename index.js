@@ -1,1 +1,1 @@
-export * from "./src/HTMLToGutenbergPlugin.js";
+export { default } from "./src/HTMLToGutenbergPlugin.js";
