@@ -25,5 +25,5 @@
   },
   "supports": { "html": false, "align": ["full"] },
   "editorScript": "file:./index.js",
-  "render": "file:./render.twig"
+  "render": "file:./render.php"
 }
