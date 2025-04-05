@@ -22,6 +22,7 @@
   "license": "MIT",
   "type": "module",
   "description": "A Webpack plugin that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.",
+  "bin": "bin/index.cjs",
   "devDependencies": {
     "@babel/preset-env": "^7.26.9",
     "babel-jest": "^29.7.0",
@@ -29,6 +30,8 @@
   },
   "dependencies": {
     "@zackad/prettier-plugin-twig": "^0.16.0",
+    "chokidar": "^4.0.3",
+    "commander": "^13.1.0",
     "glob": "^11.0.1",
     "hast-util-to-html": "^9.0.5",
     "mustache": "^4.2.0",
