@@ -3,7 +3,7 @@
 
 # HTML To Gutenberg
 
-A Webpack plugin that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.
+A Webpack plugin and CLI that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.
 
 Instead of manually coding both React and PHP/Twig components, simply write an HTML file with some special attributes, and this plugin will automatically generate all necessary files for you:
 
@@ -75,6 +75,23 @@ export default {
 
 - Scan `blocks/` for `.html` files
 - Generate Gutenberg blocks inside `generated-blocks/`
+
+## CLI
+
+```sh
+Usage: npx @jverneaut/html-to-gutenberg [options]
+
+A Webpack plugin and CLI that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.
+
+Options:
+  -V, --version        output the version number
+  -i, --input <path>   HTML blocks input path (default: ".")
+  -o, --output <path>  Gutenberg blocks output path
+  -p, --prefix <type>  Blocks namespace (default: "custom")
+  -e, --engine <type>  Engine (either "php", "twig" or "all") (default: "php")
+  -w, --watch          Watch the input directory for changes and regenerate blocks
+  -h, --help           display help for command
+```
 
 ## 🚀 Quick Start (Example Project)
 
@@ -344,3 +361,7 @@ Check out [gutenberg-tailwindcss-bedrock-timber-twig](https://github.com/jvernea
 This setup uses Timber and integrates tightly with TailwindCSS and Bedrock, giving you full control over the front-end and a seamless Twig-based authoring experience.
 
 > I plan to release this integration as a standalone package in the future to make it easier to use in other projects.
+
+```
+
+```

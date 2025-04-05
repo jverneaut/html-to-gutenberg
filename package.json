@@ -21,7 +21,7 @@
   "author": "Julien Verneaut <contact@julienverneaut.com>",
   "license": "MIT",
   "type": "module",
-  "description": "A Webpack plugin that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.",
+  "description": "A Webpack plugin and CLI that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.",
   "bin": "bin/index.cjs",
   "devDependencies": {
     "@babel/preset-env": "^7.26.9",

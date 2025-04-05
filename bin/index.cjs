@@ -9,12 +9,12 @@ const packageJSON = require("../package.json");
 const HTMLToGutenberg = require("../src/HTMLToGutenberg.js").default;
 
 program
-  .name(packageJSON.name)
+  .name("npx " + packageJSON.name)
   .description(packageJSON.description)
   .version(packageJSON.version)
 
   .option("-i, --input <path>", "HTML blocks input path", ".")
-  .option("-o, --output <path>", "Gutenberg blocks output path", "")
+  .option("-o, --output <path>", "Gutenberg blocks output path")
   .option("-p, --prefix <type>", "Blocks namespace", "custom")
   .option(
     "-e, --engine <type>",
