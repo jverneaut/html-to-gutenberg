@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@zackad/prettier-plugin-twig": "^0.16.0",
+    "chalk": "^5.4.1",
     "chokidar": "^4.0.3",
     "commander": "^13.1.0",
     "glob": "^11.0.1",

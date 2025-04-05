@@ -2,6 +2,7 @@
 
 const { program } = require("commander");
 const chokidar = require("chokidar");
+const chalk = require("chalk").default;
 
 const packageJSON = require("../package.json");
 
@@ -40,22 +41,26 @@ const htmlToGutenberg = new HTMLToGutenberg(htmlToGutenbergOptions);
 
 const generateAndWriteFiles = async () => {
   try {
-    console.log("Generating Gutenberg blocks...");
+    console.log(chalk.cyan("Generating Gutenberg blocks..."));
     const generatedFiles = await htmlToGutenberg.generateFiles();
 
-    console.log("Writing generated files...");
+    console.log(chalk.cyan("Writing generated files..."));
     htmlToGutenberg.writeFiles(generatedFiles);
 
-    console.log("Block generation complete!");
+    console.log(chalk.green("Block generation complete."));
   } catch (error) {
-    console.error("Error occurred:", error.message);
+    console.error(chalk.red("Error occurred:"), chalk.red(error.message));
     process.exit(1); // Exit with an error code
   }
 };
 
 // If the watch option is set, use chokidar to watch for changes
 if (options.watch) {
-  console.log(`Watching for changes in ${htmlToGutenberg.inputDirectory}...`);
+  console.log(
+    chalk.yellow(
+      `Watching for changes in ${htmlToGutenberg.inputDirectory}...`,
+    ),
+  );
   const watcher = chokidar.watch(htmlToGutenberg.inputDirectory, {
     persistent: true,
     ignored: /node_modules|\.git/,
@@ -63,13 +68,13 @@ if (options.watch) {
 
   watcher.on("change", (path) => {
     if (path.indexOf(".html") > -1) {
-      console.log(`File changed: ${path}`);
+      console.log(chalk.magenta(`File changed: ${path}`));
       generateAndWriteFiles(); // Regenerate blocks when a file changes
     }
   });
 
   watcher.on("error", (error) => {
-    console.error("Watch error:", error);
+    console.error(chalk.red("Watch error:"), chalk.red(error));
   });
 
   generateAndWriteFiles();
