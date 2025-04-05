@@ -148,9 +148,13 @@ class HTMLToGutenberg {
   }
 
   writeFiles(generatedFiles) {
+    const generatedBlocksPaths = [];
+
     generatedFiles.forEach((generatedFile) => {
       const blockPath = this.generateBlockPath(generatedFile.source);
       this.createDirectoryIfNotExists(blockPath);
+
+      generatedBlocksPaths.push(blockPath);
 
       generatedFile.files.forEach(({ type, content }) => {
         switch (type) {
@@ -192,6 +196,8 @@ class HTMLToGutenberg {
         }
       });
     });
+
+    return generatedBlocksPaths;
   }
 }
 
