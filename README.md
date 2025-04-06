@@ -33,10 +33,10 @@ new HTMLToGutenbergPlugin({
 ## ✨ Features
 
 - **Automatic Gutenberg block generation** from simple HTML
-- **Use attributes** (`data-name="title"`, etc.) to define editable fields
+- **Use attributes** (`data-attribute="title"`, etc.) to define editable fields
 - **Supports RichText and MediaUpload**:
-  - Non-`<img>` elements with `data-name="something"` → **Editable RichText**
-  - `<img>` elements with `data-name="something"` → **Image selection via MediaUpload**
+  - Non-`<img>` elements with `data-attribute="something"` → **Editable RichText**
+  - `<img>` elements with `data-attribute="something"` → **Image selection via MediaUpload**
 - **Fully automates block.json attributes creation**
 - **Add additional styles** via the `data-styles="primary secondary"` attribute on the root block element
 - **InnerBlocks handling** with `<blocks>` and `<block>` elements
@@ -121,16 +121,16 @@ You can then edit `demo-block.html` and see the generated block inside `example/
 <section class="container" data-styles="primary secondary">
   <div class="grid grid-cols-12 px-8 gap-x-6">
     <div class="col-span-6 flex flex-col justify-center">
-      <h1 data-name="title">Hello, <strong>Gutenberg!</strong></h1>
+      <h1 data-attribute="title">Hello, <strong>Gutenberg!</strong></h1>
 
-      <p data-name="content">
+      <p data-attribute="content">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
         facere deleniti nam magni. Aspernatur, obcaecati fuga.
       </p>
     </div>
 
     <div class="col-span-6">
-      <img data-name="image" src="w-full aspect-video rounded-lg" />
+      <img data-attribute="image" src="w-full aspect-video rounded-lg" />
     </div>
 
     <div class="col-span-12 flex gap-x-6">
