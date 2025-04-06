@@ -9,7 +9,7 @@ const packageJSON = require("../package.json");
 const HTMLToGutenberg = require("../src/HTMLToGutenberg.js").default;
 
 program
-  .name("npx " + packageJSON.name.split("/")[1])
+  .name("npx " + packageJSON.name)
   .description(packageJSON.description)
   .version(packageJSON.version)
 

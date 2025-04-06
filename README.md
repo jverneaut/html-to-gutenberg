@@ -79,7 +79,7 @@ export default {
 ## CLI
 
 ```sh
-Usage: npx html-to-gutenberg [options]
+Usage: npx @jverneaut/html-to-gutenberg [options]
 
 A Webpack plugin and CLI that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.
 
