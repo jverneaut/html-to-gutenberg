@@ -66,7 +66,9 @@ class HTMLToGutenberg {
         const HTMLFileContent = fs.readFileSync(HTMLFile, "utf-8");
 
         // Generate index.js file
-        const indexFileContent = await printIndex();
+        const indexAst = generateAst(HTMLFileContent);
+
+        const indexFileContent = await printIndex(indexAst);
         files.push({
           type: "index",
           content: indexFileContent,
