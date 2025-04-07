@@ -60,8 +60,8 @@ import HTMLToGutenbergPlugin from "@jverneaut/html-to-gutenberg";
 export default {
   plugins: [
     new HTMLToGutenbergPlugin({
-      inputDirectory: "blocks", // Your source HTML files
-      outputDirectory: "generated-blocks", // Where generated Gutenberg blocks will be placed
+      inputDirectory: "./blocks", // Your source HTML files
+      outputDirectory: "./generated-blocks", // Where generated Gutenberg blocks will be placed
       blocksPrefix: "custom", // Blocks namespace
 
       // Optional: switch to Twig-based rendering (recommended)
@@ -75,6 +75,67 @@ export default {
 
 - Scan `blocks/` for `.html` files
 - Generate Gutenberg blocks inside `generated-blocks/`
+
+> **Note: These blocks still need to be bundled and registered with WordPress before use.**
+
+<details>
+<summary>>🔧 Minimal setup example using Webpack and PHP</summary>
+
+### Webpack`configuration
+
+```js
+// webpack.config.js
+import HTMLToGutenbergPlugin from "@jverneaut/html-to-gutenberg";
+import GutenbergWebpackPlugin from "@jverneaut/gutenberg-webpack-plugin";
+
+export default {
+  mode: "development",
+  entry: "./index.js", // Your main entry point for non-Gutenberg scripts
+
+  plugins: [
+    new HTMLToGutenbergPlugin({
+      inputDirectory: "./blocks", // Source folder for your custom blocks HTML
+      outputDirectory: "./generated-blocks", // Where transformed blocks will be output
+    }),
+
+    new GutenbergWebpackPlugin("./generated-blocks"), // Registers the generated blocks
+  ],
+
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
+      },
+    ],
+  },
+};
+```
+
+### Registering Blocks in PHP
+
+Add the following to your theme’s `functions.php` file or a custom plugin to automatically register the generated blocks with WordPress:
+
+```php
+add_action('init', function () {
+    $blocks_path = get_stylesheet_directory() . '/dist/blocks';
+    $blocks = array_filter(glob($blocks_path . '/**/*'), 'is_dir');
+
+    foreach ($blocks as $block) {
+        register_block_type($block);
+    }
+});
+```
+
+This is a lightweight, automatic setup. Feel free to adapt it to your specific workflow — other approaches might suit your project better.
+
+</details>
 
 ## CLI
 

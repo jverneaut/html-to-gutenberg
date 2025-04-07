@@ -1,7 +1,8 @@
 import HTMLToGutenbergPlugin from "../index.js";
+import GutenbergWebpackPlugin from "@jverneaut/gutenberg-webpack-plugin";
 
 export default {
-  mode: "production",
+  mode: "development",
   entry: "./index.js",
 
   plugins: [
@@ -11,5 +12,24 @@ export default {
       blocksPrefix: "custom",
       engine: "all", // For demonstration purposes only. Use either "twig" or "php" for production environments
     }),
+
+    // Optionally use this webpack plugin to build the blocks instead of @wordpress/scripts
+    new GutenbergWebpackPlugin("./generated"),
   ],
+
+  module: {
+    rules: [
+      {
+        // Handle React JSX with babel-loader
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
+      },
+    ],
+  },
 };
