@@ -13,12 +13,27 @@ class HTMLToGutenbergPlugin {
     this.generateAndWriteFiles();
 
     compiler.hooks.afterCompile.tap("HTMLToGutenbergPlugin", (compilation) => {
+      this.htmlToGutenberg.HTMLFiles.forEach((HTMLFile) => {
+        compilation.fileDependencies.add(HTMLFile);
+      });
+
       compilation.contextDependencies.add(this.htmlToGutenberg.inputDirectory);
     });
 
-    compiler.hooks.watchRun.tapPromise("HTMLToGutenbergPlugin", async () => {
-      await this.generateAndWriteFiles();
-    });
+    compiler.hooks.watchRun.tapPromise(
+      "HTMLToGutenbergPlugin",
+      async (compiler) => {
+        const changedFiles = compiler.modifiedFiles || [];
+
+        if (
+          [...changedFiles].some((changeFile) =>
+            this.htmlToGutenberg.HTMLFiles.includes(changeFile),
+          )
+        ) {
+          await this.generateAndWriteFiles();
+        }
+      },
+    );
   }
 
   async generateAndWriteFiles() {
