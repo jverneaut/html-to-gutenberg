@@ -42,7 +42,7 @@ describe("HTML Parser", () => {
     test(`should correctly parse ${testCase}`, async () => {
       const caseDir = path.join(PROCESSABLE_FIXTURES_DIR, testCase);
 
-      const { json, twig, jsx, php } = await generateFiles(caseDir);
+      const { json, twig, jsx, php, index } = await generateFiles(caseDir);
 
       const expectedJSONPath = path.join(caseDir, "expected.json");
       if (fs.existsSync(expectedJSONPath)) {
@@ -66,6 +66,12 @@ describe("HTML Parser", () => {
       if (fs.existsSync(expectedPHPPath)) {
         const expectedPHP = fs.readFileSync(expectedPHPPath, "utf-8");
         expect(php).toEqual(expectedPHP);
+      }
+
+      const expectedIndexPath = path.join(caseDir, "expected.index.js");
+      if (fs.existsSync(expectedIndexPath)) {
+        const expectedIndex = fs.readFileSync(expectedIndexPath, "utf-8");
+        expect(index).toEqual(expectedIndex);
       }
     });
   });
