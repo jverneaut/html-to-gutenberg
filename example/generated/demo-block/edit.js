@@ -42,6 +42,7 @@ export default ({ attributes, setAttributes }) => {
 
         <div className="col-span-12 flex gap-x-6">
           <InnerBlocks
+            templateLock
             allowedBlocks={["custom/child-block", "custom/other-child-block"]}
             template={[
               ["custom/child-block", { title: "Title 1", number: 42 }],
@@ -51,7 +52,6 @@ export default ({ attributes, setAttributes }) => {
               ],
               ["custom/other-child-block", { title: "Title 3", number: 42 }],
             ]}
-            templateLock
           ></InnerBlocks>
         </div>
       </div>
