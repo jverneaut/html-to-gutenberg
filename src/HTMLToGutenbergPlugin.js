@@ -13,8 +13,11 @@ class HTMLToGutenbergPlugin {
     this.generateAndWriteFiles();
 
     compiler.hooks.afterCompile.tap("HTMLToGutenbergPlugin", (compilation) => {
-      this.generateAndWriteFiles();
       compilation.contextDependencies.add(this.htmlToGutenberg.inputDirectory);
+    });
+
+    compiler.hooks.watchRun.tapPromise("HTMLToGutenbergPlugin", async () => {
+      await this.generateAndWriteFiles();
     });
   }
 
