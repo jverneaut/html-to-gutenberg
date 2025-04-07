@@ -143,7 +143,7 @@ class HTMLToGutenberg {
 
   createDirectoryIfNotExists(directoryPath) {
     try {
-      fs.mkdirSync(directoryPath);
+      fs.mkdirSync(directoryPath, { recursive: true });
     } catch {}
   }
 
