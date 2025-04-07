@@ -78,10 +78,9 @@ export default {
 
 > **Note: These blocks still need to be bundled and registered with WordPress before use.**
 
-<details>
-<summary>>🔧 Minimal setup example using Webpack and PHP</summary>
+### Minimal full setup example using Webpack and PHP
 
-### Webpack`configuration
+#### Webpack configuration
 
 ```js
 // webpack.config.js
@@ -118,7 +117,7 @@ export default {
 };
 ```
 
-### Registering Blocks in PHP
+#### Registering Blocks in PHP
 
 Add the following to your theme’s `functions.php` file or a custom plugin to automatically register the generated blocks with WordPress:
 
@@ -134,8 +133,6 @@ add_action('init', function () {
 ```
 
 This is a lightweight, automatic setup. Feel free to adapt it to your specific workflow — other approaches might suit your project better.
-
-</details>
 
 ## CLI
 
