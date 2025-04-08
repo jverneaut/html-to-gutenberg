@@ -47,6 +47,7 @@ new HTMLToGutenbergPlugin({
 
 ```sh
 npm install --save-dev @jverneaut/html-to-gutenberg
+npm install --save-dev @10up/block-components # Required for the <Image /> edit.js component
 ```
 
 ## ⚙️ Webpack Configuration
