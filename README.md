@@ -406,7 +406,7 @@ That depends on your strategy:
 
 👉 Choose the one that fits your workflow best—**automated generation** vs **manual control**.
 
-### Why would I chose Twig instead of PHP for rendering blocks?
+### Why would I choose Twig instead of PHP for rendering blocks?
 
 Personally, I find **Twig much friendlier** for templating. It’s closer to HTML, which makes it easier to read, write, and maintain—especially for front-end developers.
 
