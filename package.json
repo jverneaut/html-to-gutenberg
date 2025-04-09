@@ -1,6 +1,6 @@
 {
   "name": "@jverneaut/html-to-gutenberg",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "main": "index.js",
   "repository": {
     "type": "git",
