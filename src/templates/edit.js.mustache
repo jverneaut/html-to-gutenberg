@@ -1,15 +1,15 @@
 {{#hasContent}}
 import {
 useBlockProps,
+{{#hasInnerBlocks}}
+useInnerBlocksProps,
+{{/hasInnerBlocks}}
 {{#hasRichText}}
 RichText,
 {{/hasRichText}}
 {{#hasMedia}}
 MediaUpload,
 {{/hasMedia}}
-{{#hasInnerBlocks}}
-InnerBlocks,
-{{/hasInnerBlocks}}
 } from '@wordpress/block-editor';
 {{#hasMedia}}
 import { Image } from "@10up/block-components";
@@ -22,6 +22,8 @@ export default (
 { attributes, setAttributes }
 {{/hasAttributes}}
 ) => {
+{{{ beforeContent }}}
+
 return ({{{ content }}})
 };
 {{/hasContent}}
