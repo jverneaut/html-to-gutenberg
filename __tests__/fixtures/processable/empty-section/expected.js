@@ -1,5 +1,7 @@
 import { useBlockProps } from "@wordpress/block-editor";
 
 export default () => {
-  return <section {...useBlockProps()}></section>;
+  const blockProps = useBlockProps();
+
+  return <section {...blockProps}></section>;
 };

@@ -27,9 +27,9 @@ const generateFiles = async (caseDir) => {
 
   return {
     index: getGenerateFileByType(generatedFiles, "index"),
-    jsx: getGenerateFileByType(generatedFiles, "jsx"),
-    json: getGenerateFileByType(generatedFiles, "json"),
+    edit: getGenerateFileByType(generatedFiles, "edit"),
     php: getGenerateFileByType(generatedFiles, "php"),
+    json: getGenerateFileByType(generatedFiles, "json"),
     twig: getGenerateFileByType(generatedFiles, "twig"),
   };
 };
@@ -42,7 +42,7 @@ describe("HTML Parser", () => {
     test(`should correctly parse ${testCase}`, async () => {
       const caseDir = path.join(PROCESSABLE_FIXTURES_DIR, testCase);
 
-      const { json, twig, jsx, php, index } = await generateFiles(caseDir);
+      const { json, twig, edit, php, index } = await generateFiles(caseDir);
 
       const expectedJSONPath = path.join(caseDir, "expected.json");
       if (fs.existsSync(expectedJSONPath)) {
@@ -50,22 +50,22 @@ describe("HTML Parser", () => {
         expect(json).toEqual(expectedJSON);
       }
 
-      const expectedTwigPath = path.join(caseDir, "expected.twig");
-      if (fs.existsSync(expectedTwigPath)) {
-        const expectedTwig = fs.readFileSync(expectedTwigPath, "utf-8");
-        expect(twig).toEqual(expectedTwig);
-      }
-
       const expectedJsxPath = path.join(caseDir, "expected.js");
       if (fs.existsSync(expectedJsxPath)) {
         const expectedJsx = fs.readFileSync(expectedJsxPath, "utf-8");
-        expect(jsx).toEqual(expectedJsx);
+        expect(edit).toEqual(expectedJsx);
       }
 
       const expectedPHPPath = path.join(caseDir, "expected.php");
       if (fs.existsSync(expectedPHPPath)) {
         const expectedPHP = fs.readFileSync(expectedPHPPath, "utf-8");
         expect(php).toEqual(expectedPHP);
+      }
+
+      const expectedTwigPath = path.join(caseDir, "expected.twig");
+      if (fs.existsSync(expectedTwigPath)) {
+        const expectedTwig = fs.readFileSync(expectedTwigPath, "utf-8");
+        expect(twig).toEqual(expectedTwig);
       }
 
       const expectedIndexPath = path.join(caseDir, "expected.index.js");
