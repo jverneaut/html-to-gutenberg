@@ -1,16 +1,12 @@
-import { useBlockProps, useInnerBlocksProps } from "@wordpress/block-editor";
+import { useBlockProps, InnerBlocks } from "@wordpress/block-editor";
 
 export default () => {
-  const blockProps = useBlockProps();
-
-  const { children, ...innerBlocksProps } = useInnerBlocksProps(blockProps, {
-    allowedBlocks: ["custom/child-block"],
-    template: [["custom/child-block", { boolean: true }]],
-  });
-
   return (
-    <section {...blockProps} {...innerBlocksProps}>
-      {children}
+    <section {...useBlockProps()}>
+      <InnerBlocks
+        allowedBlocks={["custom/child-block"]}
+        template={[["custom/child-block", { boolean: true }]]}
+      ></InnerBlocks>
     </section>
   );
 };

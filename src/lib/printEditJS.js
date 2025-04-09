@@ -39,40 +39,15 @@ const camelizeAttributes = (html, { attributes }) =>
 const replaceClassWithClassName = (html) =>
   html.replaceAll("class=", "className=");
 
-// Generates the useBlockProps and useInnerBlocksProps lines
-const generateDeclarations = (blockData) => {
+// Generates the root element props
+const generateRootProps = (blockData) => {
   const { className } = blockData.rootElement;
-  const blockProps = `const blockProps = useBlockProps(${
+  const blockProps = `{...useBlockProps(${
     className ? `{ className: "${className}" }` : ""
-  });`;
+  })}`;
 
-  if (!blockData.innerBlocks.hasInnerBlocks) return blockProps;
-
-  const { allowedBlocks, orientation, template, templateLock } =
-    blockData.innerBlocks;
-
-  const props = [
-    allowedBlocks && `allowedBlocks: ${JSON.stringify(allowedBlocks)},`,
-    orientation && `orientation: ${JSON.stringify(orientation)},`,
-    template && `template: ${JSON.stringify(template)},`,
-    templateLock && `templateLock: ${JSON.stringify(templateLock)},`,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  const innerBlocks = [
-    "const { children, ...innerBlocksProps } = useInnerBlocksProps(blockProps",
-    props ? `, {\n${props}\n}` : "",
-    ");",
-  ].join("");
-
-  return [blockProps, innerBlocks].join("\n\n");
+  return blockProps;
 };
-
-const generateRootProps = ({ hasInnerBlocks }) =>
-  ["{ ...blockProps }", hasInnerBlocks && "{ ...innerBlocksProps }"]
-    .filter(Boolean)
-    .join(" ");
 
 const printEditJS = async (blockData) => {
   const { attributes, html, hasContent, innerBlocks, rootElement } = blockData;
@@ -94,7 +69,7 @@ const printEditJS = async (blockData) => {
     addInnerBlocksComponent,
     convertStyleToObject,
   ];
-  jsxProcessors.forEach((processor) => processor.call({}, ast));
+  jsxProcessors.forEach((processor) => processor.call({}, ast, innerBlocks));
 
   const foundAttributes = new Set();
 
@@ -127,13 +102,12 @@ const printEditJS = async (blockData) => {
   // Set root attributes
   const content = transformedHtml.replace(
     "root-placeholder",
-    generateRootProps(options),
+    generateRootProps(blockData),
   );
 
   // Render final JS file
   const rendered = Mustache.render(template, {
     content,
-    beforeContent: generateDeclarations(blockData),
     ...options,
   });
 

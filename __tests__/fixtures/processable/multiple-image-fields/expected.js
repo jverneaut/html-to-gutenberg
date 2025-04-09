@@ -2,10 +2,8 @@ import { useBlockProps, MediaUpload } from "@wordpress/block-editor";
 import { Image } from "@10up/block-components";
 
 export default ({ attributes, setAttributes }) => {
-  const blockProps = useBlockProps();
-
   return (
-    <section {...blockProps}>
+    <section {...useBlockProps()}>
       <MediaUpload
         value={attributes.image_1}
         onSelect={(image) => setAttributes({ image_1: image.id })}
