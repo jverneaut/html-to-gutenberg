@@ -11,6 +11,7 @@
     { "name": "primary", "label": "Primary", "isDefault": true },
     { "name": "secondary", "label": "Secondary" }
   ],
+  "parent": ["custom/parent-block"],
   "attributes": {
     "align": { "type": "string", "default": "full" },
     "title": {
