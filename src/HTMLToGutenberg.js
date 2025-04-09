@@ -2,17 +2,13 @@ import * as glob from "glob";
 import path from "path";
 import fs from "fs";
 
-import generateAst from "../lib/generateAst.js";
+import getBlockData from "./lib/common/getBlockData.js";
 
-import processTwigAst from "../lib/twig/processTwigAst.js";
-import processJsxAst from "../lib/jsx/processJsxAst.js";
-import processPHPAst from "../lib/php/processPHPAst.js";
-
-import printTwigAst from "../lib/twig/printTwigAst.js";
-import printJsxAst from "../lib/jsx/printJsxAst.js";
-import printIndex from "../lib/printIndex.js";
-import printBlockJSON from "../lib/printBlockJSON.js";
-import printPHPAst from "../lib/php/printPHPAst.js";
+import printBlockJSON from "./lib/printBlockJSON.js";
+import printIndexJS from "./lib/printIndexJS.js";
+import printEditJS from "./lib/printEditJS.js";
+import printRenderPHP from "./lib/printRenderPHP.js";
+import printRenderTwig from "./lib/printRenderTwig.js";
 
 import { OptionsSchema } from "./schemas/HTMLToGutenbergOptions.js";
 
@@ -56,6 +52,11 @@ class HTMLToGutenberg {
     return path.join(this.outputDirectory, this.generateBlockSlug(HTMLFile));
   }
 
+  generateBlockTitle(HTMLFile) {
+    const slug = this.generateBlockSlug(HTMLFile);
+    return slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+
   async generateFiles() {
     const generatedFiles = [];
 
@@ -65,71 +66,27 @@ class HTMLToGutenberg {
 
         const HTMLFileContent = fs.readFileSync(HTMLFile, "utf-8");
 
-        // Generate index.js file
-        const indexAst = generateAst(HTMLFileContent);
-
-        const indexFileContent = await printIndex(indexAst);
-        files.push({
-          type: "index",
-          content: indexFileContent,
+        const blockData = await getBlockData(HTMLFileContent, {
+          blockName: this.generateBlockName(HTMLFile),
+          blockSlug: this.generateBlockSlug(HTMLFile),
+          blockTitle: this.generateBlockTitle(HTMLFile),
+          blockEngine: this.engine,
         });
 
-        // Generate edit.js file
-        const jsxAst = generateAst(HTMLFileContent);
-        processJsxAst(jsxAst);
+        const [indexJS, editJS, blockJSON, renderPHP, renderTwig] =
+          await Promise.all([
+            printIndexJS(blockData),
+            printEditJS(blockData),
+            printBlockJSON(blockData),
+            printRenderPHP(blockData),
+            printRenderTwig(blockData),
+          ]);
 
-        const jsxFileContent = await printJsxAst(jsxAst);
-        files.push({
-          type: "jsx",
-          content: jsxFileContent,
-        });
-
-        // Generate block.json file
-        const jsonAst = generateAst(HTMLFileContent);
-
-        const blockName = this.generateBlockName(HTMLFile);
-        const blockSlug = this.generateBlockSlug(HTMLFile);
-
-        const blockJsonFileCotent = await printBlockJSON(
-          jsonAst,
-          blockName,
-          blockSlug,
-          this.engine,
-        );
-
-        files.push({
-          type: "json",
-          content: blockJsonFileCotent,
-        });
-
-        if (["php", "all"].includes(this.engine)) {
-          // Generate render.php file
-          const phpAst = await generateAst(HTMLFileContent);
-          const phpInitialAst = generateAst(HTMLFileContent);
-
-          const processedPHPAst = await processPHPAst(phpAst);
-          const phpFileContent = await printPHPAst(
-            processedPHPAst,
-            phpInitialAst,
-          );
-
-          files.push({
-            type: "php",
-            content: phpFileContent,
-          });
-        }
-
-        if (["twig", "all"].includes(this.engine)) {
-          // Generate render.twig file
-          const twigAst = generateAst(HTMLFileContent);
-          processTwigAst(twigAst);
-
-          const twigFileContent = await printTwigAst(twigAst);
-          files.push({
-            type: "twig",
-            content: twigFileContent,
-          });
-        }
+        files.push({ type: "index", content: indexJS });
+        files.push({ type: "edit", content: editJS });
+        files.push({ type: "php", content: renderPHP });
+        files.push({ type: "json", content: blockJSON });
+        files.push({ type: "twig", content: renderTwig });
 
         generatedFiles.push({
           source: HTMLFile,
@@ -168,7 +125,7 @@ class HTMLToGutenberg {
             );
             break;
 
-          case "jsx":
+          case "edit":
             fs.writeFileSync(path.join(blockPath, "edit.js"), content, "utf-8");
             break;
 
