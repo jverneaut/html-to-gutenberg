@@ -216,27 +216,15 @@ You can then edit `demo-block.html` and see the generated block inside `example/
 ```jsx
 import {
   useBlockProps,
-  useInnerBlocksProps,
   RichText,
   MediaUpload,
+  InnerBlocks,
 } from "@wordpress/block-editor";
 import { Image } from "@10up/block-components";
 
 export default ({ attributes, setAttributes }) => {
-  const blockProps = useBlockProps({ className: "container" });
-
-  const { children, ...innerBlocksProps } = useInnerBlocksProps(blockProps, {
-    allowedBlocks: ["custom/child-block", "custom/other-child-block"],
-    template: [
-      ["custom/child-block", { title: "Title 1", number: 42 }],
-      ["custom/child-block", { title: "<strong>Title 2</strong>", number: 42 }],
-      ["custom/other-child-block", { title: "Title 3", number: 42 }],
-    ],
-    templateLock: true,
-  });
-
   return (
-    <section {...blockProps} {...innerBlocksProps}>
+    <section {...useBlockProps({ className: "container" })}>
       <div className="grid grid-cols-12 px-8 gap-x-6">
         <div className="col-span-6 flex flex-col justify-center">
           <RichText
@@ -268,7 +256,20 @@ export default ({ attributes, setAttributes }) => {
           ></MediaUpload>
         </div>
 
-        <div className="col-span-12 flex gap-x-6">{children}</div>
+        <div className="col-span-12 flex gap-x-6">
+          <InnerBlocks
+            allowedBlocks={["custom/child-block", "custom/other-child-block"]}
+            template={[
+              ["custom/child-block", { title: "Title 1", number: 42 }],
+              [
+                "custom/child-block",
+                { title: "<strong>Title 2</strong>", number: 42 },
+              ],
+              ["custom/other-child-block", { title: "Title 3", number: 42 }],
+            ]}
+            templateLock
+          ></InnerBlocks>
+        </div>
       </div>
     </section>
   );
