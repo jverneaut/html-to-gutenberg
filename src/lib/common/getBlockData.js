@@ -21,6 +21,7 @@ const getBlockData = async (
       className: "",
       styles: [],
     },
+    parent: false,
     attributes: {},
     innerBlocks: {
       hasInnerBlocks: false,
@@ -62,6 +63,15 @@ const getBlockData = async (
         );
 
         delete children.properties.dataStyles;
+      }
+
+      // Extract and delete data-parent attribute
+      if (children.properties.dataParent) {
+        blockData.rootElement.parent = utils.spaceSeparatedStringToArray(
+          children.properties.dataParent,
+        );
+
+        delete children.properties.dataParent;
       }
     }
   });

@@ -36,6 +36,9 @@ const printBlockJSON = async (blockData) => {
     category: "theme",
     example: {},
     ...styles,
+    ...(blockData.rootElement.parent
+      ? { parent: blockData.rootElement.parent }
+      : {}),
     attributes: {
       align: { type: "string", default: "full" },
       ...attributes,
