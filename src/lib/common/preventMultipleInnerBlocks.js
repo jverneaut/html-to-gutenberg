@@ -1,6 +1,6 @@
 import { visit } from "unist-util-visit";
 
-const preventDuplicateInnerBlocks = (ast) => {
+const preventMultipleInnerBlocks = (ast) => {
   let numberOfInnerBlocks = 0;
 
   visit(ast, "element", (node) => {
@@ -15,4 +15,4 @@ const preventDuplicateInnerBlocks = (ast) => {
   }
 };
 
-export default preventDuplicateInnerBlocks;
+export default preventMultipleInnerBlocks;

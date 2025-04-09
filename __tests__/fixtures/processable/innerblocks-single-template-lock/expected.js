@@ -4,9 +4,9 @@ export default () => {
   return (
     <section {...useBlockProps()}>
       <InnerBlocks
-        templateLock
         allowedBlocks={["custom/child-block"]}
         template={[["custom/child-block"]]}
+        templateLock
       ></InnerBlocks>
     </section>
   );

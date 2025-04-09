@@ -1,6 +1,6 @@
 import { visit } from "unist-util-visit";
 
-const ensureSingleRootElement = (ast) => {
+const preventMultipleRootElements = (ast) => {
   visit(ast, "root", (node) => {
     if (node.type === "root") {
       const childrenElement = node.children.filter(
@@ -16,4 +16,4 @@ const ensureSingleRootElement = (ast) => {
   });
 };
 
-export default ensureSingleRootElement;
+export default preventMultipleRootElements;
