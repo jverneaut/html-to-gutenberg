@@ -1,6 +1,6 @@
 <?php
 
-$image_id = $attributes['image'];
+$image_id = $attributes['image'] ?? '';
 $image = $image_id ? wp_get_attachment_image_src($image_id, 'full') : [''];
 $image_url = $image[0] ?? '';
 $image_alt = $image_id ? get_post_meta($image_id, '_wp_attachment_image_alt', true) : '';
