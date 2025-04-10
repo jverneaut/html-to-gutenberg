@@ -35,6 +35,7 @@ class HTMLToGutenberg {
       result.data.outputDirectory || result.data.inputDirectory;
     this.blocksPrefix = result.data.blocksPrefix;
     this.engine = result.data.engine;
+    this.shouldRemoveDeletedBlocks = result.data.removeDeletedBlocks;
   }
 
   get HTMLFiles() {
@@ -159,6 +160,24 @@ class HTMLToGutenberg {
     });
 
     return generatedBlocksPaths;
+  }
+
+  removeDeletedBlocks() {
+    const blocks = glob.sync(path.join(this.outputDirectory, "/**/block.json"));
+    const blockPaths = blocks.map((block) => path.dirname(block));
+
+    const HTMLFiles = this.HTMLFiles;
+    const HTMLFilesBlockPaths = HTMLFiles.map((HTMLFile) =>
+      this.generateBlockPath(HTMLFile),
+    );
+
+    for (const blockPath of blockPaths) {
+      if (!HTMLFilesBlockPaths.includes(blockPath)) {
+        if (fs.existsSync(blockPath)) {
+          fs.rmSync(blockPath, { recursive: true, force: true });
+        }
+      }
+    }
   }
 }
 
