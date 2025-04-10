@@ -67,6 +67,7 @@ export default {
 
       // Optional: switch to Twig-based rendering (recommended)
       engine: "twig", // either 'php' (default) or 'twig'
+      removeDeletedBlocks: true, // Deletes blocks in outputDirectory that no longer have a corresponding source HTML file (default: false)
     }),
   ],
 };
