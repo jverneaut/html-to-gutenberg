@@ -6,6 +6,7 @@ export const OptionsSchema = z.object({
 
   blocksPrefix: z.string().default("custom"),
   engine: z.enum(["php", "twig", "all"]).default("php"),
+  removeDeletedBlocks: z.boolean().optional(),
 });
 
 /**

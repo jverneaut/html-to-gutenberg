@@ -11,6 +11,7 @@ export default {
       outputDirectory: "./generated",
       blocksPrefix: "custom",
       engine: "all", // For demonstration purposes only. Use either "twig" or "php" for production environments
+      removeDeletedBlocks: true, // Deletes blocks in outputDirectory that no longer have a corresponding source HTML file
     }),
 
     // Optionally use this webpack plugin to build the blocks instead of @wordpress/scripts
