@@ -1,9 +1,10 @@
 import HTMLToGutenberg from "./HTMLToGutenberg.js";
-import { OptionsSchema } from "./schemas/HTMLToGutenbergOptions.js";
+
+/** @typedef {import("./schemas/HTMLToGutenbergOptions.js").HTMLToGutenbergOptions} HTMLToGutenbergOptions */
 
 class HTMLToGutenbergPlugin {
   /**
-   * @param {import("zod").infer<typeof OptionsSchema>} options
+   * @param {HTMLToGutenbergOptions} options
    */
   constructor(options) {
     this.htmlToGutenberg = new HTMLToGutenberg(options);

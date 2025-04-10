@@ -12,9 +12,11 @@ import printRenderTwig from "./lib/printRenderTwig.js";
 
 import { OptionsSchema } from "./schemas/HTMLToGutenbergOptions.js";
 
+/** @typedef {import("./schemas/HTMLToGutenbergOptions.js").HTMLToGutenbergOptions} HTMLToGutenbergOptions */
+
 class HTMLToGutenberg {
   /**
-   * @param {import("zod").infer<typeof OptionsSchema>} options
+   * @param {HTMLToGutenbergOptions} options
    */
   constructor(options) {
     const result = OptionsSchema.safeParse(options);

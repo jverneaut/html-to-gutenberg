@@ -7,3 +7,8 @@ export const OptionsSchema = z.object({
   blocksPrefix: z.string().default("custom"),
   engine: z.enum(["php", "twig", "all"]).default("php"),
 });
+
+/**
+ * @typedef {z.infer<typeof OptionsSchema>} HTMLToGutenbergOptions
+ */
+export const /** @type {typeof OptionsSchema} */ _typedSchema = OptionsSchema;
