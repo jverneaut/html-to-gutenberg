@@ -9,7 +9,7 @@ export default ({ attributes, setAttributes }) => {
         onSelect={(image) => setAttributes({ image_1: image.id })}
         render={({ open }) => (
           <Image
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", pointerEvents: "all" }}
             onClick={open}
             id={attributes.image_1}
             onSelect={(image) => setAttributes({ image_1: image.id })}
@@ -21,7 +21,7 @@ export default ({ attributes, setAttributes }) => {
         onSelect={(image) => setAttributes({ image_2: image.id })}
         render={({ open }) => (
           <Image
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", pointerEvents: "all" }}
             onClick={open}
             id={attributes.image_2}
             onSelect={(image) => setAttributes({ image_2: image.id })}

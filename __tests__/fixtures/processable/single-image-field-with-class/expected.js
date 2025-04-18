@@ -9,7 +9,7 @@ export default ({ attributes, setAttributes }) => {
         onSelect={(image) => setAttributes({ image: image.id })}
         render={({ open }) => (
           <Image
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", pointerEvents: "all" }}
             onClick={open}
             className="w-full h-full object-cover"
             id={attributes.image}
