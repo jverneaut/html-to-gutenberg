@@ -28,15 +28,17 @@ const extractImageKeys = (attributes) =>
     .map(([key]) => key);
 
 // Generate PHP code to resolve images from image keys
-const generateImageDefinitions = (imageKeys) =>
+const generateImageDefinitions = (imageKeys, attributes) =>
   imageKeys
     .map((key) => {
+      const imageSize = attributes[key]._internalImageSize ?? "full";
+
       return [
         `$${key}_id = $attributes['${key}'] ?? '';`,
-        `$${key} = $${key}_id ? wp_get_attachment_image_src($${key}_id, 'full') : [''];`,
+        `$${key} = $${key}_id ? wp_get_attachment_image_src($${key}_id, '${imageSize}') : [''];`,
         `$${key}_src = $${key}[0] ?? '';`,
-        `$${key}_srcset = $${key}_id ? wp_get_attachment_image_srcset($${key}_id, 'full') : '';`,
-        `$${key}_sizes = $${key}_id ? wp_get_attachment_image_sizes($${key}_id, 'full') : '';`,
+        `$${key}_srcset = $${key}_id ? wp_get_attachment_image_srcset($${key}_id, '${imageSize}') : '';`,
+        `$${key}_sizes = $${key}_id ? wp_get_attachment_image_sizes($${key}_id, '${imageSize}') : '';`,
         `$${key}_alt = $${key}_id ? get_post_meta($${key}_id, '_wp_attachment_image_alt', true) : '';`,
       ].join("\n");
     })
@@ -58,7 +60,7 @@ const printRenderPHP = (blockData) => {
 
   // Extract image data
   const imageKeys = extractImageKeys(attributes);
-  const imagesDefinitions = generateImageDefinitions(imageKeys);
+  const imagesDefinitions = generateImageDefinitions(imageKeys, attributes);
 
   // Generate and process AST
   const ast = generateAst(html);
