@@ -7,6 +7,7 @@ export default ({ attributes, setAttributes }) => {
         tagName="h1"
         value={attributes.title}
         onChange={(title) => setAttributes({ title })}
+        placeholder="Title"
       ></RichText>
     </section>
   );
