@@ -1,4 +1,5 @@
 import { visit } from "unist-util-visit";
+import * as utils from "../common/utils.js";
 
 const addRichTextComponent = (ast) => {
   visit(ast, "element", (node) => {
@@ -9,6 +10,9 @@ const addRichTextComponent = (ast) => {
       node.properties.tagName = initialTagName;
       node.properties.value = `{attributes.${node.properties.dataAttribute}}`;
       node.properties.onChange = `{${node.properties.dataAttribute} => setAttributes({ ${node.properties.dataAttribute} })}`;
+      node.properties.placeholder = utils.camelCaseToSentenceCase(
+        node.properties.dataAttribute,
+      );
 
       delete node.children;
       delete node.properties.dataAttribute;

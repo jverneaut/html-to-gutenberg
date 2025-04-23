@@ -23,6 +23,14 @@ export const kebabCaseToTitleCase = (str) =>
     .replace(/-/g, " ") // Replace hyphens with spaces
     .replace(/\b\w/g, (c) => c.toUpperCase()); // Capitalize the first letter of each word
 
+// Converts a camelCase string to "Camel case" style
+// e.g., "thisIsATest" -> "This is a test"
+export const camelCaseToSentenceCase = (str) =>
+  str
+    .replace(/([a-z])([A-Z])/g, "$1 $2") // Insert space before uppercase letters
+    .toLowerCase() // Convert the whole string to lowercase
+    .replace(/^./, (c) => c.toUpperCase()); // Capitalize the first character
+
 // Replaces HTML escaped characters with their original characters
 // e.g., '&#x22;' -> '"' (double quotes)
 export const replaceEscapedChars = (html) =>
