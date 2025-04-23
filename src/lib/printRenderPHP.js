@@ -34,7 +34,9 @@ const generateImageDefinitions = (imageKeys) =>
       return [
         `$${key}_id = $attributes['${key}'] ?? '';`,
         `$${key} = $${key}_id ? wp_get_attachment_image_src($${key}_id, 'full') : [''];`,
-        `$${key}_url = $${key}[0] ?? '';`,
+        `$${key}_src = $${key}[0] ?? '';`,
+        `$${key}_srcset = $${key}_id ? wp_get_attachment_image_srcset($${key}_id, 'full') : '';`,
+        `$${key}_sizes = $${key}_id ? wp_get_attachment_image_sizes($${key}_id, 'full') : '';`,
         `$${key}_alt = $${key}_id ? get_post_meta($${key}_id, '_wp_attachment_image_alt', true) : '';`,
       ].join("\n");
     })
