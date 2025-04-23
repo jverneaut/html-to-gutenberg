@@ -82,6 +82,9 @@ const getBlockData = async (
       if (node.tagName === "img") {
         blockData.attributes[node.properties.dataAttribute] = {
           type: "integer",
+          _internalImageSize: node.properties.dataImageSize
+            ? node.properties.dataImageSize
+            : null,
           _internalType: "image",
         };
       } else {
