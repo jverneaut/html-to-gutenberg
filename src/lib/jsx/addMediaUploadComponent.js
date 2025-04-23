@@ -12,6 +12,7 @@ const addMediaUploadComponent = (ast) => {
       delete node.properties.className;
       delete node.children;
       delete node.properties.dataAttribute;
+      delete node.properties.dataImageSize;
     }
   });
 };

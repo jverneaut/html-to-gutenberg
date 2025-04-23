@@ -7,6 +7,7 @@ const addImgLookup = (ast) => {
       node.properties.alt = `{{ get_image(attributes.${node.properties.dataAttribute}).alt }}`;
 
       delete node.properties.dataAttribute;
+      delete node.properties.dataImageSize;
     }
   });
 };

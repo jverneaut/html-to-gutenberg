@@ -9,6 +9,7 @@ const addImgLookup = (ast) => {
       node.properties.alt = `<?php echo esc_attr($${node.properties.dataAttribute}_alt); ?>`;
 
       delete node.properties.dataAttribute;
+      delete node.properties.dataImageSize;
     }
   });
 };
