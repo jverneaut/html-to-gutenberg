@@ -45,8 +45,7 @@ npm install @jverneaut/html-to-gutenberg
 
 ### 2. Add the webpack plugin to your existing webpack configuration
 
-```js
-// webpack.config.js
+```js title="webpack.config.js"
 import HTMLToGutenbergPlugin from "@jverneaut/html-to-gutenberg";
 
 export default {
@@ -79,8 +78,7 @@ npm install @jverneaut/gutenberg-webpack-plugin
 
 Then update your Webpack config:
 
-```js
-// webpack.config.js
+```js title="webpack.config.js"
 import HTMLToGutenbergPlugin from "@jverneaut/html-to-gutenberg";
 import GutenbergWebpackPlugin from "@jverneaut/gutenberg-webpack-plugin";
 
@@ -118,7 +116,7 @@ export default {
 
 Add this to your theme’s `functions.php` or a custom plugin:
 
-```php
+```php title="functions.php"
 add_action('init', function () {
     # Change this path depending on your blocks building configuration
     $blocks_path = get_stylesheet_directory() . '/dist/blocks';
