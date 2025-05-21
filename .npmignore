@@ -1,6 +1,7 @@
 node_modules
 __tests__
 example
+docs
 .git
 .github
 babel.config.js
