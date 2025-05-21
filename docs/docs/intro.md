@@ -68,7 +68,7 @@ export default {
 </section>
 ```
 
-### 4.Build the generated blocks
+### 4. Build the generated blocks
 
 Use your own build setup, or install the helper plugin:
 
