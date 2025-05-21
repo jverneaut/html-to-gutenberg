@@ -15,12 +15,14 @@ export default ({ attributes, setAttributes }) => {
             tagName="h1"
             value={attributes.title}
             onChange={(title) => setAttributes({ title })}
+            placeholder="Title"
           ></RichText>
 
           <RichText
             tagName="p"
             value={attributes.content}
             onChange={(content) => setAttributes({ content })}
+            placeholder="Content"
           ></RichText>
         </div>
 
