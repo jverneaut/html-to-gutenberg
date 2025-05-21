@@ -24,7 +24,7 @@ npm install @10up/block-components --save-dev
 
 :::
 
-### Adding `data-attribute` attributes to image elements
+## Adding `data-attribute` attributes to image elements
 
 To make an image editable:
 
@@ -45,7 +45,7 @@ This will automatically:
 - Use the appropriate components to enable image selection in the editor.
 - Render the selected image on the frontend.
 
-### Using custom image sizes
+## Using custom image sizes
 
 You can define the image size to use when rendering by adding the `data-image-size` attribute.
 

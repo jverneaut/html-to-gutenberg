@@ -13,7 +13,7 @@ When developing custom Gutenberg blocks, there are two main approaches to defini
 
 To learn more about using `InnerBlocks` with **HTML To Gutenberg**, please refer to [its dedicated documentation page](/usage/innerblocks.md).
 
-### Adding `data-attribute` attributes to text elements
+## Adding `data-attribute` attributes to text elements
 
 To make an HTML element editable, add a `data-attribute="name"` attribute to the element. The `name` will become the key for the stored attribute in the block’s saved content.
 
@@ -31,7 +31,7 @@ This will automatically:
 
 You can add multiple text attributes to a single block, but `text attributes cannot be nested inside each other`. If you need nested editable content, consider using `InnerBlocks` with core or custom blocks that support nesting.
 
-### Handling defaults and placeholders
+## Handling defaults and placeholders
 
 By default, any content inside an element marked with `data-attribute` will be used as the **default value** when the block is added to a page.
 
