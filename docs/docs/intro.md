@@ -1,8 +1,10 @@
 ---
-sidebar_position: 1
+sidebar_position: 0
 ---
 
 # HTML To Gutenberg
+
+## What is HTML To Gutenberg
 
 **HTML To Gutenberg** is a webpack plugin and CLI tool that helps you create Gutenberg blocks for WordPress **from raw HTML** quickly and without writing a single line of React.
 
@@ -11,26 +13,26 @@ It parses your HTML, extracts block structure, attributes, and inner content, an
 
 The goal: **save time, reduce errors, and make custom block development accessible to everyone.**
 
-Pictured bellow is what a custom blocks based website editing experience can you look like (taken from my WordCamp Talk about HTML To Gutenberg):
+Here's what the editing experience can look like for a site built entirely with custom blocks (from my WordCamp talk):
 
 ![HTML To Gutenberg WordCamp Demo](/img/wordcamp-demo.png)
 
 ## What can you use it for?
 
-HTML To Gutenberg is perfect if you want to:
+HTML To Gutenberg is great when you want to:
 
 - Convert static HTML components into Gutenberg blocks
-- Speed up the creation of custom blocks for client projects or themes
-- Avoid repetitive coding of attributes, inner blocks, and markup logic
-- Use server-side rendering (PHP or Twig) with consistent block markup
-- Prototype and iterate on block designs quickly
+- Quickly create custom blocks for client projects or themes
+- Skip the repetitive setup of attributes and inner blocks
+- Use server-side rendering (PHP or Twig) with a single source of markup shared between the editor and the frontend — no duplication, just one file to maintain
+- Prototype and iterate on block designs faster
 
 It works great whether you're a freelance developer, an agency building custom themes, or a product team maintaining a block library.
 
 :::warning
-While the aim of this tool is to ease the development of custom Gutenberg blocks, some previous knowledge of custom Gutenberg blocks development is required to take full advantage of it as a lot of its concepts and conventions come straight from Gutenberg components.
+While this tool simplifies Gutenberg development, it assumes **basic familiarity with custom block concepts**. Many conventions are based on Gutenberg’s component model.
 
-Appart from the official WordPress Blocks Development documentation, a good place to learn the ins and outs of Gutenberg is [10up Block Editor Best Practices](https://gutenberg.10up.com/) website which provides great insights about the usage of Gutenberg to build websites.
+If you're new to Gutenberg development, start with the [official documentation](https://developer.wordpress.org/block-editor/) and the excellent [10up Block Editor Best Practices](https://gutenberg.10up.com/).
 :::
 
 ## Quick start
@@ -69,13 +71,13 @@ export default {
 
 ### 4.Build the generated blocks
 
-Build the custom blocks with whatever configuration you already have in place, or alternatively use the `@jverneaut/gutenberg-webpack-plugin` plugin to ease the setup.
+Use your own build setup, or install the helper plugin:
 
 ```bash
 npm install @jverneaut/gutenberg-webpack-plugin
 ```
 
-Example webpack setup with this configuration:
+Then update your Webpack config:
 
 ```js
 // webpack.config.js
@@ -114,7 +116,7 @@ export default {
 
 ### 5. Register the generated blocks
 
-Add the following to your theme’s `functions.php` file or a custom plugin to automatically register the generated blocks with WordPress:
+Add this to your theme’s `functions.php` or a custom plugin:
 
 ```php
 add_action('init', function () {
