@@ -1,6 +1,9 @@
 {{#hasContent}}
 import {
 useBlockProps,
+{{#hasEditingMode}}
+useBlockEditingMode,
+{{/hasEditingMode}}
 {{#hasInnerBlocks}}
 InnerBlocks,
 {{/hasInnerBlocks}}
