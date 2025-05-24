@@ -17,8 +17,12 @@ const addInnerBlocksComponent = (ast, innerBlocks) => {
         node.properties.template = `{${JSON.stringify(innerBlocks.template)}}`;
       }
 
-      if (innerBlocks.templateLock) {
-        node.properties.templateLock = true;
+      if (innerBlocks.templateLock !== null) {
+        if (!innerBlocks.templateLock) {
+          node.properties.templateLock = `{false}`;
+        } else {
+          node.properties.templateLock = innerBlocks.templateLock;
+        }
       }
 
       if (innerBlocks.orientation) {
