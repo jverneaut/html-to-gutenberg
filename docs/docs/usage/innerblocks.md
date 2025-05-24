@@ -106,6 +106,8 @@ You can prevent editors from adding, moving, or removing blocks from the area us
 </blocks>
 ```
 
+The `templateLock` attribute supports the `templateLock` shorthands attribute, as well as `false`, `all`, `insert` and `contentOnly` values.
+
 :::warning One InnerBlocks per block
 As per Gutenberg's internal rules, you can only use one `InnerBlocks` zone per custom block. If your block has multiple editable areas, consider creating multiple child blocks that can each use a separate `InnerBlocks` zone, eg. `custom/hero` can have two child blocks `custom/hero-top` and `custom/hero-bottom` that each have separate `InnerBlocks` zones.
 :::
