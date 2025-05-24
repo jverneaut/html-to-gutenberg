@@ -27,7 +27,7 @@ const getBlockData = async (
       hasInnerBlocks: false,
       allowedBlocks: false,
       template: false,
-      templateLock: false,
+      templateLock: null,
       orientation: false,
     },
     html: "",
@@ -237,7 +237,29 @@ const getBlockData = async (
       }
 
       if (node.properties.templateLock !== undefined) {
-        blockData.innerBlocks.templateLock = true;
+        switch (node.properties.templateLock) {
+          case "false":
+            blockData.innerBlocks.templateLock = false;
+            break;
+
+          case "insert":
+            blockData.innerBlocks.templateLock = "insert";
+            break;
+
+          case "contentOnly":
+            blockData.innerBlocks.templateLock = "contentOnly";
+            break;
+
+          case "all":
+            blockData.innerBlocks.templateLock = "all";
+            break;
+
+          case "":
+          case "true":
+          default:
+            blockData.innerBlocks.templateLock = true;
+            break;
+        }
       }
 
       if (
