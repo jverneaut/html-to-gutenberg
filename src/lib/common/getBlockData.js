@@ -20,8 +20,9 @@ const getBlockData = async (
     rootElement: {
       className: "",
       styles: [],
+      parent: false,
+      editingMode: null,
     },
-    parent: false,
     attributes: {},
     innerBlocks: {
       hasInnerBlocks: false,
@@ -72,6 +73,13 @@ const getBlockData = async (
         );
 
         delete children.properties.dataParent;
+      }
+
+      // Extract and delete data-editing-mode attribute
+      if (children.properties.dataEditingMode) {
+        blockData.rootElement.editingMode = children.properties.dataEditingMode;
+
+        delete children.properties.dataEditingMode;
       }
     }
   });

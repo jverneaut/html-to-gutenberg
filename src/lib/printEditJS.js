@@ -59,6 +59,7 @@ const printEditJS = async (blockData) => {
     hasRichText: attributeValues.some((attr) => attr._internalType === "text"),
     hasContent,
     hasInnerBlocks: innerBlocks.hasInnerBlocks,
+    hasEditingMode: rootElement.editingMode !== null,
   };
 
   // Preprocess AST, add <RichText /> components, <InnerBlocks />, etc.
@@ -105,8 +106,20 @@ const printEditJS = async (blockData) => {
     generateRootProps(blockData),
   );
 
+  // Add hooks calls
+  const hooksCalls = [
+    options.hasEditingMode
+      ? `useBlockEditingMode("${rootElement.editingMode}")`
+      : false,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const beforeContent = [hooksCalls].join("\n");
+
   // Render final JS file
   const rendered = Mustache.render(template, {
+    beforeContent,
     content,
     ...options,
   });
