@@ -35,7 +35,7 @@ describe("getBlockData", () => {
 
     const blockData = await getBlockData(input, defaultBlockOptions);
 
-    expect(blockData.title).toBe("Block Description");
+    expect(blockData.description).toBe("Block Description");
   });
 
   test("should extract the root element className", async () => {
