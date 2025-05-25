@@ -18,6 +18,16 @@ describe("getBlockData", () => {
     expect(blockData.name).toBe("custom/block-name");
   });
 
+  test("should extract slug from explicit block name", async () => {
+    const input = `
+      <section data-name="custom/block-name"></section>
+    `;
+
+    const blockData = await getBlockData(input, defaultBlockOptions);
+
+    expect(blockData.slug).toBe("block-name");
+  });
+
   test("should extract explicit block title", async () => {
     const input = `
       <section data-title="Block Title"></section>
