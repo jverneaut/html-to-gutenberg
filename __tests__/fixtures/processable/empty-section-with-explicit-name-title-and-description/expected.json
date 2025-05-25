@@ -1,7 +1,7 @@
 {
   "name": "custom/block-name",
   "title": "Block Title",
-  "textdomain": "input",
+  "textdomain": "block-name",
   "description": "Block Description",
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
