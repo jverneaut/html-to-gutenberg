@@ -2,7 +2,10 @@ import { visit } from "unist-util-visit";
 
 const preventTemplatedBlockNotInAllowedBlocks = (ast) => {
   visit(ast, "element", (node) => {
-    if (node.properties.allowedBlocks !== undefined) {
+    if (
+      node.properties.allowedBlocks !== undefined &&
+      node.properties.allowedBlocks !== "all"
+    ) {
       const allowedBlocks = [
         ...new Set(
           node.properties.allowedBlocks.split(" ").map((block) => block.trim()),
