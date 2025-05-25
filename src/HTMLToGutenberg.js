@@ -87,9 +87,15 @@ class HTMLToGutenberg {
 
         files.push({ type: "index", content: indexJS });
         files.push({ type: "edit", content: editJS });
-        files.push({ type: "php", content: renderPHP });
         files.push({ type: "json", content: blockJSON });
-        files.push({ type: "twig", content: renderTwig });
+
+        if (["all", "php"].includes(this.engine)) {
+          files.push({ type: "php", content: renderPHP });
+        }
+
+        if (["all", "twig"].includes(this.engine)) {
+          files.push({ type: "twig", content: renderTwig });
+        }
 
         generatedFiles.push({
           source: HTMLFile,
