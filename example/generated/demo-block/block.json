@@ -1,7 +1,8 @@
 {
-  "name": "custom/demo-block",
-  "title": "Demo Block",
-  "textdomain": "demo-block",
+  "name": "custom/block-name",
+  "title": "Bock Title",
+  "textdomain": "block-name",
+  "description": "The description of the block",
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "version": "0.1.0",

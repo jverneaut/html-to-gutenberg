@@ -30,6 +30,11 @@ const printBlockJSON = async (blockData) => {
     name: blockData.name,
     title: blockData.title,
     textdomain: blockData.slug,
+    ...(blockData.description
+      ? {
+          description: blockData.description,
+        }
+      : {}),
     $schema: "https://schemas.wp.org/trunk/block.json",
     apiVersion: 3,
     version: "0.1.0",
