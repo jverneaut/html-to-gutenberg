@@ -16,6 +16,7 @@ const getBlockData = async (
     name: blockName,
     slug: blockSlug,
     title: blockTitle,
+    description: null,
     engine: blockEngine,
     rootElement: {
       className: "",
@@ -48,6 +49,27 @@ const getBlockData = async (
 
       // Set root-placeholder
       children.properties["root-placeholder"] = true;
+
+      // Extract and delete block name
+      if (children.properties.dataName) {
+        blockData.name = children.properties.dataName.trim();
+
+        delete children.properties.dataName;
+      }
+
+      // Extract and delete block title
+      if (children.properties.dataTitle) {
+        blockData.title = children.properties.dataTitle.trim();
+
+        delete children.properties.dataTitle;
+      }
+
+      // Extract and delete block description
+      if (children.properties.dataDescription) {
+        blockData.description = children.properties.dataDescription.trim();
+
+        delete children.properties.dataDescription;
+      }
 
       // Extract and delete class attribute
       if (children.properties.className) {
