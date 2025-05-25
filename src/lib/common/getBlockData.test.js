@@ -28,6 +28,26 @@ describe("getBlockData", () => {
     expect(blockData.rootElement.styles).toStrictEqual(["default", "primary"]);
   });
 
+  test("should have editing mode to null by default", async () => {
+    const input = `
+      <section></section>
+    `;
+
+    const blockData = await getBlockData(input, defaultBlockOptions);
+
+    expect(blockData.rootElement.editingMode).toBe(null);
+  });
+
+  test("should parse editing mode when set", async () => {
+    const input = `
+      <section data-editing-mode="disabled"></section>
+    `;
+
+    const blockData = await getBlockData(input, defaultBlockOptions);
+
+    expect(blockData.rootElement.editingMode).toBe("disabled");
+  });
+
   test("should set root-placeholder", async () => {
     const input = `
       <section></section>
