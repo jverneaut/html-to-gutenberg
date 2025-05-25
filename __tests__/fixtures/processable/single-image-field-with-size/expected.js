@@ -12,6 +12,7 @@ export default ({ attributes, setAttributes }) => {
             style={{ cursor: "pointer", pointerEvents: "all" }}
             onClick={open}
             id={attributes.image}
+            size="medium"
             onSelect={(image) => setAttributes({ image: image.id })}
           />
         )}
