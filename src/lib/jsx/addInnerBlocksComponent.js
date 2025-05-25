@@ -10,7 +10,15 @@ const addInnerBlocksComponent = (ast, innerBlocks) => {
       delete node.children;
 
       if (innerBlocks.allowedBlocks) {
-        node.properties.allowedBlocks = `{${JSON.stringify(innerBlocks.allowedBlocks)}}`;
+        // If allowedBlocks is set to all, all blocks can be added, so we remove the property
+        if (
+          innerBlocks.allowedBlocks.length === 1 &&
+          innerBlocks.allowedBlocks[0] === "all"
+        ) {
+          delete node.properties.allowedBlocks;
+        } else {
+          node.properties.allowedBlocks = `{${JSON.stringify(innerBlocks.allowedBlocks)}}`;
+        }
       }
 
       if (innerBlocks.template) {
