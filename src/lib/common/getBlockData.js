@@ -52,7 +52,14 @@ const getBlockData = async (
 
       // Extract and delete block name
       if (children.properties.dataName) {
-        blockData.name = children.properties.dataName.trim();
+        const blockName = children.properties.dataName.trim();
+        blockData.name = blockName;
+
+        // Validate and override blockSlug from blockName if set
+        const blockSlug = blockName.split("/");
+        if (blockSlug.length === 2 && blockSlug[1].length) {
+          blockData.slug = blockSlug[1];
+        }
 
         delete children.properties.dataName;
       }
