@@ -1,4 +1,7 @@
 import { format } from "prettier";
+import pluginESTree from "prettier/plugins/estree.js";
+import pluginBabel from "prettier/plugins/babel.js";
+
 import * as utils from "./common/utils.js";
 
 const printBlockJSON = async (blockData) => {
@@ -58,6 +61,7 @@ const printBlockJSON = async (blockData) => {
 
   const formatted = await format(JSON.stringify(blockDefinition), {
     parser: "json",
+    plugins: [pluginESTree, pluginBabel],
   });
 
   return formatted;
