@@ -8,7 +8,7 @@ export default () => {
           "custom/first-allowed-block",
           "custom/second-allowed-block",
         ]}
-        template={[["custom/first-allowed-block"]]}
+        template={[["custom/first-allowed-block", {}]]}
       ></InnerBlocks>
     </section>
   );
