@@ -1,0 +1,1 @@
+# Defining editable attributes
