@@ -1,0 +1,36 @@
+---
+sidebar_position: 3
+---
+
+# Block - Block styles
+
+import CodeExample from "@site/src/components/CodeExample";
+import SideBySideEditor from "@site/src/components/SideBySideEditor";
+
+<SideBySideEditor>
+  ```
+  <section
+    data-styles="default dark"
+    class="[.is-style-dark]:bg-black [.is-style-dark]:text-white"
+  ></section>
+  ```
+</SideBySideEditor>
+
+## Define block styles
+
+<CodeExample>
+  ```
+  <section data-styles="default dark"></section>
+  ```
+</CodeExample>
+
+## Use TailwindCSS with block styles
+
+<CodeExample>
+  ```
+  <section
+    data-styles="default dark"
+    class="[.is-style-dark]:bg-black [.is-style-dark]:text-white"
+  ></section>
+  ```
+</CodeExample>
