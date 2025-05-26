@@ -18,7 +18,11 @@ import printRenderPHP from "../../../src/lib/printRenderPHP.js";
 import printBlockJSON from "../../../src/lib/printBlockJSON.js";
 import printIndexJS from "../../../src/lib/printIndexJS.js";
 
-export default ({ children }) => {
+export default ({
+  children,
+  title = "Edit this code to see the generated Gutenberg block files.",
+  activeTab = "edit.js",
+}) => {
   const defaultCode = children.props.children.props.children;
 
   const [code, setCode] = useState(defaultCode);
@@ -87,7 +91,7 @@ export default ({ children }) => {
     <Admonition type="tip" icon="🛠️" title="Try it live!">
       <div className="side-by-side-editor">
         <div className="side-by-side-editor__input">
-          <p>Edit this code to see the generated Gutenberg block files.</p>
+          <p dangerouslySetInnerHTML={{ __html: title }}></p>
 
           <div className="inline-code-editor" ref={codeEditorRef}>
             <CodeBlock title="block.html" language="html">
@@ -116,25 +120,41 @@ export default ({ children }) => {
 
         <div className="side-by-side-editor__output">
           <Tabs>
-            <TabItem value="edit.js" label="edit.js">
+            <TabItem
+              value="edit.js"
+              label="edit.js"
+              default={activeTab === "index.js"}
+            >
               <CodeBlock title="block/edit.js" language="jsx">
                 {generatedFiles["edit.js"]}
               </CodeBlock>
             </TabItem>
 
-            <TabItem value="render.php" label="render.php">
+            <TabItem
+              value="render.php"
+              label="render.php"
+              default={activeTab === "render.php"}
+            >
               <CodeBlock title="block/render.php" language="php">
                 {generatedFiles["render.php"]}
               </CodeBlock>
             </TabItem>
 
-            <TabItem value="block.json" label="block.json">
+            <TabItem
+              value="block.json"
+              label="block.json"
+              default={activeTab === "block.json"}
+            >
               <CodeBlock title="block/block.json" language="json">
                 {generatedFiles["block.json"]}
               </CodeBlock>
             </TabItem>
 
-            <TabItem value="index.js" label="index.js">
+            <TabItem
+              value="index.js"
+              label="index.js"
+              default={activeTab === "index.js"}
+            >
               <CodeBlock title="block/index.js" language="jsx">
                 {generatedFiles["index.js"]}
               </CodeBlock>
