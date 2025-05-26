@@ -1,6 +1,3 @@
-import path, { dirname } from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
 import { visit } from "unist-util-visit";
 import { toHtml } from "hast-util-to-html";
 import Mustache from "mustache";
@@ -13,13 +10,18 @@ import addInnerBlocksContent from "./php/addInnerBlocksContent.js";
 import addImgLookup from "./php/addImgLookup.js";
 import addTextLookup from "./php/addTextLookup.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const template = `{{#hasContent}}
+{{#hasImages}}
+<?php
 
-const template = fs.readFileSync(
-  path.join(__dirname, "../templates/render.php.mustache"),
-  "utf-8",
-);
+{{{ imagesDefinitions }}}
+
+?>
+
+{{/hasImages}}
+{{{ content }}}
+{{/hasContent}}
+`;
 
 // Extract image attribute keys from blockData
 const extractImageKeys = (attributes) =>
