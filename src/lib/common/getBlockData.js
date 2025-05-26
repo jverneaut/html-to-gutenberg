@@ -1,6 +1,7 @@
 import { visit } from "unist-util-visit";
 import { toHtml } from "hast-util-to-html";
 import { format } from "prettier";
+import parserHTML from "prettier/parser-html";
 
 import * as utils from "./utils.js";
 
@@ -333,7 +334,10 @@ const getBlockData = async (
   });
 
   // Convert AST back to HTML
-  const html = await format(toHtml(ast), { parser: "html" });
+  const html = await format(toHtml(ast), {
+    parser: "html",
+    plugins: [parserHTML],
+  });
   blockData.html = html;
 
   return blockData;

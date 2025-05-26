@@ -1,9 +1,8 @@
-import path, { dirname } from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
 import { toHtml } from "hast-util-to-html";
 import { visit } from "unist-util-visit";
 import { format } from "prettier";
+import parserBabel from "prettier/parser-babel";
+import pluginESTree from "prettier/plugins/estree.js";
 import Mustache from "mustache";
 
 import generateAst from "./common/generateAst.js";
@@ -15,13 +14,43 @@ import addMediaUploadComponent from "./jsx/addMediaUploadComponent.js";
 import addInnerBlocksComponent from "./jsx/addInnerBlocksComponent.js";
 import convertStyleToObject from "./jsx/convertStyleToObject.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const template = `{{#hasContent}}
+import {
+useBlockProps,
+{{#hasEditingMode}}
+useBlockEditingMode,
+{{/hasEditingMode}}
+{{#hasInnerBlocks}}
+InnerBlocks,
+{{/hasInnerBlocks}}
+{{#hasRichText}}
+RichText,
+{{/hasRichText}}
+{{#hasMedia}}
+MediaUpload,
+{{/hasMedia}}
+} from '@wordpress/block-editor';
+{{#hasMedia}}
+import { Image } from "@10up/block-components";
+{{/hasMedia}}
+{{/hasContent}}
 
-const template = fs.readFileSync(
-  path.join(__dirname, "../templates/edit.js.mustache"),
-  "utf-8",
-);
+{{#hasContent}}
+export default (
+{{#hasAttributes}}
+{ attributes, setAttributes }
+{{/hasAttributes}}
+) => {
+{{{ beforeContent }}}
+
+return ({{{ content }}})
+};
+{{/hasContent}}
+
+{{^hasContent}}
+export default () => null;
+{{/hasContent}}
+`;
 
 // Transformers specific JSX output
 const stripQuotesFromJSX = (html) =>
@@ -124,7 +153,10 @@ const printEditJS = async (blockData) => {
     ...options,
   });
 
-  return format(rendered, { parser: "babel" });
+  return format(rendered, {
+    parser: "babel",
+    plugins: [parserBabel, pluginESTree],
+  });
 };
 
 export default printEditJS;
