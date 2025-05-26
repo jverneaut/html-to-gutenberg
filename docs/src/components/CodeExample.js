@@ -9,12 +9,14 @@ import getBlockData from "../../../src/lib/common/getBlockData";
 import printEditJS from "../../../src/lib/printEditJS.js";
 import printRenderPHP from "../../../src/lib/printRenderPHP.js";
 import printBlockJSON from "../../../src/lib/printBlockJSON.js";
+import printIndexJS from "../../../src/lib/printIndexJS.js";
 
 export default ({ children }) => {
   const code = children.props.children.props.children;
 
   const [generatedFiles, setGeneratedFiles] = useState({
     "edit.js": null,
+    "index.js": null,
     "render.php": null,
     "block.json": null,
   });
@@ -28,13 +30,15 @@ export default ({ children }) => {
         blockEngine: "php",
       });
 
-      const [editJS, renderPHP, blockJSON] = await Promise.all([
+      const [indexJs, editJS, renderPHP, blockJSON] = await Promise.all([
+        printIndexJS(blockData),
         printEditJS(blockData),
         printRenderPHP(blockData),
         printBlockJSON(blockData),
       ]);
 
       setGeneratedFiles({
+        "index.js": indexJs,
         "edit.js": editJS,
         "render.php": renderPHP,
         "block.json": blockJSON,
@@ -65,6 +69,12 @@ export default ({ children }) => {
       <TabItem value="block.json" label="block.json">
         <CodeBlock title="block/block.json" language="json">
           {generatedFiles["block.json"]}
+        </CodeBlock>
+      </TabItem>
+
+      <TabItem value="index.js" label="index.js">
+        <CodeBlock title="block/index.js" language="jsx">
+          {generatedFiles["index.js"]}
         </CodeBlock>
       </TabItem>
     </Tabs>
