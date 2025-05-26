@@ -6,6 +6,108 @@ import * as utils from "./utils.js";
 
 import generateAst from "./generateAst.js";
 
+const parseTemplateBlock = (blockNode) => {
+  const blockName = blockNode.properties.name;
+  const blockTemplate = [blockName];
+
+  let blockTemplateAttributes = {};
+
+  const blockAttributes = Object.keys(blockNode.properties).filter(
+    (propertyKey) => propertyKey !== "name",
+  );
+
+  // Retrieve attributes values set as <block key="value">
+  if (blockAttributes.length) {
+    const attributesData = blockAttributes.reduce((acc, attributeKey) => {
+      let attributeValue = null;
+
+      if (blockNode.properties[attributeKey]) {
+        attributeValue = utils.parseRawValue(
+          blockNode.properties[attributeKey],
+        );
+      }
+
+      return { ...acc, [attributeKey]: attributeValue };
+    }, {});
+
+    if (Object.keys(attributesData).length) {
+      blockTemplateAttributes = {
+        ...blockTemplateAttributes,
+        ...attributesData,
+      };
+    }
+  }
+
+  // Parse nested <attribute> elements
+  const attributesElements = blockNode.children.filter(
+    (node) =>
+      node.tagName === "attribute" && Object.keys(node.properties).length,
+  );
+
+  if (attributesElements.length) {
+    const attributesData = attributesElements.reduce(
+      (acc, attributeElement) => {
+        let attributeValue = null;
+
+        // Retrieve attributes values set as <attribute name="key" value="value">
+        if (attributeElement.properties.value) {
+          const rawValue = attributeElement.properties.value.trim();
+          if (rawValue) {
+            attributeValue = utils.parseRawValue(rawValue);
+          }
+        }
+
+        // Retrieve attributes values set as <attribute name="key">value</attribute>
+        if (attributeElement.children.length) {
+          const rawValue = toHtml(attributeElement.children).trim();
+          if (rawValue) {
+            attributeValue = utils.parseRawValue(rawValue);
+          }
+        }
+
+        return {
+          ...acc,
+          [attributeElement.properties.name]: attributeValue,
+        };
+      },
+      {},
+    );
+
+    if (Object.keys(attributesData).length) {
+      blockTemplateAttributes = {
+        ...blockTemplateAttributes,
+        ...attributesData,
+      };
+    }
+  }
+
+  blockTemplate.push(blockTemplateAttributes);
+
+  // Parse nested blocks recursively
+  const innerBlockNodes = blockNode.children.filter(
+    (child) => child.tagName === "block",
+  );
+
+  if (innerBlockNodes.length) {
+    const innerBlocks = innerBlockNodes.map(parseTemplateBlock);
+    blockTemplate.push(innerBlocks);
+  }
+
+  return blockTemplate;
+};
+
+const collectAllowedBlocksRecursively = (node, allowedBlocksSet) => {
+  if (node.tagName === "block" && node.properties.name) {
+    allowedBlocksSet.add(node.properties.name);
+  }
+
+  if (Array.isArray(node.children)) {
+    node.children.forEach((child) => {
+      collectAllowedBlocksRecursively(child, allowedBlocksSet);
+    });
+  }
+};
+
 const getBlockData = async (
   HTMLFileContent,
   { blockName, blockSlug, blockTitle, blockEngine },
@@ -168,7 +270,7 @@ const getBlockData = async (
       if (templateBlocks.length) {
         if (node.properties.allowedBlocks === undefined) {
           templateBlocks.forEach((templateBlock) => {
-            allowedBlocks.add(templateBlock.properties.name);
+            collectAllowedBlocksRecursively(templateBlock, allowedBlocks);
           });
         }
       }
@@ -185,91 +287,9 @@ const getBlockData = async (
 
       if (templateBlocks.length) {
         templateBlocks.forEach((templateBlock) => {
-          const blockTemplate = [templateBlock.properties.name];
-          let blockTemplateAttributes = {};
+          const parsedBlock = parseTemplateBlock(templateBlock);
 
-          const blockAttributes = Object.keys(templateBlock.properties).filter(
-            (propertyKey) => propertyKey !== "name",
-          );
-
-          // Retrieve attributes values set as <block key="value">
-          if (blockAttributes.length) {
-            const attributesData = blockAttributes.reduce(
-              (acc, attributeKey) => {
-                let attributeValue = null;
-
-                if (templateBlock.properties[attributeKey]) {
-                  attributeValue = utils.parseRawValue(
-                    templateBlock.properties[attributeKey],
-                  );
-                }
-
-                return {
-                  ...acc,
-                  [attributeKey]: attributeValue,
-                };
-              },
-              {},
-            );
-
-            if (Object.keys(attributesData).length) {
-              blockTemplateAttributes = {
-                ...blockTemplateAttributes,
-                ...attributesData,
-              };
-            }
-          }
-
-          const attributesElements = templateBlock.children.filter(
-            (node) =>
-              node.tagName === "attribute" &&
-              Object.keys(node.properties).length,
-          );
-
-          if (attributesElements.length) {
-            const attributesData = attributesElements.reduce(
-              (acc, attributeElement) => {
-                let attributeValue = null;
-
-                // Retrieve attributes values set as <attribute name="key" value="value">
-                if (attributeElement.properties.value) {
-                  const rawValue = attributeElement.properties.value.trim();
-
-                  if (rawValue) {
-                    attributeValue = utils.parseRawValue(rawValue);
-                  }
-                }
-
-                // Retrieve attributes values set as <attribute name="key">value</attribute>
-                if (attributeElement.children.length) {
-                  const rawValue = toHtml(attributeElement.children).trim();
-
-                  if (rawValue) {
-                    attributeValue = utils.parseRawValue(rawValue);
-                  }
-                }
-
-                return {
-                  ...acc,
-                  [attributeElement.properties.name]: attributeValue,
-                };
-              },
-              {},
-            );
-
-            if (Object.keys(attributesData).length) {
-              blockTemplateAttributes = {
-                ...blockTemplateAttributes,
-                ...attributesData,
-              };
-            }
-          }
-
-          if (Object.keys(blockTemplateAttributes).length) {
-            blockTemplate.push(blockTemplateAttributes);
-          }
-
-          template.push(blockTemplate);
+          template.push(parsedBlock);
         });
       }
 
