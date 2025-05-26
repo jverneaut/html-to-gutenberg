@@ -28,3 +28,7 @@ slug: /
 ## Comparison with other tools
 
 - Comparison with native Gutenberg Block development
+
+## Limitations
+
+- WYSIWYG, so what you can't see you can't edit.
