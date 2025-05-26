@@ -1,1 +1,0 @@
-# Inline - RichText attribute
