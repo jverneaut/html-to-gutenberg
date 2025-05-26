@@ -1,0 +1,99 @@
+---
+sidebar_position: 0
+slug: /
+---
+
+import SideBySideEditor from "@site/src/components/SideBySideEditor";
+
+# Introduction
+
+**HTML To Gutenberg** allows you to use a single HTML file to generate custom dynamic Gutenberg blocks. Using some magical HTML attributes 🪄, you can add **inline editable text and image fields** to your blocks, use **InnerBlocks** with custom templates, add additional **block styles** and much more – all of this without writing a single line of React.js.
+
+## Try it live
+
+Want to see HTML to Gutenberg in action?
+
+Try editing the `block.html` file below to see the changes reflected in real time.
+
+<SideBySideEditor>
+  ```
+  <section class="py-20 bg-blue-200" data-parent="custom/parent-block" data-editing-mode="contentOnly">
+    <div class="container">
+      <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12 md:col-span-6">
+          <h2 class="text-2xl" data-attribute="section_title">I am editable – awesome, right?</h2>
+          <img class="aspect-square object-cover" data-attribute="section_image" />
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <blocks allowedBlocks="all">
+            <block name="core/group">
+              <block name="core/heading" level="3"></block>
+              <block name="core/paragraph">
+                <attribute name="content">
+                  Lorem ipsum dolor sit amet consectetur.
+                </attribute>
+              </block>
+            </block>
+          </blocks>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  ```
+</SideBySideEditor>
+
+## Quick start
+
+### Scaffold a block plugin using @wordpress/create-block
+
+Use the `@wordpress/create-block` CLI tool to scaffold a block using HTML To Gutenberg:
+
+```bash
+# Inside your wp-content/plugins directory
+npx @wordpress/create-block --template html-to-gutenberg-template
+```
+
+This will create a new custom block plugin, install the required dependencies and setup HTML To Gutenberg for you.
+
+### Build your block using HTML To Gutenberg
+
+Next, `cd` into your newly created plugin and run:
+
+```bash
+# Inside your block plugin directory (eg. wp-content/plugins/my-awesome-block)
+npm run start
+```
+
+### Use the generated block
+
+Active your plugin in WordPress admin, you're ready to go!
+
+Your block will be available in the editor and rendered on the frontend when added.
+
+### Make changes to the block's HTML
+
+To make changes to the block, modify `wp-content/plugins/{your-plugin-name}/src/block.html` while `npm run start` is running.
+
+When you're ready for prime time, simply run `npm run build` inside your plugin directory to build the block for production.
+
+## Features
+
+- Inline editable elements
+- InnerBlocks
+- Block attributes
+
+## Philosophy
+
+- Compiles to native code rendering
+- Single source of truth
+- As close to native API as possible
+
+## Comparison with other tools
+
+- Comparison with native Gutenberg Block development
+
+## Limitations
+
+- WYSIWYG, so what you can't see you can't edit.
