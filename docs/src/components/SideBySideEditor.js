@@ -10,6 +10,7 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import CodeBlock from "@theme/CodeBlock";
 import Admonition from "@theme/Admonition";
+import Details from "@theme/Details";
 
 import getBlockData from "../../../src/lib/common/getBlockData";
 
@@ -88,80 +89,82 @@ export default ({
   }, [codeEditorRef.current]);
 
   return (
-    <Admonition type="tip" icon="🛠️" title="Try it live!">
-      <div className="side-by-side-editor">
-        <div className="side-by-side-editor__input">
-          <p dangerouslySetInnerHTML={{ __html: title }}></p>
+    <Details summary="Open the live code editor">
+      <Admonition type="tip" icon="🛠️" title="Try it live!">
+        <div className="side-by-side-editor">
+          <div className="side-by-side-editor__input">
+            <p dangerouslySetInnerHTML={{ __html: title }}></p>
 
-          <div className="inline-code-editor" ref={codeEditorRef}>
-            <CodeBlock title="block.html" language="html">
-              {`${code}\n`}
-            </CodeBlock>
-
-            <div className="inline-code-editor__editor">
-              <CodeBlock>
-                <Editor
-                  value={code}
-                  onValueChange={(code) => setCode(code)}
-                  highlight={(code) => highlight(code, languages.markup)}
-                />
+            <div className="inline-code-editor" ref={codeEditorRef}>
+              <CodeBlock title="block.html" language="html">
+                {`${code}\n`}
               </CodeBlock>
+
+              <div className="inline-code-editor__editor">
+                <CodeBlock>
+                  <Editor
+                    value={code}
+                    onValueChange={(code) => setCode(code)}
+                    highlight={(code) => highlight(code, languages.markup)}
+                  />
+                </CodeBlock>
+              </div>
             </div>
           </div>
-        </div>
 
-        {error ? (
-          <div className="side-by-side-editor__error">
-            <Admonition type="danger" title="error">
-              <pre>{error.message}</pre>
-            </Admonition>
+          {error ? (
+            <div className="side-by-side-editor__error">
+              <Admonition type="danger" title="error">
+                <pre>{error.message}</pre>
+              </Admonition>
+            </div>
+          ) : null}
+
+          <div className="side-by-side-editor__output">
+            <Tabs>
+              <TabItem
+                value="edit.js"
+                label="edit.js"
+                default={activeTab === "index.js"}
+              >
+                <CodeBlock title="block/edit.js" language="jsx">
+                  {generatedFiles["edit.js"]}
+                </CodeBlock>
+              </TabItem>
+
+              <TabItem
+                value="render.php"
+                label="render.php"
+                default={activeTab === "render.php"}
+              >
+                <CodeBlock title="block/render.php" language="php">
+                  {generatedFiles["render.php"]}
+                </CodeBlock>
+              </TabItem>
+
+              <TabItem
+                value="block.json"
+                label="block.json"
+                default={activeTab === "block.json"}
+              >
+                <CodeBlock title="block/block.json" language="json">
+                  {generatedFiles["block.json"]}
+                </CodeBlock>
+              </TabItem>
+
+              <TabItem
+                value="index.js"
+                label="index.js"
+                default={activeTab === "index.js"}
+              >
+                <CodeBlock title="block/index.js" language="jsx">
+                  {generatedFiles["index.js"]}
+                </CodeBlock>
+              </TabItem>
+            </Tabs>
           </div>
-        ) : null}
-
-        <div className="side-by-side-editor__output">
-          <Tabs>
-            <TabItem
-              value="edit.js"
-              label="edit.js"
-              default={activeTab === "index.js"}
-            >
-              <CodeBlock title="block/edit.js" language="jsx">
-                {generatedFiles["edit.js"]}
-              </CodeBlock>
-            </TabItem>
-
-            <TabItem
-              value="render.php"
-              label="render.php"
-              default={activeTab === "render.php"}
-            >
-              <CodeBlock title="block/render.php" language="php">
-                {generatedFiles["render.php"]}
-              </CodeBlock>
-            </TabItem>
-
-            <TabItem
-              value="block.json"
-              label="block.json"
-              default={activeTab === "block.json"}
-            >
-              <CodeBlock title="block/block.json" language="json">
-                {generatedFiles["block.json"]}
-              </CodeBlock>
-            </TabItem>
-
-            <TabItem
-              value="index.js"
-              label="index.js"
-              default={activeTab === "index.js"}
-            >
-              <CodeBlock title="block/index.js" language="jsx">
-                {generatedFiles["index.js"]}
-              </CodeBlock>
-            </TabItem>
-          </Tabs>
         </div>
-      </div>
-    </Admonition>
+      </Admonition>
+    </Details>
   );
 };
