@@ -1,15 +1,27 @@
-import path, { dirname } from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-
 import { format } from "prettier";
+import parserBabel from "prettier/parser-babel";
+import pluginESTree from "prettier/plugins/estree.js";
 import Mustache from "mustache";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const template = `import { registerBlockType } from "@wordpress/blocks";
+{{#hasInnerBlocks}}
+import { InnerBlocks } from "@wordpress/block-editor";
+{{/hasInnerBlocks}}
 
-const templatePath = path.join(__dirname, "../templates/index.js.mustache");
-const template = fs.readFileSync(templatePath, "utf-8");
+import Edit from "./edit.js";
+import metadata from "./block.json";
+
+registerBlockType(metadata.name, {
+edit: Edit,
+save: () =>
+{{#hasInnerBlocks}}
+<InnerBlocks.Content />
+{{/hasInnerBlocks}}
+{{^hasInnerBlocks}}
+null
+{{/hasInnerBlocks}}
+});
+`;
 
 const printIndexJS = async (blockData) => {
   const options = {
@@ -20,6 +32,7 @@ const printIndexJS = async (blockData) => {
 
   const formatted = await format(renderedTemplate, {
     parser: "babel",
+    plugins: [parserBabel, pluginESTree],
   });
 
   return formatted;
