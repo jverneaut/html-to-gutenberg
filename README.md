@@ -3,6 +3,8 @@
 
 # HTML To Gutenberg
 
+<img src="./docs/static/img/logo.svg" alt="HTML To Gutenberg" width="100">
+
 A Webpack plugin and CLI that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.
 
 Instead of manually coding both React and PHP/Twig components, simply write an HTML file with some special attributes, and this plugin will automatically generate all necessary files for you:
