@@ -2,9 +2,9 @@
 
 If you're using `@wordpress/create-block` to use HTML To Gutenberg, everything is taken care of by the template. Simply activate the plugin, build the block and you're ready to go.
 
----
+## Registering blocks manually
 
-If you integrated HTML To Gutenberg to your theme or an existing webpack configuration, you need to make the blocks available to Gutenberg.
+If you manually integrated HTML To Gutenberg to your theme or an existing webpack configuration, you need to make the blocks available to Gutenberg.
 
 To register custom blocks built either with `wp-scripts` or `@jverneaut/gutenberg-webpack-plugin`, you can add this function defined in your theme's `functions.php` or a custom plugin:
 
