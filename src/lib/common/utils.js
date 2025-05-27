@@ -48,7 +48,7 @@ export const camelCaseToSentenceCase = (str) =>
 // e.g., '&#x22;' -> '"' (double quotes)
 export const replaceEscapedChars = (html) =>
   html
-    .replaceAll("&#x22;", "'") // Replace double quote escape sequence
+    .replaceAll("&#x22;", '"') // Replace double quote escape sequence
     .replaceAll("&#x27;", "'") // Replace single quote escape sequence
     .replaceAll("&#x3C;", "<"); // Replace less-than sign escape sequence
 
