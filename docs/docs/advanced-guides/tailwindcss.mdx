@@ -63,8 +63,15 @@ When using `InnerBlocks`, it is often useful to be able to target specific block
 To achieve this, you can create a custom-variant for each blocks you want to target that looks like this:
 
 ```css
+/* Do this for very block you want to be able to target */
 @custom-variant wp-block-heading {
   .wp-block-heading {
+    @slot;
+  }
+}
+
+@custom-variant wp-block-group {
+  .wp-block-group {
     @slot;
   }
 }
@@ -75,11 +82,11 @@ You can now easily target blocks using TailwindCSS like this, even combining the
 <CodeExample>
   ```
   <section class="py-20">
-    <div class="wp-block-heading:first-of-type:text-red-600">
+    <div class="wp-block-heading:first-of-type:text-red-600 wp-block-group:p-10">
       <blocks templateLock="all">
         <block name="core/group">
-          <block name="core/heading" content="I'm red"></block>
-          <block name="core/heading" content="I'm not red"></block>
+          <block name="core/heading" content="I am red"></block>
+          <block name="core/heading" content="I am not red"></block>
         </block>
       </blocks>
     </div>
