@@ -3,9 +3,9 @@ import LiveEditor from "@site/src/components/LiveEditor";
 
 # Using inline attributes
 
-**HTML To Gutenberg** uses the special `data-attribute` attribute to define inline editable content.
+**HTML To Gutenberg** allows defining inline editable fields using the special `data-attribute` attribute directly in your HTML template.
 
-It uses the `RichText` component by default, except for `<img>` elements where it uses the `Media` component from `@wordpress/block-editor` as well as the `MediaUpload` component from `@10up/block-components` to allow selecting/modifying images.
+By default, it uses the `RichText` component for text-based elements. For images (`<img>`), it uses `Media` from `@wordpress/block-editor` along with `MediaUpload` from `@10up/block-components`, enabling image selection and editing.
 
 <LiveEditor>
   ```
@@ -21,7 +21,7 @@ It uses the `RichText` component by default, except for `<img>` elements where i
 
 ## Making text editable
 
-Add a `data-attribute="name"` to HTML Elements you wish to make editable, where `name` is the name of the attribute that will be used by Gutenberg to save the content.
+To make a text element editable in Gutenberg, add `data-attribute="name"` to it — where name is the name of the attribute that will be saved by Gutenberg.
 
 <CodeExample>
   ```
@@ -32,9 +32,15 @@ Add a `data-attribute="name"` to HTML Elements you wish to make editable, where 
   ```
 </CodeExample>
 
-If the content inside your element can be parsed to HTML, it will be used as the default for this attribute.
+This will define a `title` and `description` attribute on your block.
 
-For example, if we have `<p data-attribute="content"><strong>Default content</strong></p>` inside our template, the following entry will be added to `block.json`:
+If the element contains content, that content will be used as the default value for the attribute in `block.json`.
+
+For example:
+
+```html
+<p data-attribute="content"><strong>Default content</strong></p>
+```
 
 ```json title="block.json"
 {
@@ -47,23 +53,19 @@ For example, if we have `<p data-attribute="content"><strong>Default content</st
 }
 ```
 
-On the editor side, a placeholder is automatically added to the `RichText` component based on the attribute name converted to sentence case.
-
-If you set the attribute name to `sectionTitle`, the placeholder will be set `Section title`.
+On the editor side, a placeholder is automatically added to the `RichText` field based on the attribute name in sentence case (sectionTitle becomes Section title).
 
 :::info Favor using InnerBlocks when possible
+While inline attributes are handy for isolated text fields, they are limited to the tag you define. You can't insert additional elements inside or after them.
+
+Prefer `<blocks>` (InnerBlocks) when you want full control over headings, paragraphs, buttons, or flexible layout content.
+
 It can be tempting to use this kind of inline editable fields for every text content inside your block.
-
-While this will work, this behavior is quite restrictive as you will be limited to the `tagName` of your element and can't add other elements after it. This is the desired effect of this component and is suited to specific use cases, like setting the text of badge, or when creating complex layouts with text in weird places.
-
-If you need to handle RichText with headings, paragraphs, buttons, etc., favor the use of InnerBlocks via the `<blocks>` element.
 :::
 
 ## Making images editable
 
-To make images editable, follow the exact same process as for text elements.
-
-Add a `data-attribute="name"` to Image Elements you wish to make editable, where `name` is the name of the attribute that will be used by Gutenberg to save the image ID.
+You can make images editable using the same principle: add `data-attribute="name"` to an `<img>` element — where name is the attribute that will store the image ID.
 
 <CodeExample>
   ```
@@ -73,11 +75,11 @@ Add a `data-attribute="name"` to Image Elements you wish to make editable, where
   ```
 </CodeExample>
 
-The `src` and `alt` attributes will be stripped by **HTML To Gutenberg** and replaced with the correct values once an image has been selected so adding them manually has no effect.
+The `src` and `alt` attributes will be removed automatically and replaced with correct values once an image is selected — no need to set them manually.
 
-### Setting the image size
+### Setting image size
 
-`<img>` elements with a `data-attribute` attribute allow setting the image size via the `data-image-size` attribute.
+To control which image size is used in the editor and frontend, use `data-image-size`:
 
 <CodeExample>
   ```
@@ -87,10 +89,11 @@ The `src` and `alt` attributes will be stripped by **HTML To Gutenberg** and rep
   ```
 </CodeExample>
 
-On the editor, the image size is used as is. On the frontend, the image size is used in conjunction with srcset to provide different image sizes depending on the resolution.
+- In the **editor**, the specified size is displayed.
+- On the **frontend**, it's used with `srcset` for responsive behavior.
 
 :::info Favor using InnerBlocks when possible
-The same way that `InnerBlocks` are often favorable over `RichText` elements, you may want to use `InnerBlocks` via the `<blocks>` element with the `core/image` block to provide a more native image editing experience on the editor.
+As with text fields, editable images with `data-attribute` are limited in flexibility. For a richer, more native experience, use `<blocks>` (InnerBlocks) with the `core/image` block.
 
-As a secondary note: currently, images defined this way are changed by clicking on them on the editor. If your image is hidden in the editor via CSS, you will not be able to edit it.
+Secondary note: images defined this way can only be selected or changed by clicking them in the editor. If they’re hidden with CSS, they won’t be editable.
 :::
