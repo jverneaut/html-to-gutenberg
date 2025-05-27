@@ -1,4 +1,4 @@
-# Registering Blocks
+# Registering blocks
 
 If you're using `@wordpress/create-block` with the HTML To Gutenberg template, everything is handled for you.
 
