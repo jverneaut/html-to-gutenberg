@@ -12,7 +12,7 @@ import CodeBlock from "@theme/CodeBlock";
 import Admonition from "@theme/Admonition";
 import Details from "@theme/Details";
 
-import getBlockData from "../../../src/lib/common/getBlockData";
+import getBlockData from "../../../src/lib/common/getBlockData.js";
 
 import printEditJS from "../../../src/lib/printEditJS.js";
 import printRenderPHP from "../../../src/lib/printRenderPHP.js";
