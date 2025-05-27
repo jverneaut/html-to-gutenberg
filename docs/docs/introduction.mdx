@@ -5,8 +5,9 @@ sidebar_position: 0
 ---
 
 import LiveEditor from "@site/src/components/LiveEditor";
+import QuickStart from "@site/docs/common/_quick-start.md";
 
-<img src="/img/logo.svg" alt="HTML To Gutenberg" width="100" />
+<img src="/img/logo.svg" alt="HTML To Gutenberg" width="100" />;
 
 # HTML To Gutenberg
 
@@ -65,37 +66,7 @@ Type some HTML. Add attributes. Add InnerBlocks. Done. 🎉
 
 ## Quick start
 
-### 1. Scaffold your block
-
-```bash
-cd wp-content/plugins
-npx @wordpress/create-block --template html-to-gutenberg-template
-```
-
-This sets up everything you need, pre-wired to use HTML To Gutenberg.
-
-### 2. Start development
-
-```bash
-cd my-awesome-block # Your block plugin path
-npm run start
-```
-
-### 3. Make changes to your block
-
-Open `wp-content/plugins/my-awesome-block/src/block.html` and make changes to your block. Save the file, HTML To Gutenberg automatically converts it to native Gutenberg block.
-
-### 4. Activate your plugin
-
-Enable your block via WordPress admin and drop it into any page or post.
-
-5. Build for production
-
-```bash
-npm run build
-```
-
-This bundles and minifies the block to makes it ready for production.
+<QuickStart />
 
 ## Supported features
 
