@@ -9,7 +9,7 @@ export const OptionsSchema = z.object({
 
   defaultNamespace: z.string().default("custom"),
   defaultCategory: z.string().default("theme"),
-  defaultIcon: z.string(),
+  defaultIcon: z.string().optional(),
   defaultVersion: z.string().default("0.1.0"),
 });
 
