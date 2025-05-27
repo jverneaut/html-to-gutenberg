@@ -51,6 +51,18 @@ ${introductionTemplate}
 
 ## Quick start
 
-${quickStartTemplate}`;
+${quickStartTemplate}
+
+## Documentation
+
+Visit the [official documentation](https://html-to-gutenberg.com).
+
+### Quick links
+
+- [Installation](https://html-to-gutenberg.com/getting-started/installation)
+- [Registering blocks](https://html-to-gutenberg.com/getting-started/registering-blocks)
+- [Creating a block](https://html-to-gutenberg.com/guides/creating-a-block)
+- [Editing content using inline attributes](https://html-to-gutenberg.com/guides/editing-content/using-inline-attributes)
+- [Editing content using InnerBlocks](https://html-to-gutenberg.com/guides/editing-content/using-innerblocks)`;
 
 fs.writeFileSync("README.md", template);
