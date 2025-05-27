@@ -4,13 +4,13 @@ sidebar_position: 0
 
 import CodeExample from "@site/src/components/CodeExample";
 
-# Styling Gutenberg blocks with TailwindCSS
+# Styling Gutenberg Blocks with TailwindCSS
 
-As Gutenberg blocks made with HTML To Gutenberg are simple HTML files, TailwindCSS works out of the box with it without any extra configuration. It is a perfect candidate to use when working with custom blocks, as the styles are self contained inside the HTML markup and as such doesn't require any extra css files along them.
+Blocks created using **HTML To Gutenberg** are just plain HTML files — which means **TailwindCSS works out of the box** with no extra configuration. This makes Tailwind a perfect choice for styling custom blocks: styles are scoped to each block and don’t require additional CSS files.
 
-However, there are some Gutenberg particularities that can make working with it a little bit harder at times, especially when using it with InnerBlocks as the editor adds extra elements to make them work.
+That said, Gutenberg comes with a few quirks — especially when using `InnerBlocks`. The editor adds wrapper elements, which can complicate styling.
 
-Bellow are some snippets that I use on every projects that make my life a lot easier.
+Below are some snippets I use in every project to make working with Gutenberg and TailwindCSS smoother.
 
 ## Styling InnerBlocks with TailwindCSS
 
@@ -28,11 +28,13 @@ Bellow are some snippets that I use on every projects that make my life a lot ea
 }
 ```
 
+This custom variant allows you to target layout wrappers injected by Gutenberg when using InnerBlocks and passing the styles as is on the frontend.
+
 ## Styling core blocks with TailwindCSS
 
-### Styling the core/button block
+### core/button
 
-To style the core/button block, I use this selector which allows targeting the link inside the block.
+To style buttons in the editor and frontend consistently, I use the following selector to target both `core/button` and apply styles with TailwindCSS `@apply` directive:
 
 ```css
 :root :where(.wp-element-button, .wp-block-button__link) {
@@ -40,9 +42,7 @@ To style the core/button block, I use this selector which allows targeting the l
 }
 ```
 
-When applying transitions to a button that changes its label position, it can be useful to prevent the animation from running inside the editor to facilitate the editing experience.
-
-I use this style to make the transition so long that it doesn't disrupt the editing experience.
+When adding transitions (e.g. for label changes), the animation can be distracting in the editor. To prevent this, I use an exaggerated transition duration inside the editor iframe:
 
 ```css
 .block-editor-iframe__html .wp-element-button,
@@ -56,14 +56,16 @@ I use this style to make the transition so long that it doesn't disrupt the edit
 }
 ```
 
-## Applying arbitrary styles to Gutenberg blocks
+This effectively disables transitions while editing.
 
-When using `InnerBlocks`, it is often useful to be able to target specific blocks and style them from the `InnerBlocks` parent container element.
+## Targeting Specific Blocks with Tailwind Variants
 
-To achieve this, you can create a custom-variant for each blocks you want to target that looks like this:
+When working with InnerBlocks, it's often useful to apply styles to child blocks from their container.
+
+To do that, create a `@custom-variant` for each block you want to target:
 
 ```css
-/* Do this for very block you want to be able to target */
+/* Do this for each block you want to target */
 @custom-variant wp-block-heading {
   .wp-block-heading {
     @slot;
@@ -77,7 +79,7 @@ To achieve this, you can create a custom-variant for each blocks you want to tar
 }
 ```
 
-You can now easily target blocks using TailwindCSS like this, even combining the varaint with other ones like `:first-of-type`:
+You can now combine those variants with other Tailwind modifiers. For example, applying styles to only the first `core/heading` block inside a group:
 
 <CodeExample>
   ```
@@ -94,4 +96,6 @@ You can now easily target blocks using TailwindCSS like this, even combining the
   ```
 </CodeExample>
 
-I would love to be able to build a dynamic variant without having to do it for each blocks I want to target, but it doesn't seem to be implemented in TailwindCSS V4 yet.
+:::info
+I wish Tailwind supported dynamic variants, so we could avoid manually defining one for every block type — but as of TailwindCSS v4, this isn’t available.
+:::
