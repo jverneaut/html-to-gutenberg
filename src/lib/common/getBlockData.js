@@ -224,6 +224,27 @@ const getBlockData = async (
 
         delete children.properties.dataEditingMode;
       }
+
+      // Extract and delete data-category attribute
+      if (children.properties.dataCategory) {
+        blockData.category = children.properties.dataCategory;
+
+        delete children.properties.dataCategory;
+      }
+
+      // Extract and delete data-icon attribute
+      if (children.properties.dataIcon) {
+        blockData.icon = children.properties.dataIcon;
+
+        delete children.properties.dataIcon;
+      }
+
+      // Extract and delete data-version attribute
+      if (children.properties.dataVersion) {
+        blockData.version = children.properties.dataVersion;
+
+        delete children.properties.dataVersion;
+      }
     }
   });
 
