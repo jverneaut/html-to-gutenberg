@@ -3,9 +3,9 @@ import LiveEditor from "@site/src/components/LiveEditor";
 
 # Using InnerBlocks
 
-The `<InnerBlocks />` component is one of the most powerful Gutenberg construct, as it allows adding child blocks, defining templates, create complex layouts, etc.
+The `<InnerBlocks />` component is one of the most powerful constructs in Gutenberg. It allows the insertion of child blocks, definition of templates, creation of complex layouts, and more.
 
-HTML To Gutenberg as full support for it using the custom `<blocks>` element whose goal is to provied a small abstraction on top of InnerBlocks templates and parameters.
+**HTML to Gutenberg** offers full support for `<InnerBlocks />` through a custom `<blocks>` element, which provides a thin abstraction layer over InnerBlocks templates and configuration.
 
 <LiveEditor>
   ```
@@ -26,7 +26,7 @@ HTML To Gutenberg as full support for it using the custom `<blocks>` element who
 
 ## Adding InnerBlocks
 
-To add an InnerBlocks zone to your HTML To Gutenberg block, use the `<blocks>` element. By default, it will allow adding every available blocks, the same way as using the `<InnerBlocks>` component would.
+To define an editable block area using HTML to Gutenberg, use the `<blocks>` element. By default, it allows inserting any available Gutenberg block, similar to using the `<InnerBlocks />` component directly.
 
 <CodeExample>
   ```
@@ -36,9 +36,9 @@ To add an InnerBlocks zone to your HTML To Gutenberg block, use the `<blocks>` e
   ```
 </CodeExample>
 
-## Defining the InnerBlocks template
+## Defining an InnerBlocks template
 
-Use the `<block>` element to add a block to the InnerBlocks template.
+Use nested `<block>` elements inside `<blocks>` to define a default block structure.
 
 <CodeExample>
   ```
@@ -51,7 +51,7 @@ Use the `<block>` element to add a block to the InnerBlocks template.
   ```
 </CodeExample>
 
-You can nest InnerBlocks allowing to create complex compositions the same way you would as in HTML:
+You can also nest templates to create complex compositions, just like nesting elements in HTML.
 
 <CodeExample>
   ```
@@ -68,7 +68,7 @@ You can nest InnerBlocks allowing to create complex compositions the same way yo
 
 ## Default allowedBlocks
 
-By default, allowedBlocks will be equal to the set of blocks used inside the template. Using the same example as above, allowedBlocks is equal to `["core/group", "core/heading", "core/paragraph"]`.
+By default, `allowedBlocks` is automatically inferred from the block types used in the template.
 
 <CodeExample activeTab="edit.js">
   ```
@@ -83,13 +83,19 @@ By default, allowedBlocks will be equal to the set of blocks used inside the tem
   ```
 </CodeExample>
 
+The inferred value of `allowedBlocks` for the example above would be:
+
+```js
+["core/group", "core/heading", "core/paragraph"];
+```
+
 ## Overriding allowedBlocks
 
-If you want more control over which blocks are allowed inside your InnerBlocks, you can use the `allowedBlocks` attribute on the `<blocks>` element.
+To control which blocks users can insert inside the InnerBlocks zone, use the `allowedBlocks` attribute.
 
 ### Allowing all blocks
 
-If you want to enable all blocks, add `allowedBlocks="all"` to the `<blocks>` element.
+To allow all blocks to be inserted, set `allowedBlocks` to `"all"`:
 
 <CodeExample>
   ```
@@ -104,11 +110,11 @@ If you want to enable all blocks, add `allowedBlocks="all"` to the `<blocks>` el
   ```
 </CodeExample>
 
-When using a non templated `<blocks>` zone, all blocks are available by default.
+When `<blocks>` does not define a template, all blocks are allowed by default.
 
 ### Allowing specific blocks
 
-For more finely grained controls, you can set `allowedBlocks` to a space separated list of blocks.
+To restrict allowed blocks, pass a space-separated list of block names to `allowedBlocks`.
 
 <CodeExample>
   ```
@@ -121,16 +127,16 @@ For more finely grained controls, you can set `allowedBlocks` to a space separat
 </CodeExample>
 
 :::info
-HTML To Gutenberg will throw an error if it finds blocks in the template which are not part of the allowedBlocks list.
+HTML to Gutenberg will throw an error if any blocks used in the template are not listed in `allowedBlocks`.
 :::
 
-## Passing default attributes to inner blocks
+## Setting default block attributes
 
-HTML To Gutenberg supports 3 ways of setting default attributes values, from lower to highest prioriry.
+HTML to Gutenberg supports 3 ways to define default block attributes, listed here in increasing order of priority:
 
-### Passing values as props
+### 1. As props on the `<block>` element
 
-To pass a value as an attribute, simply set it on the `<block>` element as a prop. It will be parsed to its correspondign type, either a string, a number or a boolean based on the provided value.
+Pass simple values (strings, numbers, booleans) as props directly on the `<block>` element.
 
 <CodeExample>
   ```
@@ -142,9 +148,9 @@ To pass a value as an attribute, simply set it on the `<block>` element as a pro
   ```
 </CodeExample>
 
-### Passing values as attributes
+### 2. Using `<attribute name value>` syntax
 
-You can also use the `<attribute>` element to pass attributes to your template blocks using the `name` attribute on it to set its key and the `value` attribute to set its value.
+Use the `<attribute>` element with name and value attributes to explicitly set block attributes.
 
 <CodeExample>
   ```
@@ -158,9 +164,9 @@ You can also use the `<attribute>` element to pass attributes to your template b
   ```
 </CodeExample>
 
-### Passing values as attributes with children
+### 3. Using `<attribute>` children
 
-It is sometimes usefull to be able to use raw HTML to set attributes, as when passing default content to `core/paragraph` for example. You can drop the `value` attribute and pass its content as children of the attribute instead.
+To embed rich content, such as HTML, within an attribute, omit the value attribute and place the content inside the element.
 
 <CodeExample>
   ```
@@ -178,7 +184,7 @@ It is sometimes usefull to be able to use raw HTML to set attributes, as when pa
 
 ## Locking InnerBlocks templates
 
-If you want to lock the template so that your editors cannot modify the block's innerblocks structure, use the `templateLock` attribute on the `<blocks>` element.
+To prevent users from modifying the InnerBlocks structure, use the `templateLock` attribute.
 
 <CodeExample>
   ```
@@ -193,41 +199,46 @@ If you want to lock the template so that your editors cannot modify the block's 
   ```
 </CodeExample>
 
-For more fine grained controls over template locking, you can also those values:
+For more control, you can explicitly set one of the following values:
 
-| Value              | Description                    |
-| ------------------ | ------------------------------ |
-| `"all"` (explicit) | Same as default `templateLock` |
-| `"insert"`         | Prevents block insertion       |
-| `"contentOnly"`    | Only allow content edition     |
-| `"false"`          | Disable template locking       |
+| Value             | Description                                 |
+| ----------------- | ------------------------------------------- |
+| `"all"` (default) | Prevents all changes (insert, move, delete) |
+| `"insert"`        | Disables block insertion                    |
+| `"contentOnly"`   | Allows content editing only                 |
+| `"false"`         | Disables template locking entirely          |
 
-The `templateLock="false"` option is particularly usefull when using nested InnerBlocks, as every child `<InnerBlocks>` component inherits its template locking from its parent.
+Using `templateLock="false"` is especially useful for nested InnerBlocks, as inner blocks inherit their locking state from the parent unless overridden.
 
-## Setting the template orientation
+## Setting template orientation
 
-Use the `orientation` attribute on the `<blocks>` element to define the `<InnerBlocks />` orientation. This doesn't change the style of the blocks, but onyl tells Gutenberg which direction to blocks are flowing allowing easier blocks reorganisation on the editor.
+Use the orientation attribute to control the layout flow inside `<InnerBlocks />`.
 
-| Value                   | Description                  |
-| ----------------------- | ---------------------------- |
-| `"vertical"` (explicit) | Default vertical orientation |
-| `"horizontal"`          | Horizontal orientation       |
+| Value                  | Description              |
+| ---------------------- | ------------------------ |
+| `"vertical"` (default) | Blocks flow vertically   |
+| `"horizontal"`         | Blocks flow horizontally |
+
+:::info
+This option affects block reordering behavior in the editor, not layout styles.
+:::
 
 ## Considerations when using InnerBlocks
 
-You can only have one `<blocks>` element inside your blocks. This is a current limitation of Gutenberg.
+Gutenberg currently supports only one `<InnerBlocks />` per block. You can only use one `<blocks>` element inside a single block template.
 
-If you want to add multiple editable innerblock zones to your components, you can create multiple child blocks that each have InnerBlocks.
+If you want to support multiple editable areas, split them into child blocks and include each as part of your layout.
 
-### Example hero block
+### Example: Hero Block with Two Zones
 
-Say we want to build an Hero block that have a heading, some text and buttons on top, as well as some additonal text on the bottom.
+Let’s build a Hero block that contains two editable regions:
 
-Here is how I would achieve this.
+- A top section for a heading, paragraph, and buttons
+- A bottom section for additional text
 
-#### Main hero block
+#### Main `custom/hero` block
 
-First, I create a main hero block that uses an InnerBlocks zone to include two children blocks, `custom/hero-top` and `custom/hero-bottom`.
+The parent block defines the layout and includes two child blocks.
 
 <CodeExample filename="hero.html">
   ```
@@ -242,7 +253,7 @@ First, I create a main hero block that uses an InnerBlocks zone to include two c
   ```
 </CodeExample>
 
-Then, I create the two child blocks, each using separate InnerBlocks.
+#### Child `custom/hero-top` block
 
 <CodeExample filename="hero-top.html">
   ```
@@ -256,6 +267,8 @@ Then, I create the two child blocks, each using separate InnerBlocks.
   ```
 </CodeExample>
 
+#### Child `custom/hero-bottom` block
+
 <CodeExample filename="hero-top.html">
   ```
   <div class="hero__bottom">
@@ -266,7 +279,9 @@ Then, I create the two child blocks, each using separate InnerBlocks.
   ```
 </CodeExample>
 
-When rendered, this blocks will have this structure:
+#### Final output
+
+When rendered, the resulting HTML will look like this:
 
 ```html
 <div class="hero">
@@ -280,4 +295,4 @@ When rendered, this blocks will have this structure:
 </div>
 ```
 
-I can then use my favorite styling approach to style those blocks separately.
+You can now style each block using your preferred CSS approach.
