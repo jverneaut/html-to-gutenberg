@@ -14,7 +14,7 @@ const convertAdmonitionsToQuotes = (md) => {
         .map((line) => (line.length ? `> ${line}` : ">"))
         .join("\n");
 
-      return `${title ? `\n> ### ${title}` : ""}\n${quotedContent}`;
+      return `${title ? `\n> #### ${title}` : ""}\n${quotedContent}`;
     },
   );
 };
@@ -46,6 +46,8 @@ const template = `![Tests Status](https://github.com/jverneaut/html-to-gutenberg
 <img src="./docs/static/img/logo.svg" alt="HTML To Gutenberg" width="100">
 
 # HTML To Gutenberg
+
+${introductionTemplate}
 
 ## Quick start
 
