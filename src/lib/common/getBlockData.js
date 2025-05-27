@@ -111,7 +111,15 @@ const collectAllowedBlocksRecursively = (node, allowedBlocksSet) => {
 
 const getBlockData = async (
   HTMLFileContent,
-  { blockName, blockSlug, blockTitle, blockEngine },
+  {
+    blockName,
+    blockSlug,
+    blockTitle,
+    blockEngine,
+    defaultCategory,
+    defaultIcon,
+    defaultVersion,
+  },
 ) => {
   const ast = generateAst(HTMLFileContent);
 
@@ -119,6 +127,9 @@ const getBlockData = async (
     name: blockName,
     slug: blockSlug,
     title: blockTitle,
+    category: defaultCategory,
+    icon: defaultIcon,
+    version: defaultVersion,
     description: null,
     engine: blockEngine,
     rootElement: {
@@ -212,6 +223,27 @@ const getBlockData = async (
         blockData.rootElement.editingMode = children.properties.dataEditingMode;
 
         delete children.properties.dataEditingMode;
+      }
+
+      // Extract and delete data-category attribute
+      if (children.properties.dataCategory) {
+        blockData.category = children.properties.dataCategory;
+
+        delete children.properties.dataCategory;
+      }
+
+      // Extract and delete data-icon attribute
+      if (children.properties.dataIcon) {
+        blockData.icon = children.properties.dataIcon;
+
+        delete children.properties.dataIcon;
+      }
+
+      // Extract and delete data-version attribute
+      if (children.properties.dataVersion) {
+        blockData.version = children.properties.dataVersion;
+
+        delete children.properties.dataVersion;
       }
     }
   });

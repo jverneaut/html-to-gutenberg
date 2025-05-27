@@ -42,7 +42,7 @@ export default {
 | `inputDirectory`       | `string`         | None             | Source folder for your custom blocks HTML files.                           |
 | `outputDirectory?`     | `string`         | `inputDirectory` | Output folder that will contain the generated blocks files.                |
 | `engine?`              | `php\|twig\|all` |                  | The rendering engine to use for the frontend.                              |
-| `blocksPrefix?`        | `string`         | 'custom'         | Prefix used for block names (e.g., `custom/hero`).                         |
+| `defaultNamespace?`    | `string`         | 'custom'         | Namespace used for block names (e.g., `custom/hero`).                      |
 | `removeDeletedBlocks?` | `boolean`        | `false`          | Whether to delete generated blocks if their source HTML files are removed. |
 
 ## Example: Full Webpack Configuration

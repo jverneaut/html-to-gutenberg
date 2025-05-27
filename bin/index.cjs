@@ -33,7 +33,7 @@ const options = program.opts();
 const htmlToGutenbergOptions = {
   inputDirectory: options.input,
   outputDirectory: options.output || options.input,
-  blocksPrefix: options.prefix,
+  defaultNamespace: options.defaultNamespace,
   engine: options.engine,
 };
 
