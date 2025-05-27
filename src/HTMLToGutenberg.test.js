@@ -23,6 +23,45 @@ describe("HTMLToGutenberg", () => {
     expect(htmlToGutenberg.defaultNamespace).toBe("custom");
   });
 
+  test('should set defaultCategory to "theme" by default', () => {
+    const htmlToGutenberg = new HTMLToGutenberg({
+      inputDirectory: "./",
+    });
+
+    expect(htmlToGutenberg.defaultCategory).toBe("theme");
+  });
+
+  test('should set defaultVersion to "0.1.0" by default', () => {
+    const htmlToGutenberg = new HTMLToGutenberg({
+      inputDirectory: "./",
+    });
+
+    expect(htmlToGutenberg.defaultVersion).toBe("0.1.0");
+  });
+
+  test("should not have defaultIcon by default", () => {
+    const htmlToGutenberg = new HTMLToGutenberg({
+      inputDirectory: "./",
+    });
+
+    expect(htmlToGutenberg.defaultIcon).toBe(undefined);
+  });
+
+  test("should correctly parse default options", () => {
+    const htmlToGutenberg = new HTMLToGutenberg({
+      inputDirectory: "./",
+      defaultNamespace: "default-namespace",
+      defaultCategory: "defaultCategory",
+      defaultVersion: "1.0.0",
+      defaultIcon: "star",
+    });
+
+    expect(htmlToGutenberg.defaultNamespace).toBe("default-namespace");
+    expect(htmlToGutenberg.defaultCategory).toBe("defaultCategory");
+    expect(htmlToGutenberg.defaultVersion).toBe("1.0.0");
+    expect(htmlToGutenberg.defaultIcon).toBe("star");
+  });
+
   test('should set engine to "php" by default', () => {
     const htmlToGutenberg = new HTMLToGutenberg({
       inputDirectory: "./",
