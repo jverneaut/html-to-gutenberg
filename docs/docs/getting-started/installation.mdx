@@ -20,13 +20,13 @@ This page walks you through how to configure it manually — but keep in mind th
 
 ---
 
-## Installation
+### Installation
 
 ```bash
 npm install @jverneaut/html-to-gutenberg --save-dev
 ```
 
-## Webpack configuration
+### Webpack configuration
 
 Add the plugin to your existing Webpack configuration:
 
@@ -43,7 +43,7 @@ export default {
 };
 ```
 
-### Plugin options
+#### Plugin options
 
 | Option                 | Type      | Default          | Description                                                                |
 | ---------------------- | --------- | ---------------- | -------------------------------------------------------------------------- |
@@ -52,7 +52,7 @@ export default {
 | `blocksPrefix?`        | `string`  | 'custom'         | Prefix used for block names (e.g., `custom/hero`).                         |
 | `removeDeletedBlocks?` | `boolean` | `false`          | Whether to delete generated blocks if their source HTML files are removed. |
 
-## Example: Full Webpack Configuration
+### Example: Full Webpack Configuration
 
 This example can serve as a starting point for developing custom Gutenberg blocks using **HTML To Gutenberg**. It uses the companion `@jverneaut/gutenberg-webpack-plugin` to compile the generated blocks for use in WordPress.
 
