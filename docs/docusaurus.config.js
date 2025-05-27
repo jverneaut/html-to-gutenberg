@@ -82,6 +82,11 @@ const config = {
             label: "Documentation",
           },
           {
+            href: "/live-editor",
+            position: "left",
+            label: "Live Editor",
+          },
+          {
             href: "https://github.com/jverneaut/html-to-gutenberg",
             label: "GitHub",
             position: "right",
