@@ -12,6 +12,8 @@
 It’s designed for developers who value simplicity, speed, and control — without sacrificing the native block editor experience.
 
 
+![HTML To Gutenberg WordCamp Demo](docs/static/img/wordcamp-demo.png)
+
 ## Quick start
 
 ### 1. Scaffold an HTML To Gutenberg blocks plugin
