@@ -1,0 +1,37 @@
+name: Build README
+
+on:
+  push:
+    paths:
+      - "docs/docs/**"
+      - "scripts/build-readme.js"
+      - ".github/workflows/build-readme.yml"
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23.x
+
+      - name: Build README.md
+        run: node scripts/build-readme.md
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if [ -n "$(git status --porcelain)" ]; then
+            git add README.md
+            git commit -m "chore(docs): Update README"
+            git push origin HEAD
+          else
+            echo "No changes to commit"
+          fi
