@@ -15,12 +15,12 @@ describe("HTMLToGutenberg", () => {
     );
   });
 
-  test('should set blocksPrefix to "custom" by default', () => {
+  test('should set defaultNamespace to "custom" by default', () => {
     const htmlToGutenberg = new HTMLToGutenberg({
       inputDirectory: "./",
     });
 
-    expect(htmlToGutenberg.blocksPrefix).toBe("custom");
+    expect(htmlToGutenberg.defaultNamespace).toBe("custom");
   });
 
   test('should set engine to "php" by default', () => {

@@ -63,7 +63,7 @@ export default {
     new HTMLToGutenbergPlugin({
       inputDirectory: "./blocks", // Your source HTML files
       outputDirectory: "./generated-blocks", // Where generated Gutenberg blocks will be placed
-      blocksPrefix: "custom", // Blocks namespace
+      defaultNamespace: "custom", // Blocks namespace
 
       // Optional: switch to Twig-based rendering (recommended)
       engine: "twig", // either 'php' (default) or 'twig'

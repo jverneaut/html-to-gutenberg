@@ -33,7 +33,7 @@ class HTMLToGutenberg {
     this.inputDirectory = result.data.inputDirectory;
     this.outputDirectory =
       result.data.outputDirectory || result.data.inputDirectory;
-    this.blocksPrefix = result.data.blocksPrefix;
+    this.defaultNamespace = result.data.defaultNamespace;
     this.engine = result.data.engine;
     this.shouldRemoveDeletedBlocks = result.data.removeDeletedBlocks;
   }
@@ -48,7 +48,7 @@ class HTMLToGutenberg {
   }
 
   generateBlockName(HTMLFile) {
-    return `${this.blocksPrefix}/${this.generateBlockSlug(HTMLFile)}`;
+    return `${this.defaultNamespace}/${this.generateBlockSlug(HTMLFile)}`;
   }
 
   generateBlockPath(HTMLFile) {
