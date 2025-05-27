@@ -106,7 +106,7 @@ h3 {
   height: 100%;
   border-radius: 0px;
   border-top-width: 0px;
-  border-bottom-width: 0px;
+  /* border-bottom-width: 0px; */
 }
 
 .live-editor-layout .sp-wrapper:nth-of-type(1) .sp-layout {
