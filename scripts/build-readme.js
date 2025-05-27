@@ -40,6 +40,12 @@ const quickStartTemplate = convertTemplate(
   }),
 );
 
+const exampleTemplate = convertTemplate(
+  fs.readFileSync("docs/docs/common/_example.md", {
+    encoding: "utf-8",
+  }),
+);
+
 const template = `![Tests Status](https://github.com/jverneaut/html-to-gutenberg/actions/workflows/test.yml/badge.svg)
 ![GitHub Release](https://img.shields.io/github/v/release/jverneaut/html-to-gutenberg)
 
@@ -63,6 +69,9 @@ Visit the [official documentation](https://html-to-gutenberg.com).
 - [Registering blocks](https://html-to-gutenberg.com/getting-started/registering-blocks)
 - [Creating a block](https://html-to-gutenberg.com/guides/creating-a-block)
 - [Editing content using inline attributes](https://html-to-gutenberg.com/guides/editing-content/using-inline-attributes)
-- [Editing content using InnerBlocks](https://html-to-gutenberg.com/guides/editing-content/using-innerblocks)`;
+- [Editing content using InnerBlocks](https://html-to-gutenberg.com/guides/editing-content/using-innerblocks)
 
+## Example
+
+${exampleTemplate}`;
 fs.writeFileSync("README.md", template);
