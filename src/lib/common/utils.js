@@ -36,10 +36,12 @@ export const kebabCaseToTitleCase = (str) =>
     .replace(/-/g, " ") // Replace hyphens with spaces
     .replace(/\b\w/g, (c) => c.toUpperCase()); // Capitalize the first letter of each word
 
-// Converts a camelCase string to "Camel case" style
+// Converts a string to sentence case (supports camelCase and kebab_case)
 // e.g., "thisIsATest" -> "This is a test"
-export const camelCaseToSentenceCase = (str) =>
+// e.g., "this_is_a_test" -> "This is a test"
+export const toSentenceCase = (str) =>
   str
+    .replace(/_/g, " ") // Replace _ character with space
     .replace(/([a-z])([A-Z])/g, "$1 $2") // Insert space before uppercase letters
     .toLowerCase() // Convert the whole string to lowercase
     .replace(/^./, (c) => c.toUpperCase()); // Capitalize the first character
