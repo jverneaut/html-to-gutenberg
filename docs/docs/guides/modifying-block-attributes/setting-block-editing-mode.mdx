@@ -6,7 +6,13 @@ import CodeExample from "@site/src/components/CodeExample";
 
 # Setting the block editing mode
 
-You can set the block editing mode using the `useBlockEditingMode` hook by setting to `data-editing-mode` attribute on the root block element to either `disabled`, `contentOnly` or `default`.
+You can control the block editing mode by using the `useBlockEditingMode` hook. To configure this, set the `data-editing-mode` attribute on the block’s root element.
+
+Supported values are:
+
+- `disabled`: Disables editing for the block.
+- `contentOnly`: Allows editing only the block’s content.
+- `default`: Enables the full editing experience (this is the default behavior).
 
 <CodeExample>
   ```

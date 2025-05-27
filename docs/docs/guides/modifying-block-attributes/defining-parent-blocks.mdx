@@ -1,0 +1,17 @@
+---
+sidebar_position: 2
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Defining parent blocks
+
+When working with InnerBlocks, it’s useful to define parent-child relationships between blocks. This helps prevent child blocks from being used outside of their intended parents and hides them from the Blocks Navigator when not appropriate.
+
+To specify the allowed parents for a block, set the `data-parent` attribute on the block’s root element. This attribute takes a space-separated list of parent block names.
+
+<CodeExample filename="child-block.html">
+  ```
+  <section data-parent="core/group custom/parent-block"></section>
+  ```
+</CodeExample>

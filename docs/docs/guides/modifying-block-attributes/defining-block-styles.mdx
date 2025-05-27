@@ -6,7 +6,7 @@ import CodeExample from "@site/src/components/CodeExample";
 
 # Defining block styles
 
-To define additional block styles for your custom blocks, use the `data-styles` attribute taking a space separated string of styles as values.
+To add custom block styles to your blocks, use the `data-styles` attribute on the root element. This attribute accepts a space-separated list of style slugs.
 
 <CodeExample filenmae="block-with-styles.html">
   ```
@@ -14,9 +14,9 @@ To define additional block styles for your custom blocks, use the `data-styles` 
   ```
 </CodeExample>
 
-The first defined style will be used as the default style. The styles labels are automatically from the style slug.
+The first style in the list is treated as the default style. Each style label corresponds automatically to a CSS class in the format `.is-style-{style-slug}`.
 
-You can now style your block using css:
+You can then style your block in CSS like this:
 
 ```css
 .wp-block-custom-block-with-styles.is-style-dark {
@@ -25,7 +25,7 @@ You can now style your block using css:
 }
 ```
 
-If you're using TailwindCSS, you can achive the same with:
+If you’re using TailwindCSS, you can achieve the same effect by applying conditional classes using the `[.is-style-{style}]` selector syntax:
 
 <CodeExample filenmae="block-with-styles.html">
   ```
