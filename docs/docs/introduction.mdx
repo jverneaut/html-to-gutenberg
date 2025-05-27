@@ -77,55 +77,18 @@ Type some HTML. Add attributes. Add InnerBlocks. Done. 🎉
 | Server-side rendering (PHP) | :white_check_mark: |
 | Editor rendering (JSX)      | :white_check_mark: |
 | Block styles                | :white_check_mark: |
-| Custom attributes           | :white_check_mark: |
+| Block editing mode          | :white_check_mark: |
+| Block parent blocks         | :white_check_mark: |
 | `block.json` metadata       | :white_check_mark: |
 
 ## How it works
 
-Under the hood, **HTML To Gutenberg** builds an AST from your HTML file, then converts it to `JSX`, `JSON` and `PHP`.
-
-Here’s what happens:
-
-1. **Your HTML is parsed into an Abstract Syntax Tree (AST)**
-
-   The tool analyzes your block’s structure turning your HTML into a tree of nodes it can manipulate intelligently.
-
-2. **The AST is crawled to extract custom attributes and translate the markup**
-
-   Attributes like `data-attribute`, `data-parent`, and `<blocks>` elements define how fields, templates, and InnerBlocks behave. These are translated into the appropriate Gutenberg APIs.
-
-3. **Code is generated for every part of the block**
-
-   From a single `block.html``, the tool outputs:
-
-   - `block.json` (metadata + config)
-   - `edit.js` (editor component)
-   - `render.php` (frontend rendering)
-   - `index.js` (block registration)
-
-4. **It rebuilds your block automatically on save**
-
-   During development, it watches for changes and regenerates output.
-
-```mermaid
-graph TD
-  A[block.html] --> B[Parse to AST]
-  B --> C[Interpret custom attributes]
-  C --> D[Generate block.json]
-  C --> E[Generate edit.js]
-  C --> F[Generate render.php]
-  C --> G[Generate index.js]
-  style A fill:#dbeafe,stroke:#3b82f6,stroke-width:2px
-  style B fill:#e0f2fe,stroke:#0ea5e9,stroke-width:2px
-  style C fill:#fef9c3,stroke:#eab308,stroke-width:2px
-  style D fill:#dcfce7,stroke:#22c55e,stroke-width:2px
-  style E fill:#dcfce7,stroke:#22c55e,stroke-width:2px
-  style F fill:#dcfce7,stroke:#22c55e,stroke-width:2px
-  style G fill:#dcfce7,stroke:#22c55e,stroke-width:2px
-```
+**HTML To Gutenberg** uses an Abstract Syntax Tree (AST) to parse your HTML block files, preserving your original markup structure. It interprets custom attributes and transforms this tree into all the necessary Gutenberg block assets — including metadata, editor components, frontend renderers, and block registration files.
 
 ## Built for modern WordPress teams
 
-If you’re tired of hacking together JSX, struggling with sidebar field UIs that offer a sub-optimal editing experience, or duplicating templates across PHP and JS, HTML To Gutenberg gives you a better way forward.
+Give your clients a truly intuitive and seamless editing experience with **HTML To Gutenberg**. Designed to unlock the full potential of Gutenberg, it empowers you to create rich, dynamic blocks faster — all while maintaining clean, maintainable code.
+
+Push the boundaries of what’s possible in the block editor and deliver custom solutions that delight editors and developers alike.
 
 **Real blocks. Real fast.**
