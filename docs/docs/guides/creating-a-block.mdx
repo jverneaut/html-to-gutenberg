@@ -3,3 +3,34 @@ sidebar_position: 0
 ---
 
 # Creating a block
+
+If you built a block plugin using `@wordpress/create-block` with the `html-to-gutenberg-template`, adding a new block is as simple as adding a new HTML file to the `src/` folder of your plugin. After running `npm run start` or `npm run build`, your folder structure should look like this:
+
+```txt
+.
+├── src/
+│   ├── first-block.html
+│   ├── second-block.html
+│   ├── first-block/
+│   │   ├── block.json
+│   │   ├── edit.js
+│   │   ├── index.js
+│   │   └── render.php
+│   └── second-block/
+│       ├── block.json
+│       ├── edit.js
+│       ├── index.js
+│       └── render.php
+└── build/
+    ├── first-block/
+    │   └── ...
+    └── second-block/
+        └── ...
+```
+
+If you're running the block compilation as part of a CI/CD workflow, you can (and should) safely gitignore every folders inside `src/` as well as the `dist` directory. To do so, add those entries to the plugin `.gitignore` file:
+
+```txt title="wp-content/your-blocks-plugin/.gitignore"
+src/*/*
+dist
+```
