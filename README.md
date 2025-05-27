@@ -5,6 +5,13 @@
 
 # HTML To Gutenberg
 
+**Create custom Gutenberg blocks from the HTML templates you already have.**
+
+**HTML To Gutenberg** is a tool that transforms a single html file into a fully functional Gutenberg block. With just a few intuitive attributes in your markup, it generates the full block structure — including `edit.js`, `render.php`, `block.json`, and `index.js`.
+
+It’s designed for developers who value simplicity, speed, and control — without sacrificing the native block editor experience.
+
+
 ## Quick start
 
 ### 1. Scaffold an HTML To Gutenberg blocks plugin
@@ -43,7 +50,7 @@ src/
 ```
 
 
-> ### Note about blocks deletion
+> #### Note about blocks deletion
 > When you delete an HTML file from src, its corresponding Gutenberg block is removed on the next build.
 >
 > However, depending on your setup, you may also need to manually delete the removed block folder inside the build/ directory to fully clean it up.
