@@ -15,6 +15,18 @@ export default ({ attributes, setAttributes }) => {
         onChange={(content) => setAttributes({ content })}
         placeholder="Content"
       ></RichText>
+      <RichText
+        tagName="p"
+        value={attributes.kebab_case}
+        onChange={(kebab_case) => setAttributes({ kebab_case })}
+        placeholder="Kebab case"
+      ></RichText>
+      <RichText
+        tagName="p"
+        value={attributes.camelCase}
+        onChange={(camelCase) => setAttributes({ camelCase })}
+        placeholder="Camel case"
+      ></RichText>
     </section>
   );
 };

@@ -10,7 +10,9 @@
   "attributes": {
     "align": { "type": "string", "default": "full" },
     "title": { "type": "string" },
-    "content": { "type": "string" }
+    "content": { "type": "string" },
+    "kebab_case": { "type": "string" },
+    "camelCase": { "type": "string" }
   },
   "supports": { "html": false, "align": ["full"] },
   "editorScript": "file:./index.js",
