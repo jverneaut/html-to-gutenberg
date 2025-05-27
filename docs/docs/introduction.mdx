@@ -1,0 +1,94 @@
+---
+title: Introduction
+slug: /
+sidebar_position: 0
+---
+
+import LiveEditor from "@site/src/components/LiveEditor";
+import QuickStart from "@site/docs/common/_quick-start.md";
+
+<img src="/img/logo.svg" alt="HTML To Gutenberg" width="100" />
+
+# HTML To Gutenberg
+
+**Create custom Gutenberg blocks from the HTML templates you already have.**
+
+**HTML To Gutenberg** is a tool that transforms a single html file into a fully functional Gutenberg block. With just a few intuitive attributes in your markup, it generates the full block structure — including `edit.js`, `render.php`, `block.json`, and `index.js`.
+
+It’s designed for developers who value simplicity, speed, and control — without sacrificing the native block editor experience.
+
+![HTML To Gutenberg WordCamp Demo](/img/wordcamp-demo.png)
+
+## Why HTML To Gutenberg?
+
+If you’ve built Gutenberg blocks the traditional way, you’ve probably asked yourself:
+
+- Why am I duplicating layout in both React and PHP?
+- Why does a simple block need 4 different files?
+- Why can’t I just write HTML and be done?
+
+Now you can. **HTML To Gutenberg** gives you a radically simpler way to build blocks — while still compiling down to 100% standard Gutenberg code under the hood.
+
+It works great whether you're a developer in quest of a better blocks developer experience, an agency building custom themes, or a product team maintaining a block library.
+
+## Try it live
+
+Type some HTML. Add attributes. Add InnerBlocks. Done. 🎉
+
+<LiveEditor>
+  ```
+  <section class="py-20 bg-blue-200" data-parent="custom/parent-block" data-editing-mode="contentOnly">
+    <div class="container">
+      <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12 md:col-span-6">
+          <h2 class="text-2xl" data-attribute="section_title">I am editable – awesome, right?</h2>
+          <img class="aspect-square object-cover" data-attribute="section_image" />
+        </div>
+
+        <div class="col-span-12 md:col-span-6">
+          <blocks allowedBlocks="all" templateLock="all">
+            <block name="core/group">
+              <block name="core/heading" level="3"></block>
+              <block name="core/paragraph">
+                <attribute name="content">
+                  Lorem ipsum dolor sit amet consectetur.
+                </attribute>
+              </block>
+            </block>
+          </blocks>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  ```
+</LiveEditor>
+
+## Quick start
+
+<QuickStart />
+
+## Supported features
+
+| Feature                     | Supported          |
+| --------------------------- | ------------------ |
+| Inline editable fields      | :white_check_mark: |
+| InnerBlocks with templates  | :white_check_mark: |
+| Server-side rendering (PHP) | :white_check_mark: |
+| Editor rendering (JSX)      | :white_check_mark: |
+| Block styles                | :white_check_mark: |
+| Block editing mode          | :white_check_mark: |
+| Block parent blocks         | :white_check_mark: |
+| `block.json` metadata       | :white_check_mark: |
+
+## How it works
+
+**HTML To Gutenberg** uses an Abstract Syntax Tree (AST) to parse your HTML block files, preserving your original markup structure. It interprets custom attributes and transforms this tree into all the necessary Gutenberg block assets — including metadata, editor components, frontend renderers, and block registration files.
+
+## Built for modern WordPress teams
+
+Give your clients a truly intuitive and seamless editing experience with **HTML To Gutenberg**. Designed to unlock the full potential of Gutenberg, it empowers you to create rich, dynamic blocks faster — all while maintaining clean, maintainable code.
+
+Push the boundaries of what’s possible in the block editor and deliver custom solutions that delight editors and developers alike.
+
+**Real blocks. Real fast.**

@@ -1,0 +1,298 @@
+import CodeExample from "@site/src/components/CodeExample";
+import LiveEditor from "@site/src/components/LiveEditor";
+
+# Using InnerBlocks
+
+The `<InnerBlocks />` component is one of the most powerful constructs in Gutenberg. It allows the insertion of child blocks, definition of templates, creation of complex layouts, and more.
+
+**HTML to Gutenberg** offers full support for `<InnerBlocks />` through a custom `<blocks>` element, which provides a thin abstraction layer over InnerBlocks templates and configuration.
+
+<LiveEditor>
+  ```
+  <section>
+    <blocks templateLock>
+      <block name="core/group">
+        <block name="core/heading" level="3"></block>
+        <block name="core/paragraph">
+          <attribute name="content">
+            Lorem <strong>ipsum</strong>
+          </attribute>
+        </block>
+      </block>
+    </blocks>
+  </section>
+  ```
+</LiveEditor>
+
+## Adding InnerBlocks
+
+To define an editable block area using HTML to Gutenberg, use the `<blocks>` element. By default, it allows inserting any available Gutenberg block, similar to using the `<InnerBlocks />` component directly.
+
+<CodeExample>
+  ```
+  <section>
+    <blocks></blocks>
+  </section>
+  ```
+</CodeExample>
+
+## Defining an InnerBlocks template
+
+Use nested `<block>` elements inside `<blocks>` to define a default block structure.
+
+<CodeExample>
+  ```
+  <section>
+    <blocks>
+      <block name="core/heading"></block>
+      <block name="core/paragraph"></block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+You can also nest templates to create complex compositions, just like nesting elements in HTML.
+
+<CodeExample>
+  ```
+  <section>
+    <blocks>
+      <block name="core/group">
+        <block name="core/heading"></block>
+        <block name="core/paragraph"></block>
+      </block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+## Default allowedBlocks
+
+By default, `allowedBlocks` is automatically inferred from the block types used in the template.
+
+<CodeExample activeTab="edit.js">
+  ```
+  <section>
+    <blocks>
+      <block name="core/group">
+        <block name="core/heading"></block>
+        <block name="core/paragraph"></block>
+      </block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+The inferred value of `allowedBlocks` for the example above would be:
+
+```js
+["core/group", "core/heading", "core/paragraph"];
+```
+
+## Overriding allowedBlocks
+
+To control which blocks users can insert inside the InnerBlocks zone, use the `allowedBlocks` attribute.
+
+### Allowing all blocks
+
+To allow all blocks to be inserted, set `allowedBlocks` to `"all"`:
+
+<CodeExample>
+  ```
+  <section>
+    <blocks allowedBlocks="all">
+      <block name="core/group">
+        <block name="core/heading"></block>
+        <block name="core/paragraph"></block>
+      </block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+When `<blocks>` does not define a template, all blocks are allowed by default.
+
+### Allowing specific blocks
+
+To restrict allowed blocks, pass a space-separated list of block names to `allowedBlocks`.
+
+<CodeExample>
+  ```
+  <section>
+    <blocks allowedBlocks="core/group core/heading core/paragarph core/buttons">
+      <block name="core/heading"></block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+:::info
+HTML to Gutenberg will throw an error if any blocks used in the template are not listed in `allowedBlocks`.
+:::
+
+## Setting default block attributes
+
+HTML to Gutenberg supports 3 ways to define default block attributes, listed here in increasing order of priority:
+
+### 1. As props on the `<block>` element
+
+Pass simple values (strings, numbers, booleans) as props directly on the `<block>` element.
+
+<CodeExample>
+  ```
+  <section>
+    <blocks>
+      <block name="core/heading" level="2" content="Section title"></block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+### 2. Using `<attribute name value>` syntax
+
+Use the `<attribute>` element with name and value attributes to explicitly set block attributes.
+
+<CodeExample>
+  ```
+  <section>
+    <blocks>
+      <block name="core/heading" level="2">
+        <attribute name="content" value="Section title"></attribute>
+      </block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+### 3. Using `<attribute>` children
+
+To embed rich content, such as HTML, within an attribute, omit the value attribute and place the content inside the element.
+
+<CodeExample>
+  ```
+  <section>
+    <blocks>
+      <block name="core/paragraph">
+        <attribute name="content">
+          This is some <strong>strong</strong> and <em>italic</em> text.
+        </attribute>
+      </block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+## Locking InnerBlocks templates
+
+To prevent users from modifying the InnerBlocks structure, use the `templateLock` attribute.
+
+<CodeExample>
+  ```
+  <section>
+    <blocks templateLock>
+      <block name="core/group">
+        <block name="core/heading"></block>
+        <block name="core/paragraph"></block>
+      </block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+For more control, you can explicitly set one of the following values:
+
+| Value             | Description                                 |
+| ----------------- | ------------------------------------------- |
+| `"all"` (default) | Prevents all changes (insert, move, delete) |
+| `"insert"`        | Disables block insertion                    |
+| `"contentOnly"`   | Allows content editing only                 |
+| `"false"`         | Disables template locking entirely          |
+
+Using `templateLock="false"` is especially useful for nested InnerBlocks, as inner blocks inherit their locking state from the parent unless overridden.
+
+## Setting template orientation
+
+Use the orientation attribute to control the layout flow inside `<InnerBlocks />`.
+
+| Value                  | Description              |
+| ---------------------- | ------------------------ |
+| `"vertical"` (default) | Blocks flow vertically   |
+| `"horizontal"`         | Blocks flow horizontally |
+
+:::info
+This option affects block reordering behavior in the editor, not layout styles.
+:::
+
+## Considerations when using InnerBlocks
+
+Gutenberg currently supports only one `<InnerBlocks />` per block. You can only use one `<blocks>` element inside a single block template.
+
+If you want to support multiple editable areas, split them into child blocks and include each as part of your layout.
+
+### Example: Hero Block with Two Zones
+
+Let’s build a Hero block that contains two editable regions:
+
+- A top section for a heading, paragraph, and buttons
+- A bottom section for additional text
+
+#### Main `custom/hero` block
+
+The parent block defines the layout and includes two child blocks.
+
+<CodeExample filename="hero.html">
+  ```
+  <section class="hero">
+    <div class="hero__container">
+      <blocks>
+        <block name="custom/hero-top"></block>
+        <block name="custom/hero-bottom"></block>
+      </blocks>
+    </div>
+  </section>
+  ```
+</CodeExample>
+
+#### Child `custom/hero-top` block
+
+<CodeExample filename="hero-top.html">
+  ```
+  <div class="hero__top">
+    <blocks>
+      <block name="core/heading" level="1"></block>
+      <block name="core/paragraph"></block>
+      <block name="core/buttons"></block>
+    </blocks>
+  </div>
+  ```
+</CodeExample>
+
+#### Child `custom/hero-bottom` block
+
+<CodeExample filename="hero-top.html">
+  ```
+  <div class="hero__bottom">
+    <blocks>
+      <block name="core/paragraph"></block>
+    </blocks>
+  </div>
+  ```
+</CodeExample>
+
+#### Final output
+
+When rendered, the resulting HTML will look like this:
+
+```html
+<div class="hero">
+  <div class="hero__top">
+    <!-- Hero Top <InnerBlocks /> -->
+  </div>
+
+  <div class="hero__bottom">
+    <!-- Hero Bottom <InnerBlocks /> -->
+  </div>
+</div>
+```
+
+You can now style each block using your preferred CSS approach.

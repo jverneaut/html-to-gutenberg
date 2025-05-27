@@ -20,7 +20,7 @@ const preventTemplatedBlockNotInAllowedBlocks = (ast) => {
 
 Context:
   Templated block: <${childBlock.properties.name}>
-  allowedBlocks: [<${allowedBlocks.map((el) => `"${el}"`).join(", ")}]`;
+  allowedBlocks: [${allowedBlocks.map((el) => `"${el}"`).join(", ")}]`;
           throw new Error(errorMessage);
         }
       });

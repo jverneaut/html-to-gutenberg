@@ -6,25 +6,70 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
+  /* --ifm-color-primary: #2e8555;
   --ifm-color-primary-dark: #29784c;
   --ifm-color-primary-darker: #277148;
   --ifm-color-primary-darkest: #205d3b;
   --ifm-color-primary-light: #33925d;
   --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
+  --ifm-color-primary-lightest: #3cad6e; */
+
+  --ifm-code-font-size: 90%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  --ifm-color-primary: #495160;
+  --ifm-color-primary-dark: #424956;
+  --ifm-color-primary-darker: #3e4552;
+  --ifm-color-primary-darkest: #333943;
+  --ifm-color-primary-light: #50596a;
+  --ifm-color-primary-lighter: #545d6e;
+  --ifm-color-primary-lightest: #5f697d;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme="dark"] {
-  --ifm-color-primary: #25c2a0;
+  /* --ifm-color-primary: #25c2a0;
   --ifm-color-primary-dark: #21af90;
   --ifm-color-primary-darker: #1fa588;
   --ifm-color-primary-darkest: #1a8870;
   --ifm-color-primary-light: #29d5b0;
   --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary-lightest: #4fddbf; */
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --ifm-color-primary: #cdd4e1;
+  --ifm-color-primary-dark: #b2bdd1;
+  --ifm-color-primary-darker: #a5b1c9;
+  --ifm-color-primary-darkest: #7c8fb1;
+  --ifm-color-primary-light: #e8ebf1;
+  --ifm-color-primary-lighter: #f5f7f9;
+  --ifm-color-primary-lightest: #ffffff;
+}
+
+.inline-code-editor {
+  position: relative;
+}
+
+.inline-code-editor__editor {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.inline-code-editor__editor > pre {
+  background: transparent;
+  margin-bottom: 0;
+  box-shadow: none;
+}
+
+.inline-code-editor__editor > pre pre {
+  white-space: pre !important;
+  opacity: 0;
+}
+
+.navbar__title,
+h1,
+h2,
+h3 {
+  letter-spacing: -0.018em;
 }

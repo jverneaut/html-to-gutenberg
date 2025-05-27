@@ -1,0 +1,48 @@
+---
+sidebar_position: 0
+---
+
+# Creating a block
+
+## With `@wordpress/create-block`
+
+If you created your blocks plugin using `@wordpress/create-block` with the `html-to-gutenberg-template`, adding a new block is as simple as creating a new `.html` file inside the `src/` folder.
+
+```txt
+.
+├── src/
+│   ├── first-block.html
+│   ├── second-block.html
+│   ├── first-block/
+│   │   ├── block.json
+│   │   ├── edit.js
+│   │   ├── index.js
+│   │   └── render.php
+│   └── second-block/
+│       ├── block.json
+│       ├── edit.js
+│       ├── index.js
+│       └── render.php
+└── build/
+    ├── first-block/
+    │   └── ...
+    └── second-block/
+        └── ...
+```
+
+## With custom webpack config
+
+If you've created a custom webpack configuration to build your blocks, you can add a new block by creating a new `.html` file inside the `options.inputDirectory` folder.
+
+## Git ignore recommendation
+
+If you're compiling blocks as part of a CI/CD pipeline, you can (and should) safely `.gitignore` the generated folders inside `src/` and the `dist` directory.
+
+Add the following entries to your plugin’s `.gitignore` file:
+
+```txt
+src/*/
+dist
+```
+
+This keeps your repository clean and avoids committing auto-generated code.

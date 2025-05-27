@@ -1,0 +1,101 @@
+---
+sidebar_position: 0
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Styling Gutenberg Blocks with TailwindCSS
+
+Blocks created using **HTML To Gutenberg** are just plain HTML files — which means **TailwindCSS works out of the box** with no extra configuration. This makes Tailwind a perfect choice for styling custom blocks: styles are scoped to each block and don’t require additional CSS files.
+
+That said, Gutenberg comes with a few quirks — especially when using `InnerBlocks`. The editor adds wrapper elements, which can complicate styling.
+
+Below are some snippets I use in every project to make working with Gutenberg and TailwindCSS smoother.
+
+## Styling InnerBlocks with TailwindCSS
+
+```css
+@custom-variant wp-list-layout {
+  &:not(:has(.block-editor-block-list__layout)) {
+    @slot;
+  }
+
+  :has(.block-editor-block-list__layout) {
+    .block-editor-block-list__layout {
+      @slot;
+    }
+  }
+}
+```
+
+This custom variant allows you to target layout wrappers injected by Gutenberg when using InnerBlocks and passing the styles as is on the frontend.
+
+## Styling core blocks with TailwindCSS
+
+### core/button
+
+To style buttons in the editor and frontend consistently, I use the following selector to target both `core/button` and apply styles with TailwindCSS `@apply` directive:
+
+```css
+:root :where(.wp-element-button, .wp-block-button__link) {
+  @apply ...;
+}
+```
+
+When adding transitions (e.g. for label changes), the animation can be distracting in the editor. To prevent this, I use an exaggerated transition duration inside the editor iframe:
+
+```css
+.block-editor-iframe__html .wp-element-button,
+.block-editor-iframe__html .wp-block-button__link {
+  &,
+  &::after,
+  &::before,
+  * {
+    transition-duration: 999s;
+  }
+}
+```
+
+This effectively disables transitions while editing.
+
+## Targeting Specific Blocks with Tailwind Variants
+
+When working with InnerBlocks, it's often useful to apply styles to child blocks from their container.
+
+To do that, create a `@custom-variant` for each block you want to target:
+
+```css
+/* Do this for each block you want to target */
+@custom-variant wp-block-heading {
+  .wp-block-heading {
+    @slot;
+  }
+}
+
+@custom-variant wp-block-group {
+  .wp-block-group {
+    @slot;
+  }
+}
+```
+
+You can now combine those variants with other Tailwind modifiers. For example, applying styles to only the first `core/heading` block inside a group:
+
+<CodeExample>
+  ```
+  <section class="py-20">
+    <div class="wp-block-heading:first-of-type:text-red-600 wp-block-group:p-10">
+      <blocks templateLock="all">
+        <block name="core/group">
+          <block name="core/heading" content="I am red"></block>
+          <block name="core/heading" content="I am not red"></block>
+        </block>
+      </blocks>
+    </div>
+  </section>
+  ```
+</CodeExample>
+
+:::info
+I wish Tailwind supported dynamic variants, so we could avoid manually defining one for every block type — but as of TailwindCSS v4, this isn’t available.
+:::

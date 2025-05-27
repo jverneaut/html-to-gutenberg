@@ -9,11 +9,13 @@ import packageJSON from "../package.json";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+const logo = "img/logo.svg";
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "HTML To Gutenberg",
   tagline: packageJSON.description,
-  favicon: "img/favicon.ico",
+  favicon: logo,
 
   // Set the production url of your site here
   url: "https://html-to-gutenberg.com",
@@ -36,6 +38,11 @@ const config = {
     defaultLocale: "en",
     locales: ["en"],
   },
+
+  markdown: {
+    mermaid: true,
+  },
+  themes: ["@docusaurus/theme-mermaid"],
 
   presets: [
     [
@@ -60,12 +67,12 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: "img/docusaurus-social-card.jpg",
+      image: "img/social-card.jpg",
       navbar: {
         title: "HTML To Gutenberg",
         logo: {
           alt: "HTML To Gutenberg",
-          src: "img/logo.svg",
+          src: logo,
         },
         items: [
           {
@@ -82,8 +89,8 @@ const config = {
         ],
       },
       footer: {
-        style: "dark",
-        copyright: `Copyright © ${new Date().getFullYear()} HTML To Gutenberg. Built with Docusaurus.`,
+        style: "light",
+        copyright: `Copyright © ${new Date().getFullYear()} HTML To Gutenberg. Built in Strasbourg by <a href="https://www.julienverneaut.com" target="_blank">Julien Verneaut.</a>`,
       },
       prism: {
         theme: prismThemes.github,

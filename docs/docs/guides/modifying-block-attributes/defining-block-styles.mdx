@@ -1,0 +1,37 @@
+---
+sidebar_position: 1
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Defining block styles
+
+To add custom block styles to your blocks, use the `data-styles` attribute on the root element. This attribute accepts a space-separated list of style slugs.
+
+<CodeExample filenmae="block-with-styles.html">
+  ```
+  <section data-styles="default dark"></section>
+  ```
+</CodeExample>
+
+The first style in the list is treated as the default style. Each style label corresponds automatically to a CSS class in the format `.is-style-{style-slug}`.
+
+You can then style your block in CSS like this:
+
+```css
+.wp-block-custom-block-with-styles.is-style-dark {
+  background: black;
+  color: white;
+}
+```
+
+If you’re using TailwindCSS, you can achieve the same effect by applying conditional classes using the `[.is-style-{style}]` selector syntax:
+
+<CodeExample filenmae="block-with-styles.html">
+  ```
+  <section
+    data-styles="default dark"
+    class="[.is-style-dark]:bg-black [.is-style-dark]:text-white"
+  ></section>
+  ```
+</CodeExample>

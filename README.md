@@ -1,6 +1,8 @@
 ![Tests Status](https://github.com/jverneaut/html-to-gutenberg/actions/workflows/test.yml/badge.svg)
 ![GitHub Release](https://img.shields.io/github/v/release/jverneaut/html-to-gutenberg)
 
+<img src="./docs/static/img/logo.svg" alt="HTML To Gutenberg" width="100">
+
 # HTML To Gutenberg
 
 A Webpack plugin and CLI that generates dynamic Gutenberg blocks built with React and either PHP or Twig, from a single HTML file.
