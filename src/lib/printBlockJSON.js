@@ -40,8 +40,9 @@ const printBlockJSON = async (blockData) => {
       : {}),
     $schema: "https://schemas.wp.org/trunk/block.json",
     apiVersion: 3,
-    version: "0.1.0",
-    category: "theme",
+    version: blockData.version,
+    category: blockData.category,
+    ...(blockData.icon ? { icon: blockData.icon } : {}),
     example: {},
     ...styles,
     ...(blockData.rootElement.parent

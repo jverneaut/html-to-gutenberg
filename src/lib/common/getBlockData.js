@@ -111,7 +111,15 @@ const collectAllowedBlocksRecursively = (node, allowedBlocksSet) => {
 
 const getBlockData = async (
   HTMLFileContent,
-  { blockName, blockSlug, blockTitle, blockEngine },
+  {
+    blockName,
+    blockSlug,
+    blockTitle,
+    blockEngine,
+    defaultCategory,
+    defaultIcon,
+    defaultVersion,
+  },
 ) => {
   const ast = generateAst(HTMLFileContent);
 
@@ -119,6 +127,9 @@ const getBlockData = async (
     name: blockName,
     slug: blockSlug,
     title: blockTitle,
+    category: defaultCategory,
+    icon: defaultIcon,
+    version: defaultVersion,
     description: null,
     engine: blockEngine,
     rootElement: {

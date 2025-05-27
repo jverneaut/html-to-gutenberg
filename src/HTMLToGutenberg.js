@@ -33,9 +33,14 @@ class HTMLToGutenberg {
     this.inputDirectory = result.data.inputDirectory;
     this.outputDirectory =
       result.data.outputDirectory || result.data.inputDirectory;
-    this.defaultNamespace = result.data.defaultNamespace;
+
     this.engine = result.data.engine;
     this.shouldRemoveDeletedBlocks = result.data.removeDeletedBlocks;
+
+    this.defaultNamespace = result.data.defaultNamespace;
+    this.defaultCategory = result.data.defaultCategory;
+    this.defaultIcon = result.data.defaultIcon;
+    this.defaultVersion = result.data.defaultVersion;
   }
 
   get HTMLFiles() {
@@ -74,6 +79,10 @@ class HTMLToGutenberg {
           blockSlug: this.generateBlockSlug(HTMLFile),
           blockTitle: this.generateBlockTitle(HTMLFile),
           blockEngine: this.engine,
+
+          defaultCategory: this.defaultCategory,
+          defaultIcon: this.defaultIcon,
+          defaultVersion: this.defaultVersion,
         });
 
         const [indexJS, editJS, blockJSON, renderPHP, renderTwig] =
