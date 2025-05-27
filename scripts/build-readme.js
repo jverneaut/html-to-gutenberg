@@ -6,7 +6,8 @@ const convertAdmonitions = (md) => {
     (_, type, title, content) => {
       type = type.trim().toUpperCase();
       title = title.trim();
-      const headerLine = title ? `[!${type}] ${title}` : `[!${type}]`;
+
+      const headerLine = `[!${type}]  `;
 
       // Prefix each line in the content with "> "
       const quotedContent = content
@@ -15,7 +16,7 @@ const convertAdmonitions = (md) => {
         .map((line) => `> ${line}`)
         .join("\n");
 
-      return `> ${headerLine}\n${quotedContent}`;
+      return `> ${headerLine}${title ? `\n> ## ${title}` : ""}\n${quotedContent}`;
     },
   );
 };

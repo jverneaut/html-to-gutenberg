@@ -38,7 +38,8 @@ src/
 ├── testimonial.html   # Yet another one
 ```
 
-> [!INFO] Note about blocks deletion
+> [!INFO]  
+> ## Note about blocks deletion
 > When you delete an HTML file from src, its corresponding Gutenberg block is removed on the next build.
 > 
 > However, depending on your setup, you may also need to manually delete the removed block folder inside the build/ directory to fully clean it up.
@@ -50,7 +51,7 @@ Enable your block in the WordPress admin and drop it into any page or post.
 <details>
 <summary>Can't see your plugin on the admin?</summary>
 
-> [!WARNING]
+> [!WARNING]  
 > Make sure you set a **title** when generating the plugin with `@wordpress/create-block`. If you don’t, the plugin may not appear in the WordPress plugins page.
 > 
 > If you forgot to add one, open the root PHP file of your plugin and add a `Plugin Name` like so:
