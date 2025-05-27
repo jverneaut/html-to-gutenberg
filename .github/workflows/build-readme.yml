@@ -8,7 +8,7 @@ on:
       - ".github/workflows/build-readme.yml"
 
 jobs:
-  assemble:
+  build_readme:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
           node-version: 23.x
 
       - name: Build README.md
-        run: node scripts/build-readme.md
+        run: node scripts/build-readme.js
 
       - name: Commit changes
         run: |
