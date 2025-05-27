@@ -46,6 +46,11 @@
   --ifm-color-primary-lightest: #ffffff;
 }
 
+footer.footer {
+  padding: 16px;
+  font-size: 12px;
+}
+
 .inline-code-editor {
   position: relative;
 }
@@ -68,6 +73,7 @@
 }
 
 .navbar__title,
+footer.footer,
 h1,
 h2,
 h3 {
