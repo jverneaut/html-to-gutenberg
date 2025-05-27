@@ -115,7 +115,7 @@ const getBlockData = async (
     blockName,
     blockSlug,
     blockTitle,
-    blockEngine,
+
     defaultCategory,
     defaultIcon,
     defaultVersion,
@@ -131,7 +131,6 @@ const getBlockData = async (
     icon: defaultIcon,
     version: defaultVersion,
     description: null,
-    engine: blockEngine,
     rootElement: {
       className: "",
       styles: [],

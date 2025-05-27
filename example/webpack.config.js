@@ -10,7 +10,6 @@ export default {
       inputDirectory: "./blocks",
       outputDirectory: "./generated",
       defaultNamespace: "custom",
-      engine: "all", // For demonstration purposes only. Use either "twig" or "php" for production environments
       removeDeletedBlocks: true, // Deletes blocks in outputDirectory that no longer have a corresponding source HTML file
     }),
 

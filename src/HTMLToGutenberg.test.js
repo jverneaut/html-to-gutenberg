@@ -61,31 +61,4 @@ describe("HTMLToGutenberg", () => {
     expect(htmlToGutenberg.defaultVersion).toBe("1.0.0");
     expect(htmlToGutenberg.defaultIcon).toBe("star");
   });
-
-  test('should set engine to "php" by default', () => {
-    const htmlToGutenberg = new HTMLToGutenberg({
-      inputDirectory: "./",
-    });
-
-    expect(htmlToGutenberg.engine).toBe("php");
-  });
-
-  test("should use twig engine when set", () => {
-    const htmlToGutenberg = new HTMLToGutenberg({
-      inputDirectory: "./",
-      engine: "twig",
-    });
-
-    expect(htmlToGutenberg.engine).toBe("twig");
-  });
-
-  test("should throw if unrecognized engine", () => {
-    expect(
-      () =>
-        new HTMLToGutenberg({
-          inputDirectory: "./",
-          engine: "go",
-        }),
-    ).toThrow();
-  });
 });

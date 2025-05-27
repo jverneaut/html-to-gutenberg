@@ -45,7 +45,6 @@ export default ({
           blockName: "custom/block",
           blockSlug: "block",
           blockTitle: "Block",
-          blockEngine: "php",
         });
 
         const [indexJs, editJS, renderPHP, blockJSON] = await Promise.all([
