@@ -25,7 +25,7 @@ const LiveEditorInputEditor = ({ setInputFiles }) => {
     });
   }, [code]);
 
-  return <SandpackCodeEditor showTabs />;
+  return <SandpackCodeEditor showLineNumbers showTabs />;
 };
 
 const LiveEditorInput = ({ inputFiles, setInputFiles }) => {
