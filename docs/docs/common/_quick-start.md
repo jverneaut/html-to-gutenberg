@@ -22,8 +22,11 @@ Open `wp-content/plugins/my-awesome-block/src/block.html` and make changes to yo
 
 Enable your block via WordPress admin and drop it into any page or post.
 
+<details>
+<summary>Can't see your plugin on the admin?</summary>
+
 :::warning
-Be sure to include a title for you block when generating the plugin with `@wordpress/create-block` or your plugin may not show at all inside your WordPRess extensions page as it is also used for the plugin name.
+Be sure to include a title for you block when generating the plugin with `@wordpress/create-block` or your plugin may not show at all inside your WordPress extensions page as it is also used for the plugin name.
 
 If you failed to do so, edit the root PHP file of your plugin and add a plugin name:
 
@@ -46,7 +49,9 @@ If you failed to do so, edit the root PHP file of your plugin and add a plugin n
 
 :::
 
-5. Build for production
+</details>
+
+### 5. Build for production
 
 ```bash
 npm run build
