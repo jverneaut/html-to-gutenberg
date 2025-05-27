@@ -4,7 +4,6 @@ const defaultBlockOptions = {
   blockName: "name",
   blockSlug: "slug",
   blockTitle: "title",
-  blockEngine: "php",
 };
 
 describe("getBlockData", () => {

@@ -20,7 +20,6 @@ const getGenerateFileByType = (generateFiles, type) =>
 const generateFiles = async (caseDir) => {
   const htmlToGutenberg = new HTMLToGutenberg({
     inputDirectory: caseDir,
-    engine: "all",
   });
 
   const generatedFiles = await htmlToGutenberg.generateFiles();
@@ -30,7 +29,6 @@ const generateFiles = async (caseDir) => {
     edit: getGenerateFileByType(generatedFiles, "edit"),
     php: getGenerateFileByType(generatedFiles, "php"),
     json: getGenerateFileByType(generatedFiles, "json"),
-    twig: getGenerateFileByType(generatedFiles, "twig"),
   };
 };
 
@@ -42,7 +40,7 @@ describe("HTML Parser", () => {
     test(`should correctly parse ${testCase}`, async () => {
       const caseDir = path.join(PROCESSABLE_FIXTURES_DIR, testCase);
 
-      const { json, twig, edit, php, index } = await generateFiles(caseDir);
+      const { json, edit, php, index } = await generateFiles(caseDir);
 
       const expectedJSONPath = path.join(caseDir, "expected.json");
       if (fs.existsSync(expectedJSONPath)) {
@@ -60,12 +58,6 @@ describe("HTML Parser", () => {
       if (fs.existsSync(expectedPHPPath)) {
         const expectedPHP = fs.readFileSync(expectedPHPPath, "utf-8");
         expect(php).toEqual(expectedPHP);
-      }
-
-      const expectedTwigPath = path.join(caseDir, "expected.twig");
-      if (fs.existsSync(expectedTwigPath)) {
-        const expectedTwig = fs.readFileSync(expectedTwigPath, "utf-8");
-        expect(twig).toEqual(expectedTwig);
       }
 
       const expectedIndexPath = path.join(caseDir, "expected.index.js");

@@ -8,7 +8,6 @@ import printBlockJSON from "./lib/printBlockJSON.js";
 import printIndexJS from "./lib/printIndexJS.js";
 import printEditJS from "./lib/printEditJS.js";
 import printRenderPHP from "./lib/printRenderPHP.js";
-import printRenderTwig from "./lib/printRenderTwig.js";
 
 import { OptionsSchema } from "./schemas/HTMLToGutenbergOptions.js";
 
@@ -34,7 +33,6 @@ class HTMLToGutenberg {
     this.outputDirectory =
       result.data.outputDirectory || result.data.inputDirectory;
 
-    this.engine = result.data.engine;
     this.shouldRemoveDeletedBlocks = result.data.removeDeletedBlocks;
 
     this.defaultNamespace = result.data.defaultNamespace;
@@ -78,33 +76,23 @@ class HTMLToGutenberg {
           blockName: this.generateBlockName(HTMLFile),
           blockSlug: this.generateBlockSlug(HTMLFile),
           blockTitle: this.generateBlockTitle(HTMLFile),
-          blockEngine: this.engine,
 
           defaultCategory: this.defaultCategory,
           defaultIcon: this.defaultIcon,
           defaultVersion: this.defaultVersion,
         });
 
-        const [indexJS, editJS, blockJSON, renderPHP, renderTwig] =
-          await Promise.all([
-            printIndexJS(blockData),
-            printEditJS(blockData),
-            printBlockJSON(blockData),
-            printRenderPHP(blockData),
-            printRenderTwig(blockData),
-          ]);
+        const [indexJS, editJS, blockJSON, renderPHP] = await Promise.all([
+          printIndexJS(blockData),
+          printEditJS(blockData),
+          printBlockJSON(blockData),
+          printRenderPHP(blockData),
+        ]);
 
         files.push({ type: "index", content: indexJS });
         files.push({ type: "edit", content: editJS });
         files.push({ type: "json", content: blockJSON });
-
-        if (["all", "php"].includes(this.engine)) {
-          files.push({ type: "php", content: renderPHP });
-        }
-
-        if (["all", "twig"].includes(this.engine)) {
-          files.push({ type: "twig", content: renderTwig });
-        }
+        files.push({ type: "php", content: renderPHP });
 
         generatedFiles.push({
           source: HTMLFile,
@@ -158,14 +146,6 @@ class HTMLToGutenberg {
           case "php":
             fs.writeFileSync(
               path.join(blockPath, "render.php"),
-              content,
-              "utf-8",
-            );
-            break;
-
-          case "twig":
-            fs.writeFileSync(
-              path.join(blockPath, "render.twig"),
               content,
               "utf-8",
             );

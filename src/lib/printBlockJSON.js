@@ -57,7 +57,7 @@ const printBlockJSON = async (blockData) => {
       align: ["full"],
     },
     editorScript: "file:./index.js",
-    render: `file:./render.${blockData.engine === "all" ? "php" : blockData.engine}`,
+    render: "file:./render.php",
   };
 
   const formatted = await format(JSON.stringify(blockDefinition), {

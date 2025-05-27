@@ -3,8 +3,6 @@ import { z } from "zod";
 export const OptionsSchema = z.object({
   inputDirectory: z.string().nonempty("inputDirectory is required"),
   outputDirectory: z.string().optional(),
-
-  engine: z.enum(["php", "twig", "all"]).default("php"),
   removeDeletedBlocks: z.boolean().optional(),
 
   defaultNamespace: z.string().default("custom"),
