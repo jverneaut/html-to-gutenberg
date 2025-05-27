@@ -97,6 +97,12 @@ const config = {
         darkTheme: prismThemes.dracula,
         additionalLanguages: ["php"],
       },
+
+      algolia: {
+        appId: "6YBIB3D2UU",
+        apiKey: "4446ea46a8ba6cda94109ba70c372825",
+        indexName: "html-to-gutenberg",
+      },
     }),
 };
 
