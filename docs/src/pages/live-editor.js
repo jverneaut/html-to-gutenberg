@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Layout from "@theme/Layout";
+import { useColorMode } from "@docusaurus/theme-common";
 
 import {
   useActiveCode,
@@ -29,8 +30,11 @@ const LiveEditorInputEditor = ({ setInputFiles }) => {
 };
 
 const LiveEditorInput = ({ inputFiles, setInputFiles }) => {
+  const { colorMode } = useColorMode();
+
   return (
     <SandpackProvider
+      theme={colorMode}
       files={inputFiles}
       customSetup={{
         entry: "/block.html",
@@ -80,8 +84,11 @@ const LiveEditorOutputEditor = ({ inputFiles }) => {
 };
 
 const LiveEditorOutput = ({ inputFiles }) => {
+  const { colorMode } = useColorMode();
+
   return (
     <SandpackProvider
+      theme={colorMode}
       files={{
         "/render.php": "",
         "/block.json": "",
