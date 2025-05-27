@@ -119,8 +119,8 @@ const printEditJS = async (blockData) => {
   // Step Convert AST back to HTML
   const rawHtml = toHtml(ast, { closeSelfClosing: true });
   const transformedHtml = [
-    utils.replaceEscapedChars,
     stripQuotesFromJSX,
+    utils.replaceEscapedChars,
     camelizeAttributes,
     replaceClassWithClassName,
   ].reduce(
