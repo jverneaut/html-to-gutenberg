@@ -11,7 +11,11 @@ import printRenderPHP from "../../../src/lib/printRenderPHP.js";
 import printBlockJSON from "../../../src/lib/printBlockJSON.js";
 import printIndexJS from "../../../src/lib/printIndexJS.js";
 
-export default ({ children }) => {
+export default ({
+  children,
+  filename = "block.html",
+  activeTab = "block.html",
+}) => {
   const code = children.props.children.props.children;
 
   const [generatedFiles, setGeneratedFiles] = useState({
@@ -21,13 +25,16 @@ export default ({ children }) => {
     "block.json": null,
   });
 
+  const blockSlug = filename.split(".")[0];
+  const blockName = `custom/${blockSlug}`;
+  const blockTitle = blockSlug.charAt(0).toUpperCase() + blockSlug.slice(1);
+
   useEffect(() => {
     (async () => {
       const blockData = await getBlockData(code, {
-        blockName: "custom/block",
-        blockSlug: "block",
-        blockTitle: "Block",
-        blockEngine: "php",
+        blockName,
+        blockSlug,
+        blockTitle,
       });
 
       const [indexJs, editJS, renderPHP, blockJSON] = await Promise.all([
@@ -48,32 +55,52 @@ export default ({ children }) => {
 
   return (
     <Tabs>
-      <TabItem value="block.html" label="block.html" default>
-        <CodeBlock title="block.html" language="html">
+      <TabItem
+        value="block.html"
+        label={filename}
+        default={activeTab === "block.html"}
+      >
+        <CodeBlock title={filename} language="html">
           {code}
         </CodeBlock>
       </TabItem>
 
-      <TabItem value="edit.js" label="edit.js">
-        <CodeBlock title="block/edit.js" language="jsx">
+      <TabItem
+        value="edit.js"
+        label="edit.js"
+        default={activeTab === "edit.js"}
+      >
+        <CodeBlock title={`${blockSlug}/edit.js`} language="jsx">
           {generatedFiles["edit.js"]}
         </CodeBlock>
       </TabItem>
 
-      <TabItem value="render.php" label="render.php">
-        <CodeBlock title="block/render.php" language="php">
+      <TabItem
+        value="render.php"
+        label="render.php"
+        default={activeTab === "render.php"}
+      >
+        <CodeBlock title={`${blockSlug}/render.php`} language="php">
           {generatedFiles["render.php"]}
         </CodeBlock>
       </TabItem>
 
-      <TabItem value="block.json" label="block.json">
-        <CodeBlock title="block/block.json" language="json">
+      <TabItem
+        value="block.json"
+        label="block.json"
+        default={activeTab === "block.json"}
+      >
+        <CodeBlock title={`${blockSlug}/block.json`} language="json">
           {generatedFiles["block.json"]}
         </CodeBlock>
       </TabItem>
 
-      <TabItem value="index.js" label="index.js">
-        <CodeBlock title="block/index.js" language="jsx">
+      <TabItem
+        value="index.js"
+        label="index.js"
+        default={activeTab === "index.js"}
+      >
+        <CodeBlock title={`${blockSlug}/index.js`} language="jsx">
           {generatedFiles["index.js"]}
         </CodeBlock>
       </TabItem>
