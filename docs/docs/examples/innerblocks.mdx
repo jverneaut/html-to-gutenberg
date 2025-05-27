@@ -1,0 +1,91 @@
+---
+sidebar_position: 4
+---
+
+# InnerBlocks
+
+import CodeExample from "@site/src/components/CodeExample";
+import LiveEditor from "@site/src/components/LiveEditor";
+
+<LiveEditor>
+  ```
+  <section>
+    <blocks templateLock>
+      <block name="core/group">
+        <block name="core/heading" level="3"></block>
+        <block name="core/paragraph">
+          <attribute name="content">
+            Lorem <strong>ipsum</strong>
+          </attribute>
+        </block>
+      </block>
+    </blocks>
+  </section>
+  ```
+</LiveEditor>
+
+## Default InnerBlocks zone
+
+<CodeExample>
+  ```
+  <section>
+    <blocks></blocks>
+  </section>
+  ```
+</CodeExample>
+
+## InnerBlocks with templateLock
+
+<CodeExample>
+  ```
+  <section>
+    <blocks templateLock>
+      <block name="core/heading"></block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+## InnerBlocks with default values
+
+<CodeExample>
+  ```
+  <section>
+    <blocks>
+      <block name="core/heading" level="3"></block>
+      <block name="core/paragraph">
+        <attribute name="content">
+          Lorem <strong>ipsum</strong>
+        </attribute>
+      </block>
+    </blocks>
+  </section>
+  ```
+</CodeExample>
+
+## Nested InnerBlocks
+
+<CodeExample>
+  ```
+  <section>
+    <blocks>
+      <block name="core/columns">
+        <block name="core/column">
+          <block name="core/group">
+            <block name="core/heading"></block>
+            <block name="core/paragraph"></block>
+          </block>
+        </block>
+
+        <block name="core/column">
+          <block name="core/group">
+            <block name="core/heading"></block>
+            <block name="core/paragraph"></block>
+          </block>
+        </block>
+      </block>
+    </blocks>
+
+  </section>
+  ```
+</CodeExample>
