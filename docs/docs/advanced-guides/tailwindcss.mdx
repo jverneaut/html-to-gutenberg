@@ -2,6 +2,8 @@
 sidebar_position: 0
 ---
 
+import CodeExample from "@site/src/components/CodeExample";
+
 # Styling Gutenberg blocks with TailwindCSS
 
 As Gutenberg blocks made with HTML To Gutenberg are simple HTML files, TailwindCSS works out of the box with it without any extra configuration. It is a perfect candidate to use when working with custom blocks, as the styles are self contained inside the HTML markup and as such doesn't require any extra css files along them.
@@ -53,3 +55,36 @@ I use this style to make the transition so long that it doesn't disrupt the edit
   }
 }
 ```
+
+## Applying arbitrary styles to Gutenberg blocks
+
+When using `InnerBlocks`, it is often useful to be able to target specific blocks and style them from the `InnerBlocks` parent container element.
+
+To achieve this, you can create a custom-variant for each blocks you want to target that looks like this:
+
+```css
+@custom-variant wp-block-heading {
+  .wp-block-heading {
+    @slot;
+  }
+}
+```
+
+You can now easily target blocks using TailwindCSS like this, even combining the varaint with other ones like `:first-of-type`:
+
+<CodeExample>
+  ```
+  <section class="py-20">
+    <div class="wp-block-heading:first-of-type:text-red-600">
+      <blocks templateLock="all">
+        <block name="core/group">
+          <block name="core/heading" content="I'm red"></block>
+          <block name="core/heading" content="I'm not red"></block>
+        </block>
+      </blocks>
+    </div>
+  </section>
+  ```
+</CodeExample>
+
+I would love to be able to build a dynamic variant without having to do it for each blocks I want to target, but it doesn't seem to be implemented in TailwindCSS V4 yet.
