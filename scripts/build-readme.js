@@ -55,6 +55,8 @@ const template = `![Tests Status](https://github.com/jverneaut/html-to-gutenberg
 
 ${introductionTemplate}
 
+![HTML To Gutenberg WordCamp Demo](docs/static/img/wordcamp-demo.png)
+
 ## Quick start
 
 ${quickStartTemplate}
