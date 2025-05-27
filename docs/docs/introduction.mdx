@@ -116,16 +116,24 @@ Under the hood, **HTML To Gutenberg** builds an AST from your HTML file, then co
 Here’s what happens:
 
 1. **Your HTML is parsed into an Abstract Syntax Tree (AST)**
+
    The tool analyzes your block’s structure turning your HTML into a tree of nodes it can manipulate intelligently.
+
 2. **The AST is crawled to extract custom attributes and translate the markup**
+
    Attributes like `data-attribute`, `data-parent`, and `<blocks>` elements define how fields, templates, and InnerBlocks behave. These are translated into the appropriate Gutenberg APIs.
+
 3. **Code is generated for every part of the block**
+
    From a single `block.html``, the tool outputs:
+
    - `block.json` (metadata + config)
    - `edit.js` (editor component)
    - `render.php` (frontend rendering)
    - `index.js` (block registration)
+
 4. **It rebuilds your block automatically on save**
+
    During development, it watches for changes and regenerates output.
 
 ```mermaid
