@@ -4,9 +4,13 @@ export const OptionsSchema = z.object({
   inputDirectory: z.string().nonempty("inputDirectory is required"),
   outputDirectory: z.string().optional(),
 
-  blocksPrefix: z.string().default("custom"),
   engine: z.enum(["php", "twig", "all"]).default("php"),
   removeDeletedBlocks: z.boolean().optional(),
+
+  defaultNamespace: z.string().default("custom"),
+  defaultCategory: z.string().default("theme"),
+  defaultIcon: z.string(),
+  defaultVersion: z.string().default("0.1.0"),
 });
 
 /**
