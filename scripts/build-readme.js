@@ -1,28 +1,26 @@
 import fs from "fs";
 
-const convertAdmonitions = (md) => {
+const convertAdmonitionsToQuotes = (md) => {
   return md.replace(
     /:::([a-zA-Z]+)([^\n]*)\n([\s\S]+?)\n:::/g,
     (_, type, title, content) => {
       type = type.trim().toUpperCase();
       title = title.trim();
 
-      const headerLine = `[!${type}]  `;
-
       // Prefix each line in the content with "> "
       const quotedContent = content
         .trim()
         .split("\n")
-        .map((line) => `> ${line}`)
+        .map((line) => (line.length ? `> ${line}` : ">"))
         .join("\n");
 
-      return `> ${headerLine}${title ? `\n> ## ${title}` : ""}\n${quotedContent}`;
+      return `${title ? `\n> ### ${title}` : ""}\n${quotedContent}`;
     },
   );
 };
 
 const convertTemplate = (template) => {
-  const convertedTemplate = [convertAdmonitions].reduce(
+  const convertedTemplate = [convertAdmonitionsToQuotes].reduce(
     (acc, curr) => curr(acc),
     template,
   );
