@@ -4,6 +4,8 @@ sidebar_position: 0
 
 # Creating a block
 
+## With `@wordpress/create-block`
+
 If you created your blocks plugin using `@wordpress/create-block` with the `html-to-gutenberg-template`, adding a new block is as simple as creating a new `.html` file inside the `src/` folder.
 
 ```txt
@@ -27,6 +29,10 @@ If you created your blocks plugin using `@wordpress/create-block` with the `html
     └── second-block/
         └── ...
 ```
+
+## With custom webpack config
+
+If you've created a custom webpack configuration to build your blocks, you can add a new block by creating a new `.html` file inside the `options.inputDirectory` folder.
 
 ## Git ignore recommendation
 
