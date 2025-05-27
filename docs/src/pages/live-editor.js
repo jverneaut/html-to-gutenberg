@@ -100,15 +100,15 @@ const LiveEditorOutput = ({ inputFiles }) => {
   );
 };
 
-const defaultFileValue = ` <section className="py-20 bg-blue-200" data-parent="custom/parent-block" data-editing-mode="contentOnly">
-  <div className="container">
-    <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-12 md:col-span-6">
-        <h2 className="text-2xl" data-attribute="section_title">I am editable – awesome, right?</h2>
-        <img className="aspect-square object-cover" data-attribute="section_image" />
+const defaultFileValue = ` <section class="py-20 bg-blue-200" data-parent="custom/parent-block" data-editing-mode="contentOnly">
+  <div class="container">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 md:col-span-6">
+        <h2 class="text-2xl" data-attribute="section_title">I am editable – awesome, right?</h2>
+        <img class="aspect-square object-cover" data-attribute="section_image" />
       </div>
 
-      <div className="col-span-12 md:col-span-6">
+      <div class="col-span-12 md:col-span-6">
         <blocks allowedBlocks="all" templateLock="all">
           <block name="core/group">
             <block name="core/heading" level="3"></block>
