@@ -89,8 +89,8 @@ const config = {
         ],
       },
       footer: {
-        style: "dark",
-        copyright: `Copyright © ${new Date().getFullYear()} HTML To Gutenberg. Built with Docusaurus.`,
+        style: "light",
+        copyright: `Copyright © ${new Date().getFullYear()} HTML To Gutenberg. Built in Strasbourg by <a href="https://www.julienverneaut.com" target="_blank">Julien Verneaut.</a>`,
       },
       prism: {
         theme: prismThemes.github,
