@@ -2,4 +2,14 @@
 sidebar_position: 2
 ---
 
+import CodeExample from "@site/src/components/CodeExample";
+
 # Setting the block editing mode
+
+You can set the block editing mode using the `useBlockEditingMode` hook by setting to `data-editing-mode` attribute on the root block element to either `disabled`, `contentOnly` or `default`.
+
+<CodeExample>
+  ```
+  <section data-editing-mode="disabled"></section>
+  ```
+</CodeExample>
