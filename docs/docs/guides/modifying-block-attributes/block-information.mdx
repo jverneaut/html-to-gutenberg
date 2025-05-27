@@ -1,0 +1,63 @@
+---
+sidebar_position: 0
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Manually setting block information (name, title, etc.)
+
+Behind the scenes, **HTML To Gutenberg** automatically sets sensible defaults for many block properties, reducing the need for manual configuration.
+
+For example, the block’s `name` attribute is automatically generated based on the `defaultNamespace` option and the block’s filename.
+
+However, you can still manually override these attributes when necessary.
+
+## Changing the block name
+
+To specify a custom block name, add the `data-name` attribute to the root element of your block:
+
+<CodeExample>
+  ```
+  <section data-name="custom-namespace/custom-block-name"></section>
+  ```
+</CodeExample>
+
+## Changing the block title
+
+To set a custom title for your block, use the `data-title` attribute on the root element:
+
+<CodeExample>
+  ```
+  <section data-title="Custom block title"></section>
+  ```
+</CodeExample>
+
+## Setting the block description
+
+To provide a description for your block, add the `data-description` attribute to the root element:
+
+<CodeExample>
+  ```
+  <section data-description="Custom description"></section>
+  ```
+</CodeExample>
+
+## Changing the block icon
+
+To customize the block icon, use the `data-icon` attribute on the root element. You can specify any Dashicon or supported icon name:
+
+<CodeExample>
+  ```
+  <section data-icon="star"></section>
+  ```
+</CodeExample>
+
+## Changing the block category
+
+To assign your block to a different category, use the `data-category` attribute on the root element:
+
+<CodeExample>
+  ```
+  <section data-category="widgets"></section>
+  ```
+</CodeExample>
