@@ -68,7 +68,10 @@ const replaceClassWithClassName = (html) =>
 const replaceIsSelectedPlaceholders = (html) =>
   html
     .replaceAll("[IS_SELECTED]", "{isSelected && (\n")
-    .replaceAll("[/IS_SELECTED]", "\n)}");
+    .replaceAll("[/IS_SELECTED]", "\n)}")
+
+    .replaceAll("[IS_UNSELECTED]", "{!isSelected && (\n")
+    .replaceAll("[/IS_UNSELECTED]", "\n)}");
 
 // Generates the root element props
 const generateRootProps = (blockData) => {

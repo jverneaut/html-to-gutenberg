@@ -31,6 +31,24 @@ const handleDisplayModes = (ast) => {
       ];
     }
 
+    if (
+      node.properties &&
+      node.properties.dataDisplay &&
+      node.properties.dataDisplay === "unselected"
+    ) {
+      return [
+        {
+          type: "text",
+          value: "[IS_UNSELECTED]",
+        },
+        node,
+        {
+          type: "text",
+          value: "[/IS_UNSELECTED]",
+        },
+      ];
+    }
+
     return [node];
   });
 
