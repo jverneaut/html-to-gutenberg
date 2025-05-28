@@ -2,6 +2,9 @@ name: Build README
 
 on:
   push:
+    branches:
+      - "**"
+      - "!main"
     paths:
       - "docs/docs/**"
       - "scripts/build-readme.js"
