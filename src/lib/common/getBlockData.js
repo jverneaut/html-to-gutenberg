@@ -148,6 +148,10 @@ const getBlockData = async (
     hasIsSelected: false,
     html: "",
     hasContent: false,
+
+    style: false,
+    editorStyle: false,
+    viewScript: false,
   };
 
   // Extract root element data and set root-placeholder
@@ -244,6 +248,27 @@ const getBlockData = async (
         blockData.version = children.properties.dataVersion;
 
         delete children.properties.dataVersion;
+      }
+
+      // Extract and delete data-style attribute
+      if (children.properties.dataStyle) {
+        blockData.style = children.properties.dataStyle;
+
+        delete children.properties.dataStyle;
+      }
+
+      // Extract and delete data-editor-style attribute
+      if (children.properties.dataEditorStyle) {
+        blockData.editorStyle = children.properties.dataEditorStyle;
+
+        delete children.properties.dataEditorStyle;
+      }
+
+      // Extract and delete data-view-script attribute
+      if (children.properties.dataViewScript) {
+        blockData.viewScript = children.properties.dataViewScript;
+
+        delete children.properties.dataViewScript;
       }
     }
   });
