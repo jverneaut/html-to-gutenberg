@@ -14,14 +14,6 @@ The fastest and most foolproof way to get started.
 
 If you’re using Webpack to build your custom blocks, you can easily integrate **HTML To Gutenberg** into your build process to automatically generate `block.json`, `edit.js`, `render.php` and `index.js` from simple HTML files.
 
-:::warning
-This page walks you through how to configure it manually — but keep in mind that **HTML To Gutenberg is only responsible for generating the block files**, not for compiling or bundling them. If you are an advanced webpack user and already have a webpack config that can compile blocks, then adding HTML To Gutenberg can be as simple as adding the plugin to your configuration and poiting to its outputdirectory in your custom configuration. For every other use case, I highly recommend using the standard `@wordpress/create-block` approach.
-
-If you still want to delve into building blocks manually, you should use well-supported tools like [`@wordpress/scripts`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/).
-:::
-
----
-
 ### Installation
 
 ```bash
@@ -54,9 +46,19 @@ export default {
 | `blocksPrefix?`        | `string`  | 'custom'         | Prefix used for block names (e.g., `custom/hero`).                         |
 | `removeDeletedBlocks?` | `boolean` | `false`          | Whether to delete generated blocks if their source HTML files are removed. |
 
-### Example: Full Webpack Configuration
+:::warning
+This page walks you through how to configure it manually — but keep in mind that **HTML To Gutenberg is only responsible for generating the block files**, not for compiling or bundling them. If you are an advanced webpack user and already have a webpack config that can compile blocks, then adding HTML To Gutenberg can be as simple as adding the plugin to your configuration and poiting to its outputdirectory in your custom configuration. For every other use case, I highly recommend using the standard `@wordpress/create-block` approach.
 
-This example can serve as a starting point for developing custom Gutenberg blocks using **HTML To Gutenberg**. It uses the companion `@jverneaut/gutenberg-webpack-plugin` to compile the generated blocks for use in WordPress.
+If you still want to delve into building blocks manually, you should use well-supported tools like [`@wordpress/scripts`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/).
+:::
+
+### Bundling blocks with @jvenreaut/gutenberg-webpack-plugin
+
+To make integrating `@wordpress/scripts` easier into an existing webpack configuration, I created **[@jverneaut/gutenberg-webpack-plugin](https://github.com/jverneaut/gutenberg-webpack-plugin)**. It’s heavily based on `@wordpress/scripts` and, while not 100% feature-complete, it makes bundling blocks much easier when using a custom Webpack setup.
+
+It allows bundling blocks from inside your theme as opposed to a separate plugin, adding custom preprocessors using webpack, using TailwindCSS, etc.
+
+#### Example config
 
 ```js title="webpack.config.js"
 import HTMLToGutenbergPlugin from "@jverneaut/html-to-gutenberg";
@@ -74,20 +76,9 @@ export default {
 
     new GutenbergWebpackPlugin("./generated-blocks"), // Registers the generated blocks
   ],
-
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
-          },
-        },
-      },
-    ],
-  },
 };
 ```
+
+:::info
+When bundling blocks this way, don't forget to register them from the built output to make them available to WordPress. To learn how, head over to the next page.
+:::
