@@ -13,6 +13,7 @@ import addRichTextComponent from "./jsx/addRichTextComponent.js";
 import addMediaUploadComponent from "./jsx/addMediaUploadComponent.js";
 import addInnerBlocksComponent from "./jsx/addInnerBlocksComponent.js";
 import convertStyleToObject from "./jsx/convertStyleToObject.js";
+import handleDisplayModes from "./jsx/handleDisplayModes.js";
 
 const template = `{{#hasContent}}
 import {
@@ -36,11 +37,7 @@ import { Image } from "@10up/block-components";
 {{/hasContent}}
 
 {{#hasContent}}
-export default (
-{{#hasAttributes}}
-{ attributes, setAttributes }
-{{/hasAttributes}}
-) => {
+export default ({{{props}}}) => {
 {{{ beforeContent }}}
 
 return ({{{ content }}})
@@ -68,6 +65,11 @@ const camelizeAttributes = (html, { attributes }) =>
 const replaceClassWithClassName = (html) =>
   html.replaceAll("class=", "className=");
 
+const replaceIsSelectedPlaceholders = (html) =>
+  html
+    .replaceAll("[IS_SELECTED]", "{isSelected && (\n")
+    .replaceAll("[/IS_SELECTED]", "\n)}");
+
 // Generates the root element props
 const generateRootProps = (blockData) => {
   const { className } = blockData.rootElement;
@@ -79,7 +81,14 @@ const generateRootProps = (blockData) => {
 };
 
 const printEditJS = async (blockData) => {
-  const { attributes, html, hasContent, innerBlocks, rootElement } = blockData;
+  const {
+    attributes,
+    html,
+    hasContent,
+    innerBlocks,
+    rootElement,
+    hasIsSelected,
+  } = blockData;
 
   const attributeValues = Object.values(attributes);
   const options = {
@@ -89,6 +98,7 @@ const printEditJS = async (blockData) => {
     hasContent,
     hasInnerBlocks: innerBlocks.hasInnerBlocks,
     hasEditingMode: rootElement.editingMode !== null,
+    hasIsSelected,
   };
 
   // Preprocess AST, add <RichText /> components, <InnerBlocks />, etc.
@@ -98,6 +108,7 @@ const printEditJS = async (blockData) => {
     addMediaUploadComponent,
     addInnerBlocksComponent,
     convertStyleToObject,
+    handleDisplayModes,
   ];
   jsxProcessors.forEach((processor) => processor.call({}, ast, innerBlocks));
 
@@ -123,6 +134,7 @@ const printEditJS = async (blockData) => {
     utils.replaceEscapedChars,
     camelizeAttributes,
     replaceClassWithClassName,
+    replaceIsSelectedPlaceholders,
   ].reduce(
     (html, transformer) =>
       transformer(html, { attributes: [...foundAttributes] }),
@@ -146,10 +158,19 @@ const printEditJS = async (blockData) => {
 
   const beforeContent = [hooksCalls].join("\n");
 
+  const props = [
+    options.hasAttributes ? "attributes" : false,
+    options.hasAttributes ? "setAttributes" : false,
+    options.hasIsSelected ? "isSelected" : false,
+  ].filter(Boolean);
+
+  const propsString = props.length ? `{${props.join(", ")}}` : "";
+
   // Render final JS file
   const rendered = Mustache.render(template, {
     beforeContent,
     content,
+    props: propsString,
     ...options,
   });
 

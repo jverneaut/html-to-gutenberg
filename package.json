@@ -38,6 +38,7 @@
     "rehype-parse": "^9.0.1",
     "style-to-object": "^1.0.8",
     "unified": "^11.0.5",
+    "unist-util-flatmap": "^1.0.0",
     "unist-util-remove": "^4.0.0",
     "unist-util-source": "^5.0.0",
     "unist-util-visit": "^5.0.0",
