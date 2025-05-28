@@ -13,6 +13,7 @@ class HTMLToGutenbergPlugin {
   }
 
   async apply(compiler) {
+    this.maybeRemoveDeletedBlocks();
     this.generateAndWriteFiles();
 
     compiler.hooks.afterCompile.tap("HTMLToGutenbergPlugin", (compiler) => {
