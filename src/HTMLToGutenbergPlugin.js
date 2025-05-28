@@ -14,7 +14,7 @@ class HTMLToGutenbergPlugin {
 
   async apply(compiler) {
     this.maybeRemoveDeletedBlocks();
-    this.generateAndWriteFiles();
+    await this.generateAndWriteFiles();
 
     compiler.hooks.afterCompile.tap("HTMLToGutenbergPlugin", (compiler) => {
       const files = globSync(this.htmlToGutenberg.inputDirectory + "/**/*.*");
