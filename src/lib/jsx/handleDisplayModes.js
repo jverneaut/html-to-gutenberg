@@ -34,17 +34,17 @@ const handleDisplayModes = (ast) => {
     if (
       node.properties &&
       node.properties.dataDisplay &&
-      node.properties.dataDisplay === "unselected"
+      node.properties.dataDisplay === "not-selected"
     ) {
       return [
         {
           type: "text",
-          value: "[IS_UNSELECTED]",
+          value: "[IS_NOT_SELECTED]",
         },
         node,
         {
           type: "text",
-          value: "[/IS_UNSELECTED]",
+          value: "[/IS_NOT_SELECTED]",
         },
       ];
     }

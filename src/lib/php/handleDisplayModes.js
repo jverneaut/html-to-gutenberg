@@ -7,7 +7,9 @@ const addTextLookup = (ast) => {
     return (
       node.properties &&
       node.properties.dataDisplay &&
-      ["editor", "selected", "unselected"].includes(node.properties.dataDisplay)
+      ["editor", "selected", "not-selected"].includes(
+        node.properties.dataDisplay,
+      )
     );
   });
 

@@ -369,7 +369,7 @@ const getBlockData = async (
   visit(ast, "element", (node) => {
     if (
       node.properties.dataDisplay &&
-      ["selected", "unselected"].includes(node.properties.dataDisplay)
+      ["selected", "not-selected"].includes(node.properties.dataDisplay)
     ) {
       blockData.hasIsSelected = true;
     }
