@@ -53,7 +53,12 @@ class HTMLToGutenbergPlugin {
 
   async generateAndWriteFiles() {
     const generatedFiles = await this.htmlToGutenberg.generateFiles();
-    this.htmlToGutenberg.writeFiles(generatedFiles);
+    const filesOverrides = await this.htmlToGutenberg.getFilesOverrides();
+
+    this.htmlToGutenberg.cleanOutputAndWriteFiles([
+      ...generatedFiles,
+      ...filesOverrides,
+    ]);
   }
 }
 

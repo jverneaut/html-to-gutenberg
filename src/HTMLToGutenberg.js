@@ -89,14 +89,30 @@ class HTMLToGutenberg {
           printRenderPHP(blockData),
         ]);
 
-        files.push({ type: "index", content: indexJS });
-        files.push({ type: "edit", content: editJS });
-        files.push({ type: "json", content: blockJSON });
-        files.push({ type: "php", content: renderPHP });
+        const blockPath = this.generateBlockPath(HTMLFile);
 
         generatedFiles.push({
-          source: HTMLFile,
-          files,
+          filename: "index.js",
+          content: indexJS,
+          blockPath,
+        });
+
+        generatedFiles.push({
+          filename: "edit.js",
+          content: editJS,
+          blockPath,
+        });
+
+        generatedFiles.push({
+          filename: "block.json",
+          content: blockJSON,
+          blockPath,
+        });
+
+        generatedFiles.push({
+          filename: "render.php",
+          content: renderPHP,
+          blockPath,
         });
       }
     } catch (err) {
@@ -106,55 +122,44 @@ class HTMLToGutenberg {
     return generatedFiles;
   }
 
+  async getFilesOverrides() {
+    return [];
+  }
+
   createDirectoryIfNotExists(directoryPath) {
     try {
       fs.mkdirSync(directoryPath, { recursive: true });
     } catch {}
   }
 
-  writeFiles(generatedFiles) {
-    const generatedBlocksPaths = [];
+  cleanDirectory(directoryPath) {
+    fs.readdir(directoryPath, (err, files) => {
+      if (err) throw err;
 
-    generatedFiles.forEach((generatedFile) => {
-      const blockPath = this.generateBlockPath(generatedFile.source);
-      this.createDirectoryIfNotExists(blockPath);
-
-      generatedBlocksPaths.push(blockPath);
-
-      generatedFile.files.forEach(({ type, content }) => {
-        switch (type) {
-          case "index":
-            fs.writeFileSync(
-              path.join(blockPath, "index.js"),
-              content,
-              "utf-8",
-            );
-            break;
-
-          case "edit":
-            fs.writeFileSync(path.join(blockPath, "edit.js"), content, "utf-8");
-            break;
-
-          case "json":
-            fs.writeFileSync(
-              path.join(blockPath, "block.json"),
-              content,
-              "utf-8",
-            );
-            break;
-
-          case "php":
-            fs.writeFileSync(
-              path.join(blockPath, "render.php"),
-              content,
-              "utf-8",
-            );
-            break;
+      for (const file of files) {
+        if (
+          !["block.json", "edit.js", "index.js", "render.php"].includes(file)
+        ) {
+          fs.unlink(path.join(directoryPath, file), (err) => {
+            if (err) throw err;
+          });
         }
-      });
+      }
+    });
+  }
+
+  cleanOutputAndWriteFiles(files) {
+    const blockPaths = new Set(files.map((file) => file.blockPath));
+
+    blockPaths.forEach((blockPath) => {
+      this.createDirectoryIfNotExists(blockPath);
+      this.cleanDirectory(blockPath);
     });
 
-    return generatedBlocksPaths;
+    files.forEach((file) => {
+      const { blockPath, filename, content } = file;
+      fs.writeFileSync(path.join(blockPath, filename), content, "utf-8");
+    });
   }
 
   removeDeletedBlocks() {
