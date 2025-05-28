@@ -1,0 +1,17 @@
+{
+  "name": "custom/block-with-assets",
+  "title": "Block With Assets",
+  "textdomain": "block-with-assets",
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "0.1.0",
+  "category": "theme",
+  "example": {},
+  "attributes": { "align": { "type": "string", "default": "full" } },
+  "supports": { "html": false, "align": ["full"] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "viewScript": "file:./view-script.js"
+}
