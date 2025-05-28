@@ -127,4 +127,16 @@ describe("getBlockData", () => {
     expect(blockData.attributes.image.type).toBe("integer");
     expect(blockData.attributes.image._internalType).toBe("image");
   });
+
+  test("should extract style, editorStyle and viewScript", async () => {
+    const input = `
+      <section data-style="style.css" data-editor-style="editor.css" data-view-script="script.js"></section>
+    `;
+
+    const blockData = await getBlockData(input, defaultBlockOptions);
+
+    expect(blockData.style).toBe("style.css");
+    expect(blockData.editorStyle).toBe("editor.css");
+    expect(blockData.viewScript).toBe("script.js");
+  });
 });

@@ -1,4 +1,5 @@
-import fs from "fs";
+import { globSync } from "glob";
+import path from "path";
 import HTMLToGutenberg from "./HTMLToGutenberg.js";
 
 /** @typedef {import("./schemas/HTMLToGutenbergOptions.js").HTMLToGutenbergOptions} HTMLToGutenbergOptions */
@@ -12,26 +13,28 @@ class HTMLToGutenbergPlugin {
   }
 
   async apply(compiler) {
-    this.generateAndWriteFiles();
+    this.maybeRemoveDeletedBlocks();
+    await this.generateAndWriteFiles();
 
-    // Add explicit dependencies to the input directory and HTML files
-    compiler.hooks.afterCompile.tap("HTMLToGutenbergPlugin", (compilation) => {
-      this.htmlToGutenberg.HTMLFiles.forEach((HTMLFile) => {
-        compilation.fileDependencies.add(HTMLFile);
-      });
+    compiler.hooks.afterCompile.tap("HTMLToGutenbergPlugin", (compiler) => {
+      const files = globSync(this.htmlToGutenberg.inputDirectory + "/**/*.*");
+      files.forEach((file) => compiler.fileDependencies.add(file));
 
-      compilation.contextDependencies.add(this.htmlToGutenberg.inputDirectory);
+      compiler.contextDependencies.add(this.htmlToGutenberg.inputDirectory);
     });
 
-    // Trigger generateAndWriteFiles on file changes in watch mode
     compiler.hooks.watchRun.tapPromise(
       "HTMLToGutenbergPlugin",
       async (compiler) => {
+        const blocksFolders = this.htmlToGutenberg.HTMLFiles.map((htmlFile) =>
+          path.dirname(htmlFile),
+        );
+
         const changedFiles = compiler.modifiedFiles || [];
 
         if (
-          [...changedFiles].some((changedFile) =>
-            this.htmlToGutenberg.HTMLFiles.includes(changedFile),
+          [...changedFiles].some((file) =>
+            blocksFolders.includes(path.dirname(file)),
           )
         ) {
           await this.generateAndWriteFiles();

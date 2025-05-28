@@ -36,6 +36,10 @@ import { Image } from "@10up/block-components";
 {{/hasMedia}}
 {{/hasContent}}
 
+{{#styleImport}}
+{{{styleImport}}}
+{{/styleImport}}
+
 {{#hasContent}}
 export default ({{{props}}}) => {
 {{{ beforeContent }}}
@@ -102,6 +106,9 @@ const printEditJS = async (blockData) => {
     hasInnerBlocks: innerBlocks.hasInnerBlocks,
     hasEditingMode: rootElement.editingMode !== null,
     hasIsSelected,
+    styleImport: blockData.editorStyle
+      ? `import './${blockData.editorStyle}';`
+      : false,
   };
 
   // Preprocess AST, add <RichText /> components, <InnerBlocks />, etc.

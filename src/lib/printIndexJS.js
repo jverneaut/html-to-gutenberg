@@ -8,6 +8,10 @@ const template = `import { registerBlockType } from "@wordpress/blocks";
 import { InnerBlocks } from "@wordpress/block-editor";
 {{/hasInnerBlocks}}
 
+{{#styleImport}}
+{{{styleImport}}}
+{{/styleImport}}
+
 import Edit from "./edit.js";
 import metadata from "./block.json";
 
@@ -26,6 +30,7 @@ null
 const printIndexJS = async (blockData) => {
   const options = {
     hasInnerBlocks: blockData.innerBlocks.hasInnerBlocks,
+    styleImport: blockData.style ? `import './${blockData.style}';` : false,
   };
 
   const renderedTemplate = Mustache.render(template, options);
