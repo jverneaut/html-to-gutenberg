@@ -58,6 +58,11 @@ const printBlockJSON = async (blockData) => {
     },
     editorScript: "file:./index.js",
     render: "file:./render.php",
+    ...(blockData.style ? { style: `file:./style-index.css` } : {}),
+    ...(blockData.editorStyle ? { editorStyle: `file:./index.css` } : {}),
+    ...(blockData.viewScript
+      ? { viewScript: `file:./${blockData.viewScript}` }
+      : {}),
   };
 
   const formatted = await format(JSON.stringify(blockDefinition), {
