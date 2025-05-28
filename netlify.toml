@@ -12,3 +12,23 @@
   from = "/advanced-guides/tailwindcss"
   to = "/extra/tailwindcss"
   status = 301
+
+[[redirects]]
+  from = "/setup/webpack-setup"
+  to = "/getting-started/installation"
+  status = 301
+
+[[redirects]]
+  from = "/usage/innerblocks"
+  to = "/guides/editing-content/using-innerblocs"
+  status = 301
+
+[[redirects]]
+  from = "/usage/style-variations"
+  to = "/guides/modifying-block-attributes/defining-block-styles"
+  status = 301
+
+[[redirects]]
+  from = "/usage/parent-child"
+  to = "/guides/modifying-block-attributes/defining-parent-blocks"
+  status = 301
