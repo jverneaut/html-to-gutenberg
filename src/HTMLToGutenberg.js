@@ -68,8 +68,6 @@ class HTMLToGutenberg {
 
     try {
       for (const HTMLFile of this.HTMLFiles) {
-        const files = [];
-
         const HTMLFileContent = fs.readFileSync(HTMLFile, "utf-8");
 
         const blockData = await getBlockData(HTMLFileContent, {
@@ -123,7 +121,48 @@ class HTMLToGutenberg {
   }
 
   async getFilesOverrides() {
-    return [];
+    const overrides = [];
+
+    const htmlFiles = this.HTMLFiles.map((htmlPath) => ({
+      fullPath: path.resolve(htmlPath),
+      baseName: path.basename(htmlPath, ".html"),
+      dir: path.dirname(htmlPath),
+    }));
+
+    const htmlFilesMap = new Map();
+    for (const { baseName, dir } of htmlFiles) {
+      htmlFilesMap.set(path.join(dir, baseName), true);
+    }
+
+    const allFiles = glob.sync(path.join(this.inputDirectory, "/**/*.*"));
+
+    for (const file of allFiles) {
+      const resolved = path.resolve(file);
+
+      if (resolved.endsWith(".html")) continue;
+
+      const filename = path.basename(file);
+      const dirname = path.dirname(file);
+
+      const match = filename.match(/^(.+?)\.(.+?)\.(.+)$/);
+      if (!match) continue;
+
+      const [_, blockSlug, innerName, ext] = match;
+      const htmlFileKey = path.join(dirname, blockSlug);
+
+      if (!htmlFilesMap.has(htmlFileKey)) continue;
+
+      const blockPath = path.join(this.outputDirectory, blockSlug);
+      const content = fs.readFileSync(resolved, "utf-8");
+
+      overrides.push({
+        filename: `${innerName}.${ext}`,
+        content,
+        blockPath,
+      });
+    }
+
+    return overrides;
   }
 
   createDirectoryIfNotExists(directoryPath) {
@@ -133,19 +172,15 @@ class HTMLToGutenberg {
   }
 
   cleanDirectory(directoryPath) {
-    fs.readdir(directoryPath, (err, files) => {
-      if (err) throw err;
+    const filesInDirectory = fs.readdirSync(directoryPath);
 
-      for (const file of files) {
-        if (
-          !["block.json", "edit.js", "index.js", "render.php"].includes(file)
-        ) {
-          fs.unlink(path.join(directoryPath, file), (err) => {
-            if (err) throw err;
-          });
-        }
+    for (const file of filesInDirectory) {
+      if (!["block.json", "edit.js", "index.js", "render.php"].includes(file)) {
+        fs.unlinkSync(path.join(directoryPath, file), (err) => {
+          if (err) throw err;
+        });
       }
-    });
+    }
   }
 
   cleanOutputAndWriteFiles(files) {
