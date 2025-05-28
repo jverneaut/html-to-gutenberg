@@ -18,6 +18,8 @@ class HTMLToGutenbergPlugin {
     compiler.hooks.afterCompile.tap("HTMLToGutenbergPlugin", (compiler) => {
       const files = globSync(this.htmlToGutenberg.inputDirectory + "/**/*.*");
       files.forEach((file) => compiler.fileDependencies.add(file));
+
+      compiler.contextDependencies.add(this.htmlToGutenberg.inputDirectory);
     });
 
     compiler.hooks.watchRun.tapPromise(
