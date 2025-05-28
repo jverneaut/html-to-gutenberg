@@ -2,7 +2,6 @@ import HTMLToGutenbergPlugin from "../index.js";
 import GutenbergWebpackPlugin from "@jverneaut/gutenberg-webpack-plugin";
 
 export default {
-  mode: "development",
   entry: "./index.js",
 
   plugins: [
