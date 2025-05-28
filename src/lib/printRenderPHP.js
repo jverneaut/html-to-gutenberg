@@ -9,6 +9,7 @@ import * as utils from "./common/utils.js";
 import addInnerBlocksContent from "./php/addInnerBlocksContent.js";
 import addImgLookup from "./php/addImgLookup.js";
 import addTextLookup from "./php/addTextLookup.js";
+import handleDisplayModes from "./php/handleDisplayModes.js";
 
 const template = `{{#hasContent}}
 {{#hasImages}}
@@ -71,6 +72,7 @@ const printRenderPHP = (blockData) => {
     addInnerBlocksContent,
     addImgLookup,
     addTextLookup,
+    handleDisplayModes,
   ];
 
   processors.forEach((processor) => processor.call({}, ast));

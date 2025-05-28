@@ -145,6 +145,7 @@ const getBlockData = async (
       templateLock: null,
       orientation: false,
     },
+    hasIsSelected: false,
     html: "",
     hasContent: false,
   };
@@ -361,6 +362,16 @@ const getBlockData = async (
       if (template.length) {
         blockData.innerBlocks.template = template;
       }
+    }
+  });
+
+  // Set usesIsSelected
+  visit(ast, "element", (node) => {
+    if (
+      node.properties.dataDisplay &&
+      ["selected", "not-selected"].includes(node.properties.dataDisplay)
+    ) {
+      blockData.hasIsSelected = true;
     }
   });
 

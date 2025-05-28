@@ -1,0 +1,14 @@
+[[redirects]]
+  from = "/intro"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/example"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/advanced-guides/tailwindcss"
+  to = "/extra/tailwindcss"
+  status = 301
