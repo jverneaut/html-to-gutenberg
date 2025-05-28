@@ -14,8 +14,8 @@ const UNPROCESSABLE_FIXTURES_DIR = path.join(
   "fixtures/unprocessable",
 );
 
-const getGenerateFileByType = (generateFiles, type) =>
-  generateFiles[0].files.filter((file) => file.type === type)[0].content;
+const getGenerateFileByFilename = (generateFiles, filename) =>
+  generateFiles.filter((file) => file.filename === filename)[0].content;
 
 const generateFiles = async (caseDir) => {
   const htmlToGutenberg = new HTMLToGutenberg({
@@ -25,10 +25,10 @@ const generateFiles = async (caseDir) => {
   const generatedFiles = await htmlToGutenberg.generateFiles();
 
   return {
-    index: getGenerateFileByType(generatedFiles, "index"),
-    edit: getGenerateFileByType(generatedFiles, "edit"),
-    php: getGenerateFileByType(generatedFiles, "php"),
-    json: getGenerateFileByType(generatedFiles, "json"),
+    index: getGenerateFileByFilename(generatedFiles, "index.js"),
+    edit: getGenerateFileByFilename(generatedFiles, "edit.js"),
+    php: getGenerateFileByFilename(generatedFiles, "render.php"),
+    json: getGenerateFileByFilename(generatedFiles, "block.json"),
   };
 };
 
