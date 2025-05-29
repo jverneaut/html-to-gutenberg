@@ -185,7 +185,7 @@ const getBlockData = async (
     }
   });
 
-  // Extract attributes
+  // Extract attributes from data-attributes
   visit(ast, "element", (node) => {
     if (node.properties.dataAttribute) {
       if (node.tagName === "img") {
@@ -211,6 +211,64 @@ const getBlockData = async (
           .split("\n")
           .map((line) => line.trim())
           .join(" ");
+      }
+    }
+  });
+
+  // Extract attributes from <block-attribute> elements
+  visit(ast, "element", (node) => {
+    if (node.tagName === "block-attribute") {
+      if (node.properties.name) {
+        blockData.attributes[node.properties.name] = {};
+
+        const defaultValue =
+          node.properties.default !== undefined
+            ? utils.parseRawValue(node.properties.default)
+            : undefined;
+
+        if (defaultValue !== undefined) {
+          blockData.attributes[node.properties.name].default = defaultValue;
+        }
+
+        if (node.properties.type !== undefined) {
+          Object.assign(blockData.attributes[node.properties.name], {
+            type: node.properties.type,
+            _internalType: "text",
+          });
+        } else {
+          if (node.properties.default !== undefined) {
+            switch (typeof defaultValue) {
+              case "number":
+                if (Number.isInteger(defaultValue)) {
+                  Object.assign(blockData.attributes[node.properties.name], {
+                    type: "integer",
+                    _internalType: "text",
+                  });
+                } else {
+                  Object.assign(blockData.attributes[node.properties.name], {
+                    type: "number",
+                    _internalType: "text",
+                  });
+                }
+
+                break;
+
+              default:
+              case "string":
+                Object.assign(blockData.attributes[node.properties.name], {
+                  type: "string",
+                  _internalType: "text",
+                });
+
+                break;
+            }
+          } else {
+            Object.assign(blockData.attributes[node.properties.name], {
+              type: "string",
+              _internalType: "text",
+            });
+          }
+        }
       }
     }
   });
