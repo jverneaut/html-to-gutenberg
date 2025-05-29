@@ -7,7 +7,7 @@
     "url": "https://github.com/jverneaut/html-to-gutenberg.git"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" jest",
     "start": "node index.js"
   },
   "keywords": [
