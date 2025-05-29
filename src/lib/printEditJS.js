@@ -14,6 +14,7 @@ import addMediaUploadComponent from "./jsx/addMediaUploadComponent.js";
 import addInnerBlocksComponent from "./jsx/addInnerBlocksComponent.js";
 import convertStyleToObject from "./jsx/convertStyleToObject.js";
 import handleDisplayModes from "./jsx/handleDisplayModes.js";
+import addServerSideRenderComponent from "./jsx/addServerSideRenderComponent.js";
 
 const template = `{{#hasContent}}
 import {
@@ -35,6 +36,9 @@ MediaUpload,
 import { Image } from "@10up/block-components";
 {{/hasMedia}}
 {{/hasContent}}
+{{#hasServerSideRender}}
+import ServerSideRender from '@wordpress/server-side-render';
+{{/hasServerSideRender}}
 
 {{#styleImport}}
 {{{styleImport}}}
@@ -77,6 +81,9 @@ const replaceIsSelectedPlaceholders = (html) =>
     .replaceAll("[IS_NOT_SELECTED]", "{!isSelected && (\n")
     .replaceAll("[/IS_NOT_SELECTED]", "\n)}");
 
+const replaceExpressionsAsStrings = (html) =>
+  html.replaceAll('"$$', "").replaceAll('$$"', "");
+
 // Generates the root element props
 const generateRootProps = (blockData) => {
   const { className } = blockData.rootElement;
@@ -95,17 +102,19 @@ const printEditJS = async (blockData) => {
     innerBlocks,
     rootElement,
     hasIsSelected,
+    hasServerSideRender,
   } = blockData;
 
   const attributeValues = Object.values(attributes);
   const options = {
-    hasAttributes: Object.keys(attributes).length > 0,
+    hasAttributes: Object.keys(attributes).length > 0 || hasServerSideRender,
     hasMedia: attributeValues.some((attr) => attr._internalType === "image"),
     hasRichText: attributeValues.some((attr) => attr._internalType === "text"),
     hasContent,
     hasInnerBlocks: innerBlocks.hasInnerBlocks,
     hasEditingMode: rootElement.editingMode !== null,
     hasIsSelected,
+    hasServerSideRender,
     styleImport: blockData.editorStyle
       ? `import './${blockData.editorStyle}';`
       : false,
@@ -117,6 +126,7 @@ const printEditJS = async (blockData) => {
     addRichTextComponent,
     addMediaUploadComponent,
     addInnerBlocksComponent,
+    addServerSideRenderComponent,
     convertStyleToObject,
     handleDisplayModes,
   ];
@@ -145,6 +155,7 @@ const printEditJS = async (blockData) => {
     camelizeAttributes,
     replaceClassWithClassName,
     replaceIsSelectedPlaceholders,
+    replaceExpressionsAsStrings,
   ].reduce(
     (html, transformer) =>
       transformer(html, { attributes: [...foundAttributes] }),
