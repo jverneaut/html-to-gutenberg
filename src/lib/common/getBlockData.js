@@ -253,6 +253,15 @@ const getBlockData = async (
 
                 break;
 
+              case "boolean":
+                Object.assign(blockData.attributes[node.properties.name], {
+                  type: "boolean",
+                });
+
+                delete blockData.attributes[node.properties.name]._internalType;
+
+                break;
+
               default:
               case "string":
                 Object.assign(blockData.attributes[node.properties.name], {

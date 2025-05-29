@@ -18,7 +18,15 @@
     "integerAttrWithTypeAndDefault": { "default": 5, "type": "integer" },
     "numberAttrWithType": { "type": "number" },
     "numberAttrWithDefault": { "default": 0.1, "type": "number" },
-    "numberAttrWithTypeAndDefault": { "default": 0.1, "type": "number" }
+    "numberAttrWithTypeAndDefault": { "default": 0.1, "type": "number" },
+    "booleanAttrWithType": { "type": "boolean" },
+    "booleanAttrWithDefaultTrue": { "default": true, "type": "boolean" },
+    "booleanAttrWithDefaultFalse": { "default": false, "type": "boolean" },
+    "booleanAttrWithTypeAndDefaultTrue": { "default": true, "type": "boolean" },
+    "booleanAttrWithTypeAndDefaultFalse": {
+      "default": false,
+      "type": "boolean"
+    }
   },
   "supports": { "html": false, "align": ["full"] },
   "editorScript": "file:./index.js",
