@@ -1,0 +1,37 @@
+import Experimental from "@site/docs/common/_experimental.md";
+import CodeExample from "@site/src/components/CodeExample";
+
+# Raw javascript expressions
+
+<Experimental />
+
+Using the special `$$...$$` escape sequence, it is possible to use raw javascript expressions inside the editor.
+
+<CodeExample>
+  ```
+  <section>
+    <!-- This is yet another experimental API not yet implemented, stay tuned... -->
+    <block-attribute name="title" type="string"></block-attribute>
+    <block-attribute name="postType" default="pages"></block-attribute>
+
+    <div data-display="editor">
+      <!-- This will update the title attribute -->
+      <input
+        type="text"
+        value="$${attributes.title}$$"
+        onChange="$${(e) => setAttributes({ title: e.target.value })}$$"
+      />
+
+      <!-- This will update the postType attribute -->
+      <select
+        value="$${attributes.postType}$$"
+        onChange="$${(e) => setAttributes({ postType: e.target.value })}$$"
+      >
+        <option value="posts">Posts</option>
+        <option value="pages">Pages</option>
+      </select>
+    </div>
+
+  </section>
+  ```
+</CodeExample>

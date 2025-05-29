@@ -1,0 +1,62 @@
+import Experimental from "@site/docs/common/_experimental.md";
+import CodeExample from "@site/src/components/CodeExample";
+
+# Server side blocks
+
+<Experimental />
+
+The `<server-side>` element can be used to render a block server side using the `<ServerSideRender />` component from `@wordpress/server-side-render` package.
+
+To use it, first install the package with:
+
+```
+npm install @wordpress/server-side-render --save
+```
+
+## Rendering blocks on the server
+
+To render a block on the server, use the `<server-block>` element with the `name` attribute telling it which block to render.
+It uses the same API as the `<block>` element to define attributes.
+
+<CodeExample>
+  ```
+  <section>
+    <server-block name="custom/latest-posts-slider" postType="pages">
+      <attribute name="numberOfPosts">5</attribute>
+    </server-block>
+  </section>
+  ```
+</CodeExample>
+
+## When to use server side blocks
+
+Server side blocks are particularly useful when having to query posts, build listing pages, more generaly whenever you need to build a data-rich block.
+
+To build a block that display the latest posts from our site, we could first define a block in HTML that will be used in the editor and that will render itself on the server:
+
+```html title="custom/latest-posts.html"
+<section>
+  <server-block name="custom/latest-posts"></server-block>
+</section>
+```
+
+Then, we can define a `render.php` override by creating a `latest-posts.render.php` file alongside our `latest-posts.html` file that will get the latest posts and render them:
+
+```php title="custom/latest-posts.render.php"
+<?php
+
+// You custom query here
+$latest_posts = get_posts();
+
+?>
+
+<section <?= get_block_wrapper_attributes(); ?>>
+<?php foreach ($posts as $post) : ?>
+  <article>
+    <h3><?= $post->post_title; ?></h3>
+    <a href="<?= get_permalink($post); ?>">Read more</a>
+  </article>
+<?php endforeach; ?>
+</section>
+
+```

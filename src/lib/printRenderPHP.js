@@ -1,5 +1,6 @@
 import { visit } from "unist-util-visit";
 import { toHtml } from "hast-util-to-html";
+import { remove } from "unist-util-remove";
 import Mustache from "mustache";
 
 import generateAst from "./common/generateAst.js";
@@ -76,6 +77,11 @@ const printRenderPHP = (blockData) => {
   ];
 
   processors.forEach((processor) => processor.call({}, ast));
+
+  // Remove server blocks
+  remove(ast, (node) => {
+    return node.tagName === "server-block";
+  });
 
   // Convert AST back to HTML
   const renderedHtml = toHtml(ast, { closeSelfClosing: true });

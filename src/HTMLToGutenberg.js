@@ -134,7 +134,7 @@ class HTMLToGutenberg {
       htmlFilesMap.set(path.join(dir, baseName), true);
     }
 
-    const allFiles = glob.sync(path.join(this.inputDirectory, "/**/*.*"));
+    const allFiles = glob.sync(path.join(this.inputDirectory, "/**/*"));
 
     for (const file of allFiles) {
       const resolved = path.resolve(file);
