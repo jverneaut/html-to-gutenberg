@@ -15,6 +15,7 @@ import addInnerBlocksComponent from "./jsx/addInnerBlocksComponent.js";
 import convertStyleToObject from "./jsx/convertStyleToObject.js";
 import handleDisplayModes from "./jsx/handleDisplayModes.js";
 import addServerSideRenderComponent from "./jsx/addServerSideRenderComponent.js";
+import removeBlockAttributeElements from "./common/removeBlockAttributeElements.js";
 
 const template = `{{#hasContent}}
 import {
@@ -82,7 +83,7 @@ const replaceIsSelectedPlaceholders = (html) =>
     .replaceAll("[/IS_NOT_SELECTED]", "\n)}");
 
 const replaceExpressionsAsStrings = (html) =>
-  html.replaceAll('"$$', "").replaceAll('$$"', "");
+  html.replaceAll('"$$', "").replaceAll('$$"', "").replaceAll("$$$", "");
 
 // Generates the root element props
 const generateRootProps = (blockData) => {
@@ -129,6 +130,7 @@ const printEditJS = async (blockData) => {
     addServerSideRenderComponent,
     convertStyleToObject,
     handleDisplayModes,
+    removeBlockAttributeElements,
   ];
   jsxProcessors.forEach((processor) => processor.call({}, ast, innerBlocks));
 

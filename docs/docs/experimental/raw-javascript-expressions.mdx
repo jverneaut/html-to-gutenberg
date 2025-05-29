@@ -5,12 +5,13 @@ import CodeExample from "@site/src/components/CodeExample";
 
 <Experimental />
 
-Using the special `$$...$$` escape sequence, it is possible to use raw javascript expressions inside the editor.
+Using the special `$$...$$` escape sequence, it is possible to use raw javascript expressions inside the editor for every elements attributes.
+
+To use a raw JSX expression anywhere else, you can use the `$$$...$$$` escape sequence as a last resort. Please keep in mind that this is still an experimental API and is subject to changes.
 
 <CodeExample>
   ```
   <section>
-    <!-- This is yet another experimental API not yet implemented, stay tuned... -->
     <block-attribute name="title" type="string"></block-attribute>
     <block-attribute name="postType" default="pages"></block-attribute>
 
@@ -30,6 +31,8 @@ Using the special `$$...$$` escape sequence, it is possible to use raw javascrip
         <option value="posts">Posts</option>
         <option value="pages">Pages</option>
       </select>
+
+      <p>The selected post type is $$${attributes.postType}$$$.</p>
     </div>
 
   </section>

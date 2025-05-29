@@ -1,13 +1,13 @@
 {
   "name": "@jverneaut/html-to-gutenberg",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/jverneaut/html-to-gutenberg.git"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" jest",
     "start": "node index.js"
   },
   "keywords": [

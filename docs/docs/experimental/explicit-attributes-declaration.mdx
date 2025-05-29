@@ -1,0 +1,31 @@
+import Experimental from "@site/docs/common/_experimental.md";
+import CodeExample from "@site/src/components/CodeExample";
+
+# Explicit attributes declaration
+
+<Experimental />
+
+While attributes are automatically extracted from your markup based on `data-attribute` attributes, you also have the ability to define them using the `<block-attribute>` element.
+
+| Options              | Description                                                            |
+| -------------------- | ---------------------------------------------------------------------- |
+| `name`               | The name of the attribute that will be added to `block.json`           |
+| `type` (optional)    | The type of the attribute (`string`, `boolean`, `number` or `integer`) |
+| `default` (optional) | The default value of the attribute                                     |
+
+If no `type` is set, HTML To Gutenberg will set it to a best guest based on the `default` value. If no default is set, the `type` defaults to `string`.
+
+<CodeExample>
+  ```
+  <section>
+    <block-attribute name="title"></block-attribute>
+    <block-attribute
+      name="isOpen"
+      type="boolean"
+      default="false"
+    ></block-attribute>
+    <block-attribute name="numberOfPosts" default="12"></block-attribute>
+    <block-attribute name="rating" default="4.5"></block-attribute>
+  </section>
+  ```
+</CodeExample>

@@ -1,0 +1,34 @@
+{
+  "name": "custom/input",
+  "title": "Input",
+  "textdomain": "input",
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "0.1.0",
+  "category": "theme",
+  "example": {},
+  "attributes": {
+    "align": { "type": "string", "default": "full" },
+    "stringAttrWithoutType": { "type": "string" },
+    "stringAttrWithType": { "type": "string" },
+    "stringAttrWithDefault": { "default": "value", "type": "string" },
+    "stringAttrWithTypeAndDefault": { "default": "value", "type": "string" },
+    "integerAttrWithType": { "type": "integer" },
+    "integerAttrWithDefault": { "default": 5, "type": "integer" },
+    "integerAttrWithTypeAndDefault": { "default": 5, "type": "integer" },
+    "numberAttrWithType": { "type": "number" },
+    "numberAttrWithDefault": { "default": 0.1, "type": "number" },
+    "numberAttrWithTypeAndDefault": { "default": 0.1, "type": "number" },
+    "booleanAttrWithType": { "type": "boolean" },
+    "booleanAttrWithDefaultTrue": { "default": true, "type": "boolean" },
+    "booleanAttrWithDefaultFalse": { "default": false, "type": "boolean" },
+    "booleanAttrWithTypeAndDefaultTrue": { "default": true, "type": "boolean" },
+    "booleanAttrWithTypeAndDefaultFalse": {
+      "default": false,
+      "type": "boolean"
+    }
+  },
+  "supports": { "html": false, "align": ["full"] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
