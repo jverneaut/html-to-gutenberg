@@ -15,6 +15,7 @@ import addInnerBlocksComponent from "./jsx/addInnerBlocksComponent.js";
 import convertStyleToObject from "./jsx/convertStyleToObject.js";
 import handleDisplayModes from "./jsx/handleDisplayModes.js";
 import addServerSideRenderComponent from "./jsx/addServerSideRenderComponent.js";
+import removeBlockAttributeElements from "./common/removeBlockAttributeElements.js";
 
 const template = `{{#hasContent}}
 import {
@@ -129,6 +130,7 @@ const printEditJS = async (blockData) => {
     addServerSideRenderComponent,
     convertStyleToObject,
     handleDisplayModes,
+    removeBlockAttributeElements,
   ];
   jsxProcessors.forEach((processor) => processor.call({}, ast, innerBlocks));
 

@@ -11,6 +11,7 @@ import addInnerBlocksContent from "./php/addInnerBlocksContent.js";
 import addImgLookup from "./php/addImgLookup.js";
 import addTextLookup from "./php/addTextLookup.js";
 import handleDisplayModes from "./php/handleDisplayModes.js";
+import removeBlockAttributeElements from "./common/removeBlockAttributeElements.js";
 
 const template = `{{#hasContent}}
 {{#hasImages}}
@@ -74,6 +75,7 @@ const printRenderPHP = (blockData) => {
     addImgLookup,
     addTextLookup,
     handleDisplayModes,
+    removeBlockAttributeElements,
   ];
 
   processors.forEach((processor) => processor.call({}, ast));
