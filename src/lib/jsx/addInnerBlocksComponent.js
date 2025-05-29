@@ -1,5 +1,4 @@
 import { visit } from "unist-util-visit";
-import { toHtml } from "hast-util-to-html";
 
 const addInnerBlocksComponent = (ast, innerBlocks) => {
   visit(ast, "element", (node) => {
