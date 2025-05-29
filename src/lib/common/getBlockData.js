@@ -6,96 +6,7 @@ import parserHTML from "prettier/parser-html";
 import * as utils from "./utils.js";
 
 import generateAst from "./generateAst.js";
-
-const parseTemplateBlock = (blockNode) => {
-  const blockName = blockNode.properties.name;
-  const blockTemplate = [blockName];
-
-  let blockTemplateAttributes = {};
-
-  const blockAttributes = Object.keys(blockNode.properties).filter(
-    (propertyKey) => propertyKey !== "name",
-  );
-
-  // Retrieve attributes values set as <block key="value">
-  if (blockAttributes.length) {
-    const attributesData = blockAttributes.reduce((acc, attributeKey) => {
-      let attributeValue = null;
-
-      if (blockNode.properties[attributeKey]) {
-        attributeValue = utils.parseRawValue(
-          blockNode.properties[attributeKey],
-        );
-      }
-
-      return { ...acc, [attributeKey]: attributeValue };
-    }, {});
-
-    if (Object.keys(attributesData).length) {
-      blockTemplateAttributes = {
-        ...blockTemplateAttributes,
-        ...attributesData,
-      };
-    }
-  }
-
-  // Parse nested <attribute> elements
-  const attributesElements = blockNode.children.filter(
-    (node) =>
-      node.tagName === "attribute" && Object.keys(node.properties).length,
-  );
-
-  if (attributesElements.length) {
-    const attributesData = attributesElements.reduce(
-      (acc, attributeElement) => {
-        let attributeValue = null;
-
-        // Retrieve attributes values set as <attribute name="key" value="value">
-        if (attributeElement.properties.value) {
-          const rawValue = attributeElement.properties.value.trim();
-          if (rawValue) {
-            attributeValue = utils.parseRawValue(rawValue);
-          }
-        }
-
-        // Retrieve attributes values set as <attribute name="key">value</attribute>
-        if (attributeElement.children.length) {
-          const rawValue = toHtml(attributeElement.children).trim();
-          if (rawValue) {
-            attributeValue = utils.parseRawValue(rawValue);
-          }
-        }
-
-        return {
-          ...acc,
-          [attributeElement.properties.name]: attributeValue,
-        };
-      },
-      {},
-    );
-
-    if (Object.keys(attributesData).length) {
-      blockTemplateAttributes = {
-        ...blockTemplateAttributes,
-        ...attributesData,
-      };
-    }
-  }
-
-  blockTemplate.push(blockTemplateAttributes);
-
-  // Parse nested blocks recursively
-  const innerBlockNodes = blockNode.children.filter(
-    (child) => child.tagName === "block",
-  );
-
-  if (innerBlockNodes.length) {
-    const innerBlocks = innerBlockNodes.map(parseTemplateBlock);
-    blockTemplate.push(innerBlocks);
-  }
-
-  return blockTemplate;
-};
+import parseTemplateBlock from "./parseTemplateBlock.js";
 
 const collectAllowedBlocksRecursively = (node, allowedBlocksSet) => {
   if (node.tagName === "block" && node.properties.name) {
@@ -145,6 +56,7 @@ const getBlockData = async (
       templateLock: null,
       orientation: false,
     },
+    hasServerSideRender: false,
     hasIsSelected: false,
     html: "",
     hasContent: false,
@@ -387,6 +299,13 @@ const getBlockData = async (
       if (template.length) {
         blockData.innerBlocks.template = template;
       }
+    }
+  });
+
+  // Set hasServerSideRender
+  visit(ast, "element", (node) => {
+    if (node.tagName === "server-block") {
+      blockData.hasServerSideRender = true;
     }
   });
 
