@@ -83,7 +83,7 @@ const replaceIsSelectedPlaceholders = (html) =>
     .replaceAll("[/IS_NOT_SELECTED]", "\n)}");
 
 const replaceExpressionsAsStrings = (html) =>
-  html.replaceAll('"$$', "").replaceAll('$$"', "");
+  html.replaceAll('"$$', "").replaceAll('$$"', "").replaceAll("$$$", "");
 
 // Generates the root element props
 const generateRootProps = (blockData) => {
