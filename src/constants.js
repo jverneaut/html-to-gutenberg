@@ -1,0 +1,7 @@
+export const DATA_BIND_INPUT_ELEMENTS = ["input", "textarea", "select"];
+export const DATA_BIND_IMAGE_ELEMENTS = ["img"];
+
+export const DATA_BIND_NON_RICH_TEXT_ELEMENTS = [
+  ...DATA_BIND_INPUT_ELEMENTS,
+  ...DATA_BIND_IMAGE_ELEMENTS,
+];

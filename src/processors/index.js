@@ -6,6 +6,8 @@ import RootBlockAttributeElement from "./root/RootBlockAttributeElement.js";
 import AttributeDataDisplay from "./attributes/AttributeDataDisplay.js";
 import AttributeStyle from "./attributes/AttributeStyle.js";
 
+import DataBind from "./data-bind/index.js";
+
 import GlobalJSXAttributes from "./global/GlobalJSXAttributes.js";
 import GlobalRawExpressions from "./global/GlobalRawExpressions.js";
 
@@ -18,6 +20,8 @@ export default [
 
   AttributeDataDisplay,
   AttributeStyle,
+
+  DataBind,
 
   GlobalJSXAttributes,
   GlobalRawExpressions,
