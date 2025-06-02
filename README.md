@@ -124,13 +124,10 @@ Visit the [official documentation](https://html-to-gutenberg.com) to try this co
   <div class="container">
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-12 md:col-span-6">
-        <h2 class="text-2xl" data-attribute="section_title">
+        <h2 class="text-2xl" data-bind="section_title">
           I am editable – awesome, right?
         </h2>
-        <img
-          class="aspect-square object-cover"
-          data-attribute="section_image"
-        />
+        <img class="aspect-square object-cover" data-bind="section_image" />
       </div>
 
       <div class="col-span-12 md:col-span-6">
