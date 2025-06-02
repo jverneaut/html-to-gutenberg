@@ -18,16 +18,16 @@ Visit the [official documentation](https://html-to-gutenberg.com) to try this co
       </div>
 
       <div class="col-span-12 md:col-span-6">
-        <blocks allowedBlocks="all" templateLock="all">
-          <block name="core/group">
-            <block name="core/heading" level="3"></block>
-            <block name="core/paragraph">
-              <attribute name="content">
+        <inner-blocks allowedBlocks="all" templateLock="all">
+          <inner-block name="core/group">
+            <inner-block name="core/heading" level="3"></inner-block>
+            <inner-block name="core/paragraph">
+              <data-attribute name="content">
                 Lorem ipsum dolor sit amet consectetur.
-              </attribute>
-            </block>
-          </block>
-        </blocks>
+              </data-attribute>
+            </inner-block>
+          </inner-block>
+        </inner-blocks>
       </div>
     </div>
   </div>

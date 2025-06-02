@@ -85,12 +85,12 @@ You can now combine those variants with other Tailwind modifiers. For example, a
   ```
   <section class="py-20">
     <div class="wp-block-heading:first-of-type:text-red-600 wp-block-group:p-10">
-      <blocks templateLock="all">
-        <block name="core/group">
-          <block name="core/heading" content="I am red"></block>
-          <block name="core/heading" content="I am not red"></block>
-        </block>
-      </blocks>
+      <inner-blocks templateLock="all">
+        <inner-block name="core/group">
+          <inner-block name="core/heading" content="I am red"></inner-block>
+          <inner-block name="core/heading" content="I am not red"></inner-block>
+        </inner-block>
+      </inner-blocks>
     </div>
   </section>
   ```

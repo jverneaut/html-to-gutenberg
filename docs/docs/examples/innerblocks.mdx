@@ -10,16 +10,16 @@ import LiveEditor from "@site/src/components/LiveEditor";
 <LiveEditor>
   ```
   <section>
-    <blocks templateLock>
-      <block name="core/group">
-        <block name="core/heading" level="3"></block>
-        <block name="core/paragraph">
-          <attribute name="content">
+    <inner-blocks templateLock>
+      <inner-block name="core/group">
+        <inner-block name="core/heading" level="3"></inner-block>
+        <inner-block name="core/paragraph">
+          <data-attribute name="content">
             Lorem <strong>ipsum</strong>
-          </attribute>
-        </block>
-      </block>
-    </blocks>
+          </data-attribute>
+        </inner-block>
+      </inner-block>
+    </inner-blocks>
   </section>
   ```
 </LiveEditor>
@@ -29,7 +29,7 @@ import LiveEditor from "@site/src/components/LiveEditor";
 <CodeExample>
   ```
   <section>
-    <blocks></blocks>
+    <inner-blocks></inner-blocks>
   </section>
   ```
 </CodeExample>
@@ -39,9 +39,9 @@ import LiveEditor from "@site/src/components/LiveEditor";
 <CodeExample>
   ```
   <section>
-    <blocks templateLock>
-      <block name="core/heading"></block>
-    </blocks>
+    <inner-blocks templateLock>
+      <inner-block name="core/heading"></inner-block>
+    </inner-blocks>
   </section>
   ```
 </CodeExample>
@@ -51,14 +51,14 @@ import LiveEditor from "@site/src/components/LiveEditor";
 <CodeExample>
   ```
   <section>
-    <blocks>
-      <block name="core/heading" level="3"></block>
-      <block name="core/paragraph">
-        <attribute name="content">
+    <inner-blocks>
+      <inner-block name="core/heading" level="3"></inner-block>
+      <inner-block name="core/paragraph">
+        <data-attribute name="content">
           Lorem <strong>ipsum</strong>
-        </attribute>
-      </block>
-    </blocks>
+        </data-attribute>
+      </inner-block>
+    </inner-blocks>
   </section>
   ```
 </CodeExample>
@@ -68,23 +68,23 @@ import LiveEditor from "@site/src/components/LiveEditor";
 <CodeExample>
   ```
   <section>
-    <blocks>
-      <block name="core/columns">
-        <block name="core/column">
-          <block name="core/group">
-            <block name="core/heading"></block>
-            <block name="core/paragraph"></block>
-          </block>
-        </block>
+    <inner-blocks>
+      <inner-block name="core/columns">
+        <inner-block name="core/column">
+          <inner-block name="core/group">
+            <inner-block name="core/heading"></inner-block>
+            <inner-block name="core/paragraph"></inner-block>
+          </inner-block>
+        </inner-block>
 
-        <block name="core/column">
-          <block name="core/group">
-            <block name="core/heading"></block>
-            <block name="core/paragraph"></block>
-          </block>
-        </block>
-      </block>
-    </blocks>
+        <inner-block name="core/column">
+          <inner-block name="core/group">
+            <inner-block name="core/heading"></inner-block>
+            <inner-block name="core/paragraph"></inner-block>
+          </inner-block>
+        </inner-block>
+      </inner-block>
+    </inner-blocks>
 
   </section>
   ```

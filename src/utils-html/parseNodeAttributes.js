@@ -12,7 +12,7 @@ const parseNodeAttributes = (blockNode, recursive = true) => {
     (propertyKey) => propertyKey !== "name",
   );
 
-  // Retrieve attributes values set as <block key="value">
+  // Retrieve attributes values set as <inner-block key="value">
   if (blockAttributes.length) {
     const attributesData = blockAttributes.reduce((acc, attributeKey) => {
       let attributeValue = null;
@@ -32,7 +32,7 @@ const parseNodeAttributes = (blockNode, recursive = true) => {
     }
   }
 
-  // Parse nested <attribute> elements
+  // Parse nested <data-attribute> elements
   const attributesElements = blockNode.children.filter(
     (node) =>
       node.tagName === "block-attribute" && Object.keys(node.properties).length,
@@ -43,7 +43,7 @@ const parseNodeAttributes = (blockNode, recursive = true) => {
       (acc, attributeElement) => {
         let attributeValue = null;
 
-        // Retrieve attributes values set as <attribute name="key" value="value">
+        // Retrieve attributes values set as <data-attribute name="key" value="value">
         if (attributeElement.properties.value) {
           const rawValue = attributeElement.properties.value.trim();
           if (rawValue) {
@@ -51,7 +51,7 @@ const parseNodeAttributes = (blockNode, recursive = true) => {
           }
         }
 
-        // Retrieve attributes values set as <attribute name="key">value</attribute>
+        // Retrieve attributes values set as <data-attribute name="key">value</data-attribute>
         if (attributeElement.children.length) {
           const rawValue = toHtml(attributeElement.children).trim();
           if (rawValue) {

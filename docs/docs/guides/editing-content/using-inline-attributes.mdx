@@ -3,7 +3,7 @@ import LiveEditor from "@site/src/components/LiveEditor";
 
 # Using inline attributes
 
-**HTML To Gutenberg** allows defining inline editable fields using the special `data-attribute` attribute directly in your HTML template.
+**HTML To Gutenberg** allows defining inline editable fields using the special `data-bind` attribute directly in your HTML template.
 
 By default, it uses the `RichText` component for text-based elements. For images (`<img>`), it uses `Media` from `@wordpress/block-editor` along with `MediaUpload` from `@10up/block-components`, enabling image selection and editing.
 
@@ -58,7 +58,7 @@ On the editor side, a placeholder is automatically added to the `RichText` field
 :::info Favor using InnerBlocks when possible
 While inline attributes are handy for isolated text fields, they are limited to the tag you define. You can't insert additional elements inside or after them.
 
-Prefer `<blocks>` (InnerBlocks) when you want full control over headings, paragraphs, buttons, or flexible layout content.
+Prefer `<inner-blocks>` (InnerBlocks) when you want full control over headings, paragraphs, buttons, or flexible layout content.
 
 It can be tempting to use this kind of inline editable fields for every text content inside your block.
 :::
@@ -93,7 +93,7 @@ To control which image size is used in the editor and frontend, use `data-image-
 - On the **frontend**, it's used with `srcset` for responsive behavior.
 
 :::info Favor using InnerBlocks when possible
-As with text fields, editable images with `data-attribute` are limited in flexibility. For a richer, more native experience, use `<blocks>` (InnerBlocks) with the `core/image` block.
+As with text fields, editable images with `data-bind` are limited in flexibility. For a richer, more native experience, use `<inner-blocks>` (InnerBlocks) with the `core/image` block.
 
 Secondary note: images defined this way can only be selected or changed by clicking them in the editor. If they’re hidden with CSS, they won’t be editable.
 :::
