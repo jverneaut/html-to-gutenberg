@@ -1,6 +1,8 @@
 import PrinterBase from "./PrinterBase.js";
 import Mustache from "mustache";
 
+import { DATA_BIND_TYPES } from "#constants";
+
 const template = `{{#content}}{{#beforeContent}}
 <?php
 
@@ -18,17 +20,24 @@ export default class PrinterRenderPHP extends PrinterBase {
   print(htmlString) {
     const generateImageDefinitions = (boundImages) =>
       boundImages
-        .map(({ key, size }) => {
+        .map(({ key, type, size }) => {
           const imageSize = size ?? "full";
 
           return [
-            `$${key}_id = $attributes['${key}'] ?? '';`,
+            type === DATA_BIND_TYPES.attributes
+              ? `$${key}_id = $attributes['${key}'] ?? '';`
+              : false,
+            type === DATA_BIND_TYPES.postMeta
+              ? `$${key}_id = get_post_meta(get_the_ID(), '${key}', true) ?? '';`
+              : false,
             `$${key} = $${key}_id ? wp_get_attachment_image_src($${key}_id, '${imageSize}') : [''];`,
             `$${key}_src = $${key}[0] ?? '';`,
             `$${key}_srcset = $${key}_id ? wp_get_attachment_image_srcset($${key}_id, '${imageSize}') : '';`,
             `$${key}_sizes = $${key}_id ? wp_get_attachment_image_sizes($${key}_id, '${imageSize}') : '';`,
             `$${key}_alt = $${key}_id ? get_post_meta($${key}_id, '_wp_attachment_image_alt', true) : '';`,
-          ].join("\n");
+          ]
+            .filter(Boolean)
+            .join("\n");
         })
         .join("\n\n");
 

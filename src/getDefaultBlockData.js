@@ -9,6 +9,7 @@ const defaultBlockData = {
   _hasRichTextImport: false,
   _hasInnerBlocks: false,
   _hasSelected: false,
+  _hasPostMeta: false,
 
   _hasWordPressComponents: false,
   _hasInspectorControlsImport: false,
@@ -19,7 +20,7 @@ const defaultBlockData = {
   _hasToggleControlImport: false,
   _hasSelectControlImport: false,
 
-  _boundImages: [], // {key: string, size?: string}[]
+  _boundImages: [], // {key: string, type: string, size?: string}[]
   _dependencies: [], // string[],
 
   // Block.json metadata

@@ -46,6 +46,10 @@ SelectControl,
 {{/_hasSelectControlImport}}
 } from '@wordpress/components';
 {{/_hasWordPressComponents}}
+{{#_hasPostMeta}}
+import { useSelect } from '@wordpress/data';
+import { useEntityProp } from '@wordpress/core-data';
+{{/_hasPostMeta}}
 {{#_hasMediaUploadImport}}
 import { Image } from "@10up/block-components";
 {{/_hasMediaUploadImport}}
@@ -63,6 +67,13 @@ export default ({{{propsString}}}) => {
 {{#_editingMode}}
 useBlockEditingMode('{{{_editingMode}}}');
 {{/_editingMode}}
+{{#_hasPostMeta}}
+const postType = useSelect(
+  (select) => select("core/editor").getCurrentPostType(),
+  [],
+);
+const [meta, setMeta] = useEntityProp("postType", postType, "meta");
+{{/_hasPostMeta}}
 
 return ({{{ content }}})
 };

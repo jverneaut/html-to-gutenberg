@@ -3,8 +3,12 @@ import { visit } from "unist-util-visit";
 import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 
+import { getDataBindInfo } from "#utils-string/index.js";
 import { deleteAttribute, getAttributeDeclaration } from "#utils-html/index.js";
-import { DATA_BIND_CONTROLS_ELEMENTS } from "../../constants.js";
+import {
+  DATA_BIND_CONTROLS_ELEMENTS,
+  DATA_BIND_TYPES,
+} from "../../constants.js";
 
 export default class DataBindInspectorControls extends ProcessorBase {
   processAstByFilename(printerFilename) {
@@ -14,49 +18,69 @@ export default class DataBindInspectorControls extends ProcessorBase {
           node.properties.dataBind &&
           DATA_BIND_CONTROLS_ELEMENTS.includes(node.tagName)
         ) {
-          this.blockData._hasAttributesProps = true;
+          const dataBindInfo = getDataBindInfo(node.properties.dataBind);
+
+          if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
+            this.blockData._hasAttributesProps = true;
+          }
+
+          if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+            this.blockData._hasPostMeta = true;
+          }
 
           switch (node.tagName) {
             case "checkbox-control":
             case "toggle-control":
-              this.blockData.attributes = {
-                ...this.blockData.attributes,
-                [node.properties.dataBind]: getAttributeDeclaration(
-                  node,
-                  "boolean",
-                ),
-              };
+              if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
+                this.blockData.attributes = {
+                  ...this.blockData.attributes,
+                  [dataBindInfo.key]: getAttributeDeclaration(node, "boolean"),
+                };
 
-              node.properties.checked = `$\${attributes.${node.properties.dataBind}}$$`;
-              node.properties.onChange = `$\${(${node.properties.dataBind}) => setAttributes({ ${node.properties.dataBind} })}$$`;
+                node.properties.checked = `$\${attributes.${dataBindInfo.key}}$$`;
+                node.properties.onChange = `$\${(${dataBindInfo.key}) => setAttributes({ ${dataBindInfo.key} })}$$`;
+              }
+
+              if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+                node.properties.checked = `$\${meta.${dataBindInfo.key}}$$`;
+                node.properties.onChange = `$\${(${dataBindInfo.key}) => setMeta({ ...meta, ${dataBindInfo.key} })}$$`;
+              }
 
               break;
 
             case "radio-control":
-              this.blockData.attributes = {
-                ...this.blockData.attributes,
-                [node.properties.dataBind]: getAttributeDeclaration(
-                  node,
-                  "string",
-                ),
-              };
+              if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
+                this.blockData.attributes = {
+                  ...this.blockData.attributes,
+                  [dataBindInfo.key]: getAttributeDeclaration(node, "string"),
+                };
 
-              node.properties.selected = `$\${attributes.${node.properties.dataBind}}$$`;
-              node.properties.onChange = `$\${(${node.properties.dataBind}) => setAttributes({ ${node.properties.dataBind} })}$$`;
+                node.properties.selected = `$\${attributes.${dataBindInfo.key}}$$`;
+                node.properties.onChange = `$\${(${dataBindInfo.key}) => setAttributes({ ${dataBindInfo.key} })}$$`;
+              }
+
+              if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+                node.properties.selected = `$\${meta.${dataBindInfo.key}}$$`;
+                node.properties.onChange = `$\${(${dataBindInfo.key}) => setMeta({ ...meta, ${dataBindInfo.key} })}$$`;
+              }
 
               break;
 
             default:
-              this.blockData.attributes = {
-                ...this.blockData.attributes,
-                [node.properties.dataBind]: getAttributeDeclaration(
-                  node,
-                  "string",
-                ),
-              };
+              if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
+                this.blockData.attributes = {
+                  ...this.blockData.attributes,
+                  [dataBindInfo.key]: getAttributeDeclaration(node, "string"),
+                };
 
-              node.properties.value = `$\${attributes.${node.properties.dataBind}}$$`;
-              node.properties.onChange = `$\${(${node.properties.dataBind}) => setAttributes({ ${node.properties.dataBind} })}$$`;
+                node.properties.value = `$\${attributes.${dataBindInfo.key}}$$`;
+                node.properties.onChange = `$\${(${dataBindInfo.key}) => setAttributes({ ${dataBindInfo.key} })}$$`;
+              }
+
+              if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+                node.properties.value = `$\${meta.${dataBindInfo.key}}$$`;
+                node.properties.onChange = `$\${(${dataBindInfo.key}) => setMeta({ ...meta, ${dataBindInfo.key} })}$$`;
+              }
 
               break;
           }

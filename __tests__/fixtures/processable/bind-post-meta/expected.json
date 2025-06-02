@@ -1,0 +1,20 @@
+{
+  "name": "custom/input",
+  "title": "Input",
+  "textdomain": "input",
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "0.1.0",
+  "category": "theme",
+  "example": {},
+  "attributes": {
+    "align": { "type": "string", "default": "full" },
+    "input": { "type": "string" },
+    "checkbox": { "type": "boolean" },
+    "select": { "type": "string", "default": "a" },
+    "title": { "type": "string" }
+  },
+  "supports": { "html": false, "align": ["full"] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

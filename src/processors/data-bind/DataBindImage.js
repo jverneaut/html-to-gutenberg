@@ -3,8 +3,9 @@ import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 import PrinterRenderPHP from "#printers/PrinterRenderPHP.js";
 
+import { getDataBindInfo } from "#utils-string/index.js";
 import { visit } from "unist-util-visit";
-import { DATA_BIND_IMAGE_ELEMENTS } from "#constants";
+import { DATA_BIND_IMAGE_ELEMENTS, DATA_BIND_TYPES } from "#constants";
 
 export default class DataBindImage extends ProcessorBase {
   processAstByFilename(filename) {
@@ -14,22 +15,31 @@ export default class DataBindImage extends ProcessorBase {
           node.properties.dataBind &&
           DATA_BIND_IMAGE_ELEMENTS.includes(node.tagName)
         ) {
-          this.blockData._hasAttributesProps = true;
+          const dataBindInfo = getDataBindInfo(node.properties.dataBind);
+
           this.blockData._hasMediaUploadImport = true;
-
-          this.blockData.attributes = {
-            ...this.blockData.attributes,
-            [node.properties.dataBind]: {
-              type: "integer",
-            },
-          };
-
           node.tagName = "MediaUpload";
 
-          node.properties.value = `$\${attributes.${node.properties.dataBind}}$$`;
-          node.properties.onSelect = `$\${(image) => setAttributes({${node.properties.dataBind}: image.id})}$$`;
+          if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
+            this.blockData._hasAttributesProps = true;
 
-          node.properties.render = `$\${({open}) => <Image style={{ cursor: "pointer", pointerEvents: "all" }} onClick={open} ${node.properties.className ? `className="${node.properties.className.join(" ")}"` : ""} ${node.properties.width ? `width="${node.properties.width}"` : ""} ${node.properties.height ? `height="${node.properties.height}"` : ""} id={attributes.${node.properties.dataBind}} ${node.properties.dataImageSize ? `size="${node.properties.dataImageSize}"` : ""} onSelect={image => setAttributes({${node.properties.dataBind}: image.id})} />}$$`;
+            this.blockData.attributes = {
+              ...this.blockData.attributes,
+              [dataBindInfo.key]: { type: "integer" },
+            };
+
+            node.properties.value = `$\${attributes.${dataBindInfo.key}}$$`;
+            node.properties.onSelect = `$\${(image) => setAttributes({${dataBindInfo.key}: image.id})}$$`;
+
+            node.properties.render = `$\${({open}) => <Image style={{ cursor: "pointer", pointerEvents: "all" }} onClick={open} ${node.properties.className ? `className="${node.properties.className.join(" ")}"` : ""} ${node.properties.width ? `width="${node.properties.width}"` : ""} ${node.properties.height ? `height="${node.properties.height}"` : ""} id={attributes.${dataBindInfo.key}} ${node.properties.dataImageSize ? `size="${node.properties.dataImageSize}"` : ""} onSelect={image => setAttributes({${dataBindInfo.key}: image.id})} />}$$`;
+          }
+
+          if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+            node.properties.value = `$\${meta.${dataBindInfo.key}}$$`;
+            node.properties.onSelect = `$\${(image) => setMeta({ ...meta, ${dataBindInfo.key}: image.id })}$$`;
+
+            node.properties.render = `$\${({open}) => <Image style={{ cursor: "pointer", pointerEvents: "all" }} onClick={open} ${node.properties.className ? `className="${node.properties.className.join(" ")}"` : ""} ${node.properties.width ? `width="${node.properties.width}"` : ""} ${node.properties.height ? `height="${node.properties.height}"` : ""} id={meta.${dataBindInfo.key}} ${node.properties.dataImageSize ? `size="${node.properties.dataImageSize}"` : ""} onSelect={image => setMeta({ ...meta, ${dataBindInfo.key}: image.id })} />}$$`;
+          }
 
           delete node.children;
           delete node.properties.className;
@@ -45,17 +55,17 @@ export default class DataBindImage extends ProcessorBase {
           node.properties.dataBind &&
           DATA_BIND_IMAGE_ELEMENTS.includes(node.tagName)
         ) {
-          const boundImage = { key: node.properties.dataBind };
+          const dataBindInfo = getDataBindInfo(node.properties.dataBind);
           if (node.properties.dataImageSize) {
-            boundImage.size = node.properties.dataImageSize;
+            dataBindInfo.size = node.properties.dataImageSize;
           }
 
-          this.blockData._boundImages.push(boundImage);
+          this.blockData._boundImages.push(dataBindInfo);
 
-          node.properties.src = `<?php echo esc_url($${node.properties.dataBind}_src); ?>`;
-          node.properties.srcset = `<?php echo esc_attr($${node.properties.dataBind}_srcset); ?>`;
-          node.properties.sizes = `<?php echo esc_attr($${node.properties.dataBind}_sizes); ?>`;
-          node.properties.alt = `<?php echo esc_attr($${node.properties.dataBind}_alt); ?>`;
+          node.properties.src = `<?php echo esc_url($${dataBindInfo.key}_src); ?>`;
+          node.properties.srcset = `<?php echo esc_attr($${dataBindInfo.key}_srcset); ?>`;
+          node.properties.sizes = `<?php echo esc_attr($${dataBindInfo.key}_sizes); ?>`;
+          node.properties.alt = `<?php echo esc_attr($${dataBindInfo.key}_alt); ?>`;
 
           delete node.properties.dataAttribute;
           delete node.properties.dataImageSize;

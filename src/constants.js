@@ -20,3 +20,8 @@ export const DATA_BIND_NON_RICH_TEXT_ELEMENTS = [
   ...DATA_BIND_IMAGE_ELEMENTS,
   ...DATA_BIND_CONTROLS_ELEMENTS,
 ];
+
+export const DATA_BIND_TYPES = {
+  attributes: "attributes",
+  postMeta: "postMeta",
+};
