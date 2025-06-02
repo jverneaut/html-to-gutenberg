@@ -5,8 +5,8 @@ import PrinterRenderPHP from "#printers/PrinterRenderPHP.js";
 
 import { visit } from "unist-util-visit";
 
-import { toSentenceCase } from "#string-utils/index.js";
-import { getAttributeDeclaration } from "#html-utils/index.js";
+import { toSentenceCase } from "#utils-string/index.js";
+import { getAttributeDeclaration } from "#utils-html/index.js";
 
 import { DATA_BIND_NON_RICH_TEXT_ELEMENTS } from "#constants";
 

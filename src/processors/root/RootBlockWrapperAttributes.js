@@ -1,7 +1,7 @@
 import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterRenderPHP from "#printers/PrinterRenderPHP.js";
 
-import { setRootAttribute } from "#html-utils/index.js";
+import { setRootAttribute } from "#utils-html/index.js";
 
 export default class RootBlockWrapperAttributes extends ProcessorBase {
   processAstByFilename(filename) {

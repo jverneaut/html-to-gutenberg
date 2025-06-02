@@ -2,8 +2,8 @@ import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 
 import { visit } from "unist-util-visit";
-import { deleteTagName } from "#html-utils/index.js";
-import { parseRawValue } from "#string-utils/index.js";
+import { deleteTagName } from "#utils-html/index.js";
+import { parseRawValue } from "#utils-string/index.js";
 
 export default class CustomElementRootBlockAttribute extends ProcessorBase {
   processAstByFilename(filename) {

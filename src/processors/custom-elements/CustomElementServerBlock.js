@@ -1,7 +1,7 @@
 import JSXElementTransformer from "./CustomElementJSXTransformer.js";
 
 import PrinterRenderPHP from "#printers/PrinterRenderPHP.js";
-import { deleteTagName } from "#html-utils/index.js";
+import { deleteTagName } from "#utils-html/index.js";
 
 export default class CustomElementServerBlock extends JSXElementTransformer {
   static JSXTagName = "ServerSideRender";

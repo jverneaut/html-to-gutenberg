@@ -4,7 +4,7 @@ import PrinterEditJS from "#printers/PrinterEditJS.js";
 import PrinterRenderPHP from "#printers/PrinterRenderPHP.js";
 
 import { visit } from "unist-util-visit";
-import { parseNodeAttributes } from "#html-utils/index.js";
+import { parseNodeAttributes } from "#utils-html/index.js";
 
 export default class CustomElementInnerBlocks extends ProcessorBase {
   collectAllowedBlocksRecursively(node, allowedBlocksSet) {

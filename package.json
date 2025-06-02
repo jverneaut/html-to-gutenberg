@@ -51,8 +51,8 @@
   "imports": {
     "#processors/*": "./src/processors/*",
     "#printers/*": "./src/printers/*",
-    "#html-utils/*": "./src/html-utils/*",
-    "#string-utils/*": "./src/string-utils/*",
+    "#utils-html/*": "./src/utils-html/*",
+    "#utils-string/*": "./src/utils-string/*",
     "#constants": "./src/constants.js"
   }
 }

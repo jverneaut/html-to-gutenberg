@@ -3,7 +3,7 @@ import { visit } from "unist-util-visit";
 import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 
-import { parseRawValue } from "#string-utils/index.js";
+import { parseRawValue } from "#utils-string/index.js";
 
 /**
  * @class CustomElementJSXTransformer

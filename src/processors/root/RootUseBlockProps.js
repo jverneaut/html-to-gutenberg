@@ -1,7 +1,7 @@
 import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 
-import { setRootAttribute } from "#html-utils/index.js";
+import { setRootAttribute } from "#utils-html/index.js";
 
 export default class RootUseBlockProps extends ProcessorBase {
   processAstByFilename(filename) {

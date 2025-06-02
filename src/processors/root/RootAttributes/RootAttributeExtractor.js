@@ -1,7 +1,7 @@
 import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 
-import { parseRootAttribute, deleteRootAttribute } from "#html-utils/index.js";
+import { parseRootAttribute, deleteRootAttribute } from "#utils-html/index.js";
 
 /**
  * @class RootAttributeExtractor

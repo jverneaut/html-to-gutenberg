@@ -1,6 +1,6 @@
 import RootAttributeExtractor from "./RootAttributeExtractor.js";
 
-import { kebabCaseToTitleCase } from "#string-utils/index.js";
+import { kebabCaseToTitleCase } from "#utils-string/index.js";
 
 export default class DataStyles extends RootAttributeExtractor {
   static attributeName = "dataStyles";

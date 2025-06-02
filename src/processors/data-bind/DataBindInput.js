@@ -4,7 +4,7 @@ import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 import PrinterRenderPHP from "#printers/PrinterRenderPHP.js";
 
-import { deleteAttribute } from "#html-utils/index.js";
+import { deleteAttribute } from "#utils-html/index.js";
 import { DATA_BIND_INPUT_ELEMENTS } from "#constants";
 
 export default class DataBindInput extends ProcessorBase {
