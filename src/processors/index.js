@@ -6,6 +6,7 @@ import AttributeDataDisplay from "./attributes/AttributeDataDisplay.js";
 import AttributeStyle from "./attributes/AttributeStyle.js";
 
 import CustomElementInnerBlocks from "./custom-elements/CustomElementInnerBlocks.js";
+import CustomElementInspectorControls from "./custom-elements/CustomElementInspectorControls/index.js";
 import CustomElementRootBlockAttribute from "./custom-elements/CustomElementRootBlockAttribute.js";
 import CustomElementServerBlock from "./custom-elements/CustomElementServerBlock.js";
 
@@ -31,6 +32,7 @@ export default [
   DataBind,
 
   CustomElementInnerBlocks,
+  CustomElementInspectorControls,
   CustomElementRootBlockAttribute,
   CustomElementServerBlock,
 

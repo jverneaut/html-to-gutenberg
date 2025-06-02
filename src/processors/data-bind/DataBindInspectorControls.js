@@ -2,23 +2,23 @@ import { visit } from "unist-util-visit";
 
 import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
-import PrinterRenderPHP from "#printers/PrinterRenderPHP.js";
 
 import { deleteAttribute, getAttributeDeclaration } from "#utils-html/index.js";
-import { DATA_BIND_INPUT_ELEMENTS } from "#constants";
+import { DATA_BIND_CONTROLS_ELEMENTS } from "../../constants.js";
 
-export default class DataBindInput extends ProcessorBase {
+export default class DataBindInspectorControls extends ProcessorBase {
   processAstByFilename(printerFilename) {
     if (printerFilename === PrinterEditJS.filename) {
       visit(this.asts[printerFilename], "element", (node) => {
         if (
           node.properties.dataBind &&
-          DATA_BIND_INPUT_ELEMENTS.includes(node.tagName)
+          DATA_BIND_CONTROLS_ELEMENTS.includes(node.tagName)
         ) {
           this.blockData._hasAttributesProps = true;
 
-          switch (node.properties.type) {
-            case "checkbox":
+          switch (node.tagName) {
+            case "checkbox-control":
+            case "toggle-control":
               this.blockData.attributes = {
                 ...this.blockData.attributes,
                 [node.properties.dataBind]: getAttributeDeclaration(
@@ -28,7 +28,21 @@ export default class DataBindInput extends ProcessorBase {
               };
 
               node.properties.checked = `$\${attributes.${node.properties.dataBind}}$$`;
-              node.properties.onChange = `$\${(e) => setAttributes({ ${node.properties.dataBind}: e.target.checked })}$$`;
+              node.properties.onChange = `$\${(${node.properties.dataBind}) => setAttributes({ ${node.properties.dataBind} })}$$`;
+
+              break;
+
+            case "radio-control":
+              this.blockData.attributes = {
+                ...this.blockData.attributes,
+                [node.properties.dataBind]: getAttributeDeclaration(
+                  node,
+                  "string",
+                ),
+              };
+
+              node.properties.selected = `$\${attributes.${node.properties.dataBind}}$$`;
+              node.properties.onChange = `$\${(${node.properties.dataBind}) => setAttributes({ ${node.properties.dataBind} })}$$`;
 
               break;
 
@@ -42,28 +56,7 @@ export default class DataBindInput extends ProcessorBase {
               };
 
               node.properties.value = `$\${attributes.${node.properties.dataBind}}$$`;
-              node.properties.onChange = `$\${(e) => setAttributes({ ${node.properties.dataBind}: e.target.value })}$$`;
-
-              break;
-          }
-        }
-      });
-    }
-
-    if (printerFilename === PrinterRenderPHP.filename) {
-      visit(this.asts[printerFilename], "element", (node) => {
-        if (
-          node.properties.dataBind &&
-          DATA_BIND_INPUT_ELEMENTS.includes(node.tagName)
-        ) {
-          switch (node.properties.type) {
-            case "checkbox":
-              node.properties.checked = `$$<?= $attributes['${node.properties.dataBind}']; ?>$$`;
-
-              break;
-
-            default:
-              node.properties.value = `$$<?= $attributes['${node.properties.dataBind}']; ?>$$`;
+              node.properties.onChange = `$\${(${node.properties.dataBind}) => setAttributes({ ${node.properties.dataBind} })}$$`;
 
               break;
           }

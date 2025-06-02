@@ -10,6 +10,15 @@ const defaultBlockData = {
   _hasInnerBlocks: false,
   _hasSelected: false,
 
+  _hasWordPressComponents: false,
+  _hasInspectorControlsImport: false,
+  _hasPanelBodyImport: false,
+  _hasCheckboxControlImport: false,
+  _hasRadioControlImport: false,
+  _hasTextControlImport: false,
+  _hasToggleControlImport: false,
+  _hasSelectControlImport: false,
+
   _boundImages: [], // {key: string, size?: string}[]
   _dependencies: [], // string[],
 

@@ -20,7 +20,32 @@ RichText,
 {{#_hasMediaUploadImport}}
 MediaUpload,
 {{/_hasMediaUploadImport}}
+{{#_hasInspectorControlsImport}}
+InspectorControls,
+{{/_hasInspectorControlsImport}}
 } from '@wordpress/block-editor';
+{{#_hasWordPressComponents}}
+import {
+{{#_hasPanelBodyImport}}
+PanelBody,
+{{/_hasPanelBodyImport}}
+{{#_hasCheckboxControlImport}}
+CheckboxControl,
+{{/_hasCheckboxControlImport}}
+{{#_hasRadioControlImport}}
+RadioControl,
+{{/_hasRadioControlImport}}
+{{#_hasTextControlImport}}
+TextControl,
+{{/_hasTextControlImport}}
+{{#_hasToggleControlImport}}
+ToggleControl,
+{{/_hasToggleControlImport}}
+{{#_hasSelectControlImport}}
+SelectControl,
+{{/_hasSelectControlImport}}
+} from '@wordpress/components';
+{{/_hasWordPressComponents}}
 {{#_hasMediaUploadImport}}
 import { Image } from "@10up/block-components";
 {{/_hasMediaUploadImport}}
