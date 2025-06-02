@@ -1,10 +1,13 @@
 import RootAttributes from "./root/RootAttributes/index.js";
 import RootBlockWrapperAttributes from "./root/RootBlockWrapperAttributes.js";
 import RootUseBlockProps from "./root/RootUseBlockProps.js";
-import RootBlockAttributeElement from "./root/RootBlockAttributeElement.js";
 
 import AttributeDataDisplay from "./attributes/AttributeDataDisplay.js";
 import AttributeStyle from "./attributes/AttributeStyle.js";
+
+import CustomElementInnerBlocks from "./custom-elements/CustomElementInnerBlocks.js";
+import CustomElementRootBlockAttribute from "./custom-elements/CustomElementRootBlockAttribute.js";
+import CustomElementServerBlock from "./custom-elements/CustomElementServerBlock.js";
 
 import DataBind from "./data-bind/index.js";
 
@@ -16,12 +19,15 @@ export default [
   RootAttributes,
   RootBlockWrapperAttributes,
   RootUseBlockProps,
-  RootBlockAttributeElement,
 
   AttributeDataDisplay,
   AttributeStyle,
 
   DataBind,
+
+  CustomElementInnerBlocks,
+  CustomElementRootBlockAttribute,
+  CustomElementServerBlock,
 
   GlobalJSXAttributes,
   GlobalRawExpressions,
