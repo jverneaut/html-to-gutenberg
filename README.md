@@ -11,6 +11,7 @@
 
 It’s designed for developers who value simplicity, speed, and control — without sacrificing the native block editor experience.
 
+
 ![HTML To Gutenberg WordCamp Demo](docs/static/img/wordcamp-demo.png)
 
 ## Quick start
@@ -50,8 +51,8 @@ src/
 ├── testimonial.html   # Yet another one
 ```
 
+
 > #### Note about blocks deletion
->
 > When you delete an HTML file from src, its corresponding Gutenberg block is removed on the next build.
 >
 > However, depending on your setup, you may also need to manually delete the removed block folder inside the build/ directory to fully clean it up.
@@ -62,6 +63,7 @@ Enable your block in the WordPress admin and drop it into any page or post.
 
 <details>
 <summary>Can't see your plugin on the admin?</summary>
+
 
 > Make sure you set a **title** when generating the plugin with `@wordpress/create-block`. If you don’t, the plugin may not appear in the WordPress plugins page.
 >
@@ -93,6 +95,7 @@ npm run build
 ```
 
 Bundles and minifies your blocks.
+
 
 ## Documentation
 
