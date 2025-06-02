@@ -42,6 +42,11 @@ export default class GlobalDepreciations extends ProcessorBase {
     if (filename === PrinterEditJS.filename) {
       const errors = [
         ...deprecateElement(this.asts[filename], "blocks", "inner-blocks"),
+        ...deprecateElement(
+          this.asts[filename],
+          "attribute",
+          "block-attribute",
+        ),
         ...deprecateAttribute(
           this.asts[filename],
           "data-attribute",
