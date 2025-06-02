@@ -3,7 +3,7 @@ import RootBlockWrapperAttributes from "./root/RootBlockWrapperAttributes.js";
 import RootUseBlockProps from "./root/RootUseBlockProps.js";
 import RootBlockAttributeElement from "./root/RootBlockAttributeElement.js";
 
-// Ordering matters has some processors rely on the mutable block data
+// Ordering matters as some processors rely on the mutated block data later on
 export default [
   RootAttributes,
   RootBlockWrapperAttributes,
