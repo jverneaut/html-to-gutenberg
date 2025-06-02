@@ -15,6 +15,7 @@
   "parent": ["custom/parent-block"],
   "attributes": {
     "align": { "type": "string", "default": "full" },
+    "image": { "type": "integer" },
     "title": {
       "type": "string",
       "default": "Hello, <strong>Gutenberg!</strong>"
@@ -22,8 +23,7 @@
     "content": {
       "type": "string",
       "default": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis facere deleniti nam magni. Aspernatur, obcaecati fuga."
-    },
-    "image": { "type": "integer" }
+    }
   },
   "supports": { "html": false, "align": ["full"] },
   "editorScript": "file:./index.js",

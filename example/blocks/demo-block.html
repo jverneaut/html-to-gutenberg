@@ -8,30 +8,36 @@
 >
   <div class="grid grid-cols-12 px-8 gap-x-6">
     <div class="col-span-6 flex flex-col justify-center">
-      <h1 data-attribute="title">Hello, <strong>Gutenberg!</strong></h1>
+      <h1 data-bind="title">Hello, <strong>Gutenberg!</strong></h1>
 
-      <p data-attribute="content">
+      <p data-bind="content">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
         facere deleniti nam magni. Aspernatur, obcaecati fuga.
       </p>
     </div>
 
     <div class="col-span-6">
-      <img data-attribute="image" src="w-full aspect-video rounded-lg" />
+      <img data-bind="image" src="w-full aspect-video rounded-lg" />
     </div>
 
     <div class="col-span-12 flex gap-x-6">
-      <blocks templateLock>
-        <block name="custom/child-block" title="Title 1" number="42"></block>
-        <block name="custom/child-block">
-          <attribute name="title"><strong>Title 2</strong></attribute>
-          <attribute name="number">42</attribute>
-        </block>
-        <block name="custom/other-child-block">
-          <attribute name="title" value="Title 3"></attribute>
-          <attribute name="number" value="42"></attribute>
-        </block>
-      </blocks>
+      <inner-blocks templateLock>
+        <inner-block
+          name="custom/child-block"
+          title="Title 1"
+          number="42"
+        ></inner-block>
+        <inner-block name="custom/child-block">
+          <block-attribute name="title"
+            ><strong>Title 2</strong></block-attribute
+          >
+          <block-attribute name="number">42</block-attribute>
+        </inner-block>
+        <inner-block name="custom/other-child-block">
+          <block-attribute name="title" value="Title 3"></block-attribute>
+          <block-attribute name="number" value="42"></block-attribute>
+        </inner-block>
+      </inner-blocks>
     </div>
   </div>
 </section>
