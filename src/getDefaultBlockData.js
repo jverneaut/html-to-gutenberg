@@ -10,6 +10,11 @@ const defaultBlockData = {
   _hasInnerBlocks: false,
   _hasSelected: false,
   _hasPostMeta: false,
+  _hasToolbarImport: false,
+  _hasToolbarItemImport: false,
+  _hasToolbarGroupImport: false,
+  _hasToolbarButtonImport: false,
+  _hasBlockControlsImport: false,
 
   _hasWordPressComponents: false,
   _hasInspectorControlsImport: false,

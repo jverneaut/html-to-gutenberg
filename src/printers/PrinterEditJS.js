@@ -23,6 +23,9 @@ MediaUpload,
 {{#_hasInspectorControlsImport}}
 InspectorControls,
 {{/_hasInspectorControlsImport}}
+{{#_hasBlockControlsImport}}
+BlockControls,
+{{/_hasBlockControlsImport}}
 } from '@wordpress/block-editor';
 {{#_hasWordPressComponents}}
 import {
@@ -44,6 +47,18 @@ ToggleControl,
 {{#_hasSelectControlImport}}
 SelectControl,
 {{/_hasSelectControlImport}}
+{{#_hasToolbarImport}}
+Toolbar,
+{{/_hasToolbarImport}}
+{{#_hasToolbarItemImport}}
+ToolbarItem,
+{{/_hasToolbarItemImport}}
+{{#_hasToolbarGroupImport}}
+ToolbarGroup,
+{{/_hasToolbarGroupImport}}
+{{#_hasToolbarButtonImport}}
+ToolbarButton,
+{{/_hasToolbarButtonImport}}
 } from '@wordpress/components';
 {{/_hasWordPressComponents}}
 {{#_hasPostMeta}}
