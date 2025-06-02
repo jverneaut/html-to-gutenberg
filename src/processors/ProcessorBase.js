@@ -15,7 +15,7 @@ export default class ProcessorBase {
   /**
    * Creates a ProcessorBase instance.
    *
-   * @param {Object} blockData - The block metadata and state shared across processors.
+   * @param blockData - The block metadata and state shared across processors.
    *                             Defaults to a fresh default block data object.
    * @param {Object<string, any>} asts - A map of filenames to ASTs for processing.
    *                                     Defaults to an empty object.
