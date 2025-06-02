@@ -39,21 +39,21 @@ Type some HTML. Add attributes. Add InnerBlocks. Done. 🎉
     <div class="container">
       <div class="grid grid-cols-12 gap-4">
         <div class="col-span-12 md:col-span-6">
-          <h2 class="text-2xl" data-attribute="section_title">I am editable – awesome, right?</h2>
-          <img class="aspect-square object-cover" data-attribute="section_image" />
+          <h2 class="text-2xl" data-bind="section_title">I am editable – awesome, right?</h2>
+          <img class="aspect-square object-cover" data-bind="section_image" />
         </div>
 
         <div class="col-span-12 md:col-span-6">
-          <blocks allowedBlocks="all" templateLock="all">
-            <block name="core/group">
-              <block name="core/heading" level="3"></block>
-              <block name="core/paragraph">
-                <attribute name="content">
+          <inner-blocks allowedBlocks="all" templateLock="all">
+            <inner-block name="core/group">
+              <inner-block name="core/heading" level="3"></inner-block>
+              <inner-block name="core/paragraph">
+                <block-attribute name="content">
                   Lorem ipsum dolor sit amet consectetur.
-                </attribute>
-              </block>
-            </block>
-          </blocks>
+                </block-attribute>
+              </inner-block>
+            </inner-block>
+          </inner-blocks>
         </div>
       </div>
     </div>

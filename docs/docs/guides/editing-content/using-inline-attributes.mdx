@@ -10,10 +10,10 @@ By default, it uses the `RichText` component for text-based elements. For images
 <LiveEditor>
   ```
   <section>
-    <h2 data-attribute="title">Section Title</h2>
-    <p data-attribute="description">Section description</p>
+    <h2 data-bind="title">Section Title</h2>
+    <p data-bind="description">Section description</p>
 
-    <img data-attribute="image" />
+    <img data-bind="image" />
 
   </section>
   ```
@@ -21,13 +21,13 @@ By default, it uses the `RichText` component for text-based elements. For images
 
 ## Making text editable
 
-To make a text element editable in Gutenberg, add `data-attribute="name"` to it — where name is the name of the attribute that will be saved by Gutenberg.
+To make a text element editable in Gutenberg, add `data-bind="name"` to it — where name is the name of the attribute that will be saved by Gutenberg.
 
 <CodeExample>
   ```
   <section>
-    <h2 data-attribute="title">Section Title</h2>
-    <p data-attribute="description">Section description</p>
+    <h2 data-bind="title">Section Title</h2>
+    <p data-bind="description">Section description</p>
   </section>
   ```
 </CodeExample>
@@ -39,7 +39,7 @@ If the element contains content, that content will be used as the default value 
 For example:
 
 ```html
-<p data-attribute="content"><strong>Default content</strong></p>
+<p data-bind="content"><strong>Default content</strong></p>
 ```
 
 ```json title="block.json"
@@ -65,12 +65,12 @@ It can be tempting to use this kind of inline editable fields for every text con
 
 ## Making images editable
 
-You can make images editable using the same principle: add `data-attribute="name"` to an `<img>` element — where name is the attribute that will store the image ID.
+You can make images editable using the same principle: add `data-bind="name"` to an `<img>` element — where name is the attribute that will store the image ID.
 
 <CodeExample>
   ```
   <section>
-    <img data-attribute="image" />
+    <img data-bind="image" />
   </section>
   ```
 </CodeExample>
@@ -84,7 +84,7 @@ To control which image size is used in the editor and frontend, use `data-image-
 <CodeExample>
   ```
   <section>
-    <img data-attribute="image" data-image-size="medium" />
+    <img data-bind="image" data-image-size="medium" />
   </section>
   ```
 </CodeExample>

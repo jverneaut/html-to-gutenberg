@@ -10,12 +10,10 @@ import {
   useSandpack,
 } from "@codesandbox/sandpack-react";
 
-import getBlockData from "../../../src/lib/common/getBlockData.js";
+import HTMLToGutenberg from "../../../src/HTMLToGutenberg.js";
 
-import printEditJS from "../../../src/lib/printEditJS.js";
-import printRenderPHP from "../../../src/lib/printRenderPHP.js";
-import printBlockJSON from "../../../src/lib/printBlockJSON.js";
-import printIndexJS from "../../../src/lib/printIndexJS.js";
+import processors from "../../../src/processors/index.js";
+import printers from "../../../src/printers/index.js";
 
 const LiveEditorInputEditor = ({ setInputFiles }) => {
   const { code } = useActiveCode();
@@ -54,24 +52,27 @@ const LiveEditorOutputEditor = ({ inputFiles }) => {
     const activeFile = sandpack.activeFile;
 
     try {
-      const blockData = await getBlockData(inputFiles["/block.html"], {
-        blockName: "custom/block",
-        blockSlug: "block",
-        blockTitle: "Block",
+      const htmlToGutenberg = new HTMLToGutenberg({
+        printers,
+        processors,
       });
 
-      const [indexJs, editJS, renderPHP, blockJSON] = await Promise.all([
-        printIndexJS(blockData),
-        printEditJS(blockData),
-        printRenderPHP(blockData),
-        printBlockJSON(blockData),
-      ]);
+      const { files } = await htmlToGutenberg.printBlockFromHTMLFileContent(
+        inputFiles["/block.html"],
+        {
+          name: "custom/block",
+          title: "Block",
+          textdomain: "block",
+        },
+      );
 
-      sandpack.updateFile("/render.php", renderPHP);
-      sandpack.updateFile("/edit.js", editJS);
-      sandpack.updateFile("/block.json", blockJSON);
-      sandpack.updateFile("/index.js", indexJs, false);
-    } catch (err) {}
+      sandpack.updateFile("/render.php", files["render.php"]);
+      sandpack.updateFile("/edit.js", files["edit.js"]);
+      sandpack.updateFile("/block.json", files["block.json"]);
+      sandpack.updateFile("/index.js", files["index.js"]);
+    } catch (err) {
+      console.log(err);
+    }
 
     sandpack.setActiveFile(activeFile);
   };
@@ -107,25 +108,34 @@ const LiveEditorOutput = ({ inputFiles }) => {
   );
 };
 
-const defaultFileValue = ` <section class="py-20 bg-blue-200" data-parent="custom/parent-block" data-editing-mode="contentOnly">
+const defaultFileValue = `<section class="py-20 bg-blue-200" data-parent="custom/parent-block" data-editing-mode="contentOnly">
+  <inspector-controls>
+    <panel-body title="Settings">
+      <select-control data-bind="postType" label="Post Type">
+        <select-control-option value="posts">Posts</select-control-option>
+        <select-control-option value="pages">Pages</select-control-option>
+      </select-control>
+    </panel-body>
+  </inspector-controls>
+
   <div class="container">
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-12 md:col-span-6">
-        <h2 class="text-2xl" data-attribute="section_title">I am editable – awesome, right?</h2>
-        <img class="aspect-square object-cover" data-attribute="section_image" />
+        <h2 class="text-2xl" data-bind="sectionTitle">Edit me inside the editor</h2>
+        <img class="aspect-square object-cover" data-bind="sectionImage" />
       </div>
 
       <div class="col-span-12 md:col-span-6">
-        <blocks allowedBlocks="all" templateLock="all">
-          <block name="core/group">
-            <block name="core/heading" level="3"></block>
-            <block name="core/paragraph">
-              <attribute name="content">
+        <inner-blocks allowedBlocks="all" templateLock="all">
+          <inner-block name="core/group">
+            <inner-block name="core/heading" level="3"></inner-block>
+            <inner-block name="core/paragraph">
+              <block-attribute name="content">
                 Lorem ipsum dolor sit amet consectetur.
-              </attribute>
-            </block>
-          </block>
-        </blocks>
+              </block-attribute>
+            </inner-block>
+          </inner-block>
+        </inner-blocks>
       </div>
     </div>
   </div>
