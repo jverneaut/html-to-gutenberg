@@ -1,0 +1,33 @@
+<section>
+  <inspector-controls>
+    <panel-body title="Settings">
+      <checkbox-control
+        data-bind="checkboxAttribute"
+        label="Checkbox Field"
+        help="Additional help text"
+      ></checkbox-control>
+
+      <radio-control data-bind="radioAttribute">
+        <radio-control-option value="yes">Yes</radio-control-option>
+        <radio-control-option value="no">No</radio-control-option>
+      </radio-control>
+
+      <text-control
+        data-bind="textAttribute"
+        label="Text Field"
+        help="Additional help text"
+      ></text-control>
+
+      <toggle-control
+        data-bind="toggleAttribute"
+        label="Toggle Field"
+      ></toggle-control>
+
+      <select-control data-bind="selectAttribute" label="Select Control">
+        <select-control-option value="a">Option A</select-control-option>
+        <select-control-option value="b">Option B</select-control-option>
+        <select-control-option value="c">Option C</select-control-option>
+      </select-control>
+    </panel-body>
+  </inspector-controls>
+</section>
