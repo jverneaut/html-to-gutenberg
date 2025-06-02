@@ -1,0 +1,13 @@
+diff --git a/node_modules/hast-util-to-html/lib/handle/element.js b/node_modules/hast-util-to-html/lib/handle/element.js
+index 17d9470..af26102 100644
+--- a/node_modules/hast-util-to-html/lib/handle/element.js
++++ b/node_modules/hast-util-to-html/lib/handle/element.js
+@@ -189,7 +189,7 @@ function serializeAttribute(state, key, value) {
+   }
+ 
+   const name = stringifyEntities(
+-    info.attribute,
++    info.property,
+     Object.assign({}, state.settings.characterReferences, {
+       // Always encode without parse errors in non-HTML.
+       subset: constants.name[x][y]
