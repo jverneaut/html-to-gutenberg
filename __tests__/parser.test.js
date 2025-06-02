@@ -12,20 +12,16 @@ import processors from "#processors/index.js";
 import HTMLToGutenberg from "../src/HTMLToGutenberg.js";
 
 const PROCESSABLE_FIXTURES_DIR = path.join(__dirname, "fixtures/processable");
-// TODO: Add error handler for unprocessable blocks
-// const UNPROCESSABLE_FIXTURES_DIR = path.join(
-//   __dirname,
-//   "fixtures/unprocessable",
-// );
+const UNPROCESSABLE_FIXTURES_DIR = path.join(
+  __dirname,
+  "fixtures/unprocessable",
+);
 
-const generateFiles = async (caseDir) => {
+const generateFiles = async (htmlFileContent) => {
   const htmlToGutenberg = new HTMLToGutenberg({
     printers,
     processors,
   });
-
-  const htmlFile = glob.sync("*.html", { cwd: caseDir, absolute: true })[0];
-  const htmlFileContent = fs.readFileSync(htmlFile, "utf-8");
 
   const generatedFiles = await htmlToGutenberg.printBlockFromHTMLFileContent(
     htmlFileContent,
@@ -44,16 +40,23 @@ const generateFiles = async (caseDir) => {
   };
 };
 
+const generateFilesForDirectory = async (caseDir) => {
+  const htmlFile = glob.sync("*.html", { cwd: caseDir, absolute: true })[0];
+  const htmlFileContent = fs.readFileSync(htmlFile, "utf-8");
+
+  return generateFiles(htmlFileContent);
+};
+
 describe("HTML Parser", () => {
   const processableTestCases = fs.readdirSync(PROCESSABLE_FIXTURES_DIR);
-  // TODO: Add error handler for unprocessable blocks
-  // const unProcessableTestCases = fs.readdirSync(UNPROCESSABLE_FIXTURES_DIR);
+  const unProcessableTestCases = fs.readdirSync(UNPROCESSABLE_FIXTURES_DIR);
 
   processableTestCases.forEach((testCase) => {
     test(`should correctly parse ${testCase}`, async () => {
       const caseDir = path.join(PROCESSABLE_FIXTURES_DIR, testCase);
 
-      const { json, edit, php, index } = await generateFiles(caseDir);
+      const { json, edit, php, index } =
+        await generateFilesForDirectory(caseDir);
 
       const expectedJSONPath = path.join(caseDir, "expected.json");
       if (fs.existsSync(expectedJSONPath)) {
@@ -81,15 +84,12 @@ describe("HTML Parser", () => {
     });
   });
 
-  // TODO: Add error handler for unprocessable blocks
-  // unProcessableTestCases.forEach((testCase) => {
-  //   test(`should fail to parse ${testCase}`, async () => {
-  //     const inputHTML = fs.readFileSync(
-  //       path.join(UNPROCESSABLE_FIXTURES_DIR, testCase),
-  //       "utf-8",
-  //     );
+  unProcessableTestCases.forEach((testCase) => {
+    test(`should fail to parse ${testCase}`, async () => {
+      const htmlFile = path.join(UNPROCESSABLE_FIXTURES_DIR, testCase);
+      const htmlFileContent = fs.readFileSync(htmlFile, "utf-8");
 
-  //     await expect(generateFiles(inputHTML)).rejects.toThrow();
-  //   });
-  // });
+      await expect(generateFiles(htmlFileContent)).rejects.toThrow();
+    });
+  });
 });
