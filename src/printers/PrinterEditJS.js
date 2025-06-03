@@ -66,7 +66,7 @@ import { useSelect } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
 {{/_hasPostType}}
 {{#_hasMediaUploadImport}}
-import { Image } from "@10up/block-components";
+import { Image } from "@10up/block-components/components/image";
 {{/_hasMediaUploadImport}}
 {{/content}}
 {{#_hasServerSideRender}}
