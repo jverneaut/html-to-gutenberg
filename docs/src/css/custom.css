@@ -16,8 +16,8 @@
   --ifm-color-primary-lighter: #359962;
   --ifm-color-primary-lightest: #3cad6e; */
 
-  --ifm-font-family-base: "Inter";
-  --ifm-heading-font-family: "Inter";
+  --ifm-font-family-base: "Inter", system-ui;
+  --ifm-heading-font-family: "Inter", system-ui;
 
   --ifm-code-padding-horizontal: 0.3em;
   --ifm-code-font-size: 90%;
