@@ -1,0 +1,114 @@
+---
+sidebar_position: 1
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Binding data to elements
+
+HTML to Gutenberg supports a powerful `data-bind` attribute that lets you bind data sources to supported HTML elements and Gutenberg-specific components.
+
+This is one of the core features of the project. It enables building dynamic, editable blocks using plain HTML, without needing to write React or learn Gutenberg APIs.
+
+### Behavior
+
+- On compatible elements like `div`, `span`, `h1`, etc., `data-bind` adds a `RichText` component, making text editable.
+- On `img` tags, it enables in-editor image selection.
+- It works on advanced components too, like `<select-control>` inside `<inspector-controls>`, or even standard `<input>` elements of any type.
+
+## Binding block attributes
+
+By default, `data-bind="example"` creates a block attribute named `example`, typed according to the element it's used on (e.g. `string`, `boolean`, `integer`).
+
+If the element contains text (e.g. `<p>`), that content becomes the default value.
+
+Here are some examples of the `data-bind` attribute in use, have a look at the generated `edit.js`, `render.php` and `block.json` files to understand what this attribute does in each case.
+
+<CodeExample>
+  ```
+  <section>
+    <!-- Creates a "sectionTitle" string attribute with the "Section title" default -->
+    <h2 data-bind="sectionTitle">Section title</h2>
+
+    <!-- Creates a "sectionDescription" string attribute with the "Description" default -->
+    <p data-bind="sectionDescription">Description</p>
+
+    <!-- Creates a "isChecked" boolean attribute -->
+    <input type="checkbox" data-bind="isChecked" />
+
+    <!-- Creates a "sectionImage" integer attribute -->
+    <img data-bind="sectionImage" />
+
+    <!-- Creates a "queryPostType" string attribute with the "pages" default -->
+    <inspector-controls>
+      <panel-body title="Query settings">
+        <select-control label="Post type" data-bind="queryPostType">
+          <select-control-option value="pages">Pages</select-control-option>
+          <select-control-option value="posts">Posts</select-control-option>
+        </select-control>
+      </panel-body>
+    </inspector-controls>
+    <!-- ...and creates some nice inspector controls too! -->
+
+  </section>
+  ```
+</CodeExample>
+
+:::info data-bind="someKey" is shorthand for data-bind="attributes.someKey".
+You’ll never need to write the full attributes.someKey path yourself, but it's good to know that's what’s happening behind the scenes.
+
+As you’ll see in the next sections, the data-bind attribute can also connect to other data sources using similar namespaced paths.
+:::
+
+## Binding post data (title)
+
+Currently, only the post title is supported for direct post data binding.
+
+<CodeExample>
+  ```
+  <section class="hero">
+    <!-- Displays and edits the post title -->
+    <h1 class="hero__title" data-bind="post.title"></h1>
+  </section>
+  ```
+</CodeExample>
+
+## Binding post meta
+
+While block attributes are great for unstructured content, post meta is still essential for reusable or structured data tied to the post itself.
+
+To bind to post meta, use the `data-bind="postMeta.your_meta_key"` format. The key must be registered and exposed via the REST API.
+
+<CodeExample>
+  ```
+  <section class="recipe">
+    <!-- This will allow you to edit post meta in the editor -->
+    <p>Cooking time: <span data-bind="postMeta.cooking_time">60min</span></p>
+    <p>Number of persons: <span data-bind="postMeta.number_of_persons">1-2</span></p>
+
+    <select data-bind="postMeta.recipe_type">
+      <option value="healthy">Healthy</option>
+      <option value="super_fat">Super fat</option>
+      <option value="smelly">Smelly</option>
+    </select>
+
+  </section>
+  ```
+</CodeExample>
+
+:::info Editable post meta needs to show in rest
+To be editable, post meta must be:
+
+- Registered via `register_post_meta()`
+- Exposed in the REST API (`show_in_rest: true`)
+- Registered as single values (arrays are not supported yet)
+
+```php
+register_post_meta('recipe', 'cooking_time', [
+  'show_in_rest' => true, // Expose in REST API
+  'single' => true,       // Only store a single value (not an array)
+  'type' => 'string',     // Data type (adjust as needed: string, boolean, integer, etc.)
+]);
+```
+
+:::
