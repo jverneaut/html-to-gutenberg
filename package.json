@@ -11,8 +11,7 @@
   },
   "scripts": {
     "test": "NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" jest",
-    "start": "node index.js",
-    "postinstall": "patch-package"
+    "start": "node index.js"
   },
   "keywords": [
     "Gutenberg",
@@ -40,7 +39,6 @@
     "hast-util-to-html": "^9.0.5",
     "he": "^1.2.0",
     "mustache": "^4.2.0",
-    "patch-package": "^8.0.0",
     "prettier": "^3.5.3",
     "rehype-parse": "^9.0.1",
     "style-to-object": "^1.0.8",
