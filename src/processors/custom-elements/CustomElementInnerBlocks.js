@@ -37,7 +37,7 @@ export default class CustomElementInnerBlocks extends ProcessorBase {
               });
           }
 
-          // Retrieve child <block> elements
+          // Retrieve child <inner-block> elements
           const templateBlocks = node.children.filter(
             (el) => el.tagName === "inner-block",
           );
