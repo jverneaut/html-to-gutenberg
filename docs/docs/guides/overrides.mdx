@@ -1,0 +1,30 @@
+# Overriding generated files
+
+While HTML To Gutenberg simplifies custom block creation, it can’t cover every use case. Sometimes you’ll want to customize the generated files—for example, to add editor controls or fetch dynamic data in a server-side render.
+
+**You can do this by creating file overrides.**
+
+This is especially useful for server-rendered blocks where you need fine control over both the PHP and editor behavior.
+
+## Overriding files for file-based blocks
+
+For blocks created using standalone .html files (e.g. `hero.html` in your inputDirectory), you can override generated files by using the `your-block.override.ext` pattern.
+
+For example, for a block defined in `hero.html`:
+
+- `hero.edit.js` → overrides the editor React component
+- `hero.render.php` → overrides the frontend PHP render
+- `hero.block.json` → overrides the block metadata
+- `hero.index.js` → overrides the block entry point
+- `hero.custom-image.jpg` → will be copied to `hero/custom-image.jpg` in the output
+
+## Overriding files for folder-based blocks
+
+For blocks defined in folders using `index.html` (e.g. `hero/index.html`), overrides work the same way. Just put the override files next to the `index.html` file:
+
+- `hero/edit.js` → overrides the editor component
+- `hero/render.php` → overrides the frontend PHP
+- `hero/block.json` → overrides the metadata
+- `hero/index.js` → overrides the entry point
+
+Any other file (images, assets, etc.) will be copied as-is to the output folder
