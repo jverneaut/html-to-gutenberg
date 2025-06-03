@@ -12,6 +12,8 @@ export default class HtmlToGutenbergPlugin {
     defaultVersion = "0.1.0",
     defaultIcon = null,
   }) {
+    this.inputDirectory = inputDirectory;
+
     this.htmlToGutenbergProcessor = new HTMLToGutenbergProcessor({
       inputDirectory,
       outputDirectory,
