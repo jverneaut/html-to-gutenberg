@@ -46,7 +46,8 @@ const exampleTemplate = convertTemplate(
   }),
 );
 
-const template = `![Tests Status](https://github.com/jverneaut/html-to-gutenberg/actions/workflows/test.yml/badge.svg)
+const template = `![Node LTS](https://img.shields.io/node/v-lts/@jverneaut/html-to-gutenberg)
+![Tests Status](https://github.com/jverneaut/html-to-gutenberg/actions/workflows/test.yml/badge.svg)
 ![GitHub Release](https://img.shields.io/github/v/release/jverneaut/html-to-gutenberg)
 
 <img src="./docs/static/img/logo.svg" alt="HTML To Gutenberg" width="100">
