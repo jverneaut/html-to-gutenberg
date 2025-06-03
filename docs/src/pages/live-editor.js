@@ -47,6 +47,7 @@ const LiveEditorInput = ({ inputFiles, setInputFiles }) => {
 
 const LiveEditorOutputEditor = ({ inputFiles }) => {
   const { sandpack } = useSandpack();
+  const [error, setError] = useState("");
 
   const updateFiles = async () => {
     const activeFile = sandpack.activeFile;
@@ -70,8 +71,10 @@ const LiveEditorOutputEditor = ({ inputFiles }) => {
       sandpack.updateFile("/edit.js", files["edit.js"]);
       sandpack.updateFile("/block.json", files["block.json"]);
       sandpack.updateFile("/index.js", files["index.js"]);
+
+      setError("");
     } catch (err) {
-      console.log(err);
+      setError(err.message);
     }
 
     sandpack.setActiveFile(activeFile);
@@ -81,7 +84,12 @@ const LiveEditorOutputEditor = ({ inputFiles }) => {
     updateFiles();
   }, [inputFiles["/block.html"], sandpack.editorState]);
 
-  return <SandpackCodeEditor showTabs readOnly />;
+  return (
+    <>
+      <SandpackCodeEditor showTabs readOnly />
+      {error && <pre className="error">{error}</pre>}
+    </>
+  );
 };
 
 const LiveEditorOutput = ({ inputFiles }) => {
