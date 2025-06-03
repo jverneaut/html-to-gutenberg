@@ -46,16 +46,26 @@ export default class DataBindRichText extends ProcessorBase {
           if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
             node.properties.value = `$\${attributes.${dataBindInfo.key}}$$`;
             node.properties.onChange = `$\${${dataBindInfo.key} => setAttributes({ ${dataBindInfo.key} })}$$`;
+
+            if (dataBindInfo.key) {
+              node.properties.placeholder = toSentenceCase(dataBindInfo.key);
+            }
           }
 
           if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
             node.properties.value = `$\${meta.${dataBindInfo.key}}$$`;
             node.properties.onChange = `$\${${dataBindInfo.key} => setMeta({ ...meta, ${dataBindInfo.key} })}$$`;
+
+            if (dataBindInfo.key) {
+              node.properties.placeholder = toSentenceCase(dataBindInfo.key);
+            }
           }
 
           if (dataBindInfo.type === DATA_BIND_TYPES.postTitle) {
             node.properties.value = `$\${postTitle}$$`;
             node.properties.onChange = `$\${(postTitle) => setPostTitle(postTitle)}$$`;
+
+            node.properties.placeholder = "Post title";
           }
 
           if (dataBindInfo.key) {
