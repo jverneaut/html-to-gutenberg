@@ -48,8 +48,7 @@
     "unist-util-flatmap": "^1.0.0",
     "unist-util-remove": "^4.0.0",
     "unist-util-source": "^5.0.0",
-    "unist-util-visit": "^5.0.0",
-    "zod": "^3.24.2"
+    "unist-util-visit": "^5.0.0"
   },
   "imports": {
     "#processors/*": "./src/processors/*",
