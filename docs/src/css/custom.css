@@ -19,6 +19,7 @@
   --ifm-font-family-base: "Inter";
   --ifm-heading-font-family: "Inter";
 
+  --ifm-code-padding-horizontal: 0.3em;
   --ifm-code-font-size: 90%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
