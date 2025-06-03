@@ -124,13 +124,22 @@ Visit the [official documentation](https://html-to-gutenberg.com) to try this co
   data-parent="custom/parent-block"
   data-editing-mode="contentOnly"
 >
+  <inspector-controls>
+    <panel-body title="Settings">
+      <select-control data-bind="postType" label="Post Type">
+        <select-control-option value="posts">Posts</select-control-option>
+        <select-control-option value="pages">Pages</select-control-option>
+      </select-control>
+    </panel-body>
+  </inspector-controls>
+
   <div class="container">
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-12 md:col-span-6">
-        <h2 class="text-2xl" data-bind="section_title">
-          I am editable – awesome, right?
+        <h2 class="text-2xl" data-bind="sectionTitle">
+          Edit me inside the editor
         </h2>
-        <img class="aspect-square object-cover" data-bind="section_image" />
+        <img class="aspect-square object-cover" data-bind="sectionImage" />
       </div>
 
       <div class="col-span-12 md:col-span-6">
@@ -159,35 +168,51 @@ import {
   InnerBlocks,
   RichText,
   MediaUpload,
+  InspectorControls,
 } from "@wordpress/block-editor";
-import { Image } from "@10up/block-components";
+import { PanelBody, SelectControl } from "@wordpress/components";
+import { Image } from "@10up/block-components/components/image";
 
 export default ({ attributes, setAttributes }) => {
   useBlockEditingMode("contentOnly");
 
   return (
     <section {...useBlockProps({ className: "py-20 bg-blue-200" })}>
+      <InspectorControls>
+        <PanelBody title="Settings">
+          <SelectControl
+            label="Post Type"
+            value={attributes.postType}
+            onChange={(postType) => setAttributes({ postType })}
+            options={[
+              { label: "Posts", value: "posts" },
+              { label: "Pages", value: "pages" },
+            ]}
+          ></SelectControl>
+        </PanelBody>
+      </InspectorControls>
+
       <div className="container">
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 md:col-span-6">
             <RichText
               className="text-2xl"
               tagName="h2"
-              value={attributes.section_title}
-              onChange={(section_title) => setAttributes({ section_title })}
+              value={attributes.sectionTitle}
+              onChange={(sectionTitle) => setAttributes({ sectionTitle })}
               placeholder="Section title"
             ></RichText>
             <MediaUpload
-              value={attributes.section_image}
-              onSelect={(image) => setAttributes({ section_image: image.id })}
+              value={attributes.sectionImage}
+              onSelect={(image) => setAttributes({ sectionImage: image.id })}
               render={({ open }) => (
                 <Image
                   style={{ cursor: "pointer", pointerEvents: "all" }}
                   onClick={open}
                   className="aspect-square object-cover"
-                  id={attributes.section_image}
+                  id={attributes.sectionImage}
                   onSelect={(image) =>
-                    setAttributes({ section_image: image.id })
+                    setAttributes({ sectionImage: image.id })
                   }
                 />
               )}
@@ -224,12 +249,12 @@ export default ({ attributes, setAttributes }) => {
 ```php
 <?php
 
-$section_image_id = $attributes['section_image'] ?? '';
-$section_image = $section_image_id ? wp_get_attachment_image_src($section_image_id, 'full') : [''];
-$section_image_src = $section_image[0] ?? '';
-$section_image_srcset = $section_image_id ? wp_get_attachment_image_srcset($section_image_id, 'full') : '';
-$section_image_sizes = $section_image_id ? wp_get_attachment_image_sizes($section_image_id, 'full') : '';
-$section_image_alt = $section_image_id ? get_post_meta($section_image_id, '_wp_attachment_image_alt', true) : '';
+$sectionImage_id = $attributes['sectionImage'] ?? '';
+$sectionImage = $sectionImage_id ? wp_get_attachment_image_src($sectionImage_id, 'full') : [''];
+$sectionImage_src = $sectionImage[0] ?? '';
+$sectionImage_srcset = $sectionImage_id ? wp_get_attachment_image_srcset($sectionImage_id, 'full') : '';
+$sectionImage_sizes = $sectionImage_id ? wp_get_attachment_image_sizes($sectionImage_id, 'full') : '';
+$sectionImage_alt = $sectionImage_id ? get_post_meta($sectionImage_id, '_wp_attachment_image_alt', true) : '';
 
 ?>
 
@@ -237,10 +262,9 @@ $section_image_alt = $section_image_id ? get_post_meta($section_image_id, '_wp_a
   <div class="container">
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-12 md:col-span-6">
-        <h2 class="text-2xl"><?php echo wp_kses_post($attributes['section_title'] ?? ''); ?></h2>
-        <img class="aspect-square object-cover" src="<?php echo esc_url($section_image_src); ?>" srcset="<?php echo esc_attr($section_image_srcset); ?>" sizes="<?php echo esc_attr($section_image_sizes); ?>" alt="<?php echo esc_attr($section_image_alt); ?>" />
+        <h2 class="text-2xl"><?php echo wp_kses_post($attributes['sectionTitle'] ?? ''); ?></h2>
+        <img class="aspect-square object-cover" src="<?php echo esc_url($sectionImage_src); ?>" srcset="<?php echo esc_attr($sectionImage_srcset); ?>" sizes="<?php echo esc_attr($sectionImage_sizes); ?>" alt="<?php echo esc_attr($sectionImage_alt); ?>" />
       </div>
-
       <div class="col-span-12 md:col-span-6">
         <?php echo $content; ?>
       </div>
@@ -258,15 +282,15 @@ $section_image_alt = $section_image_id ? get_post_meta($section_image_id, '_wp_a
   "textdomain": "block",
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
+  "version": "0.1.0",
+  "category": "theme",
   "example": {},
   "parent": ["custom/parent-block"],
   "attributes": {
     "align": { "type": "string", "default": "full" },
-    "section_title": {
-      "type": "string",
-      "default": "I am editable – awesome, right?"
-    },
-    "section_image": { "type": "integer" }
+    "sectionImage": { "type": "integer" },
+    "postType": { "type": "string", "default": "posts" },
+    "sectionTitle": { "type": "string", "default": "Edit me inside the editor" }
   },
   "supports": { "html": false, "align": ["full"] },
   "editorScript": "file:./index.js",
