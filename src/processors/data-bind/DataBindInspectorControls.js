@@ -25,6 +25,7 @@ export default class DataBindInspectorControls extends ProcessorBase {
           }
 
           if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+            this.blockData._hasPostType = true;
             this.blockData._hasPostMeta = true;
           }
 

@@ -30,12 +30,17 @@ export default class DataBindRichText extends ProcessorBase {
           }
 
           if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+            this.blockData._hasPostType = true;
             this.blockData._hasPostMeta = true;
+          }
+
+          if (dataBindInfo.type === DATA_BIND_TYPES.postTitle) {
+            this.blockData._hasPostType = true;
+            this.blockData._hasPostTitle = true;
           }
 
           const initialTagName = node.tagName;
           node.tagName = "RichText";
-
           node.properties.tagName = initialTagName;
 
           if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
@@ -48,7 +53,14 @@ export default class DataBindRichText extends ProcessorBase {
             node.properties.onChange = `$\${${dataBindInfo.key} => setMeta({ ...meta, ${dataBindInfo.key} })}$$`;
           }
 
-          node.properties.placeholder = toSentenceCase(dataBindInfo.key);
+          if (dataBindInfo.type === DATA_BIND_TYPES.postTitle) {
+            node.properties.value = `$\${postTitle}$$`;
+            node.properties.onChange = `$\${(postTitle) => setPostTitle(postTitle)}$$`;
+          }
+
+          if (dataBindInfo.key) {
+            node.properties.placeholder = toSentenceCase(dataBindInfo.key);
+          }
 
           delete node.children;
           delete node.properties.dataBind;
@@ -78,6 +90,15 @@ export default class DataBindRichText extends ProcessorBase {
               {
                 type: "text",
                 value: `<?php echo wp_kses_post(get_post_meta(get_the_ID(), '${dataBindInfo.key}', true)); ?>`,
+              },
+            ];
+          }
+
+          if (dataBindInfo.type === DATA_BIND_TYPES.postTitle) {
+            node.children = [
+              {
+                type: "text",
+                value: `<?php echo get_the_title(); ?>`,
               },
             ];
           }

@@ -24,4 +24,5 @@ export const DATA_BIND_NON_RICH_TEXT_ELEMENTS = [
 export const DATA_BIND_TYPES = {
   attributes: "attributes",
   postMeta: "postMeta",
+  postTitle: "post.title",
 };

@@ -43,6 +43,12 @@ export const kebabCaseToTitleCase = (str) =>
     .replace(/\b\w/g, (c) => c.toUpperCase()); // Capitalize the first letter of each word
 
 export const getDataBindInfo = (dataBind) => {
+  if (dataBind.trim() === DATA_BIND_TYPES.postTitle) {
+    return {
+      type: DATA_BIND_TYPES.postTitle,
+    };
+  }
+
   const splitDataBind = dataBind.replaceAll(" ", "").split(".");
 
   switch (splitDataBind.length) {

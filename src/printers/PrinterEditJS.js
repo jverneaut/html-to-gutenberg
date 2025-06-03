@@ -61,10 +61,10 @@ ToolbarButton,
 {{/_hasToolbarButtonImport}}
 } from '@wordpress/components';
 {{/_hasWordPressComponents}}
-{{#_hasPostMeta}}
+{{#_hasPostType}}
 import { useSelect } from '@wordpress/data';
 import { useEntityProp } from '@wordpress/core-data';
-{{/_hasPostMeta}}
+{{/_hasPostType}}
 {{#_hasMediaUploadImport}}
 import { Image } from "@10up/block-components";
 {{/_hasMediaUploadImport}}
@@ -82,13 +82,19 @@ export default ({{{propsString}}}) => {
 {{#_editingMode}}
 useBlockEditingMode('{{{_editingMode}}}');
 {{/_editingMode}}
-{{#_hasPostMeta}}
+{{#_hasPostType}}
 const postType = useSelect(
   (select) => select("core/editor").getCurrentPostType(),
   [],
-);
+  );
+
+{{/_hasPostType}}
+{{#_hasPostMeta}}
 const [meta, setMeta] = useEntityProp("postType", postType, "meta");
 {{/_hasPostMeta}}
+{{#_hasPostTitle}}
+const [postTitle, setPostTitle] = useEntityProp("postType", postType, "title");
+{{/_hasPostTitle}}
 
 return ({{{ content }}})
 };
