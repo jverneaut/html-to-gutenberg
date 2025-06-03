@@ -71,8 +71,9 @@ Visit the [official documentation](https://html-to-gutenberg.com).
 - [Installation](https://html-to-gutenberg.com/getting-started/installation)
 - [Registering blocks](https://html-to-gutenberg.com/getting-started/registering-blocks)
 - [Creating a block](https://html-to-gutenberg.com/guides/creating-a-block)
-- [Editing content using inline attributes](https://html-to-gutenberg.com/guides/editing-content/using-inline-attributes)
-- [Editing content using InnerBlocks](https://html-to-gutenberg.com/guides/editing-content/using-innerblocks)
+- [Binding data to elements](https://html-to-gutenberg.com/guides/data-binding)
+- [Using InnerBlocks](https://html-to-gutenberg.com/guides/innerblocks)
+- [Adding InspectorControls](https://html-to-gutenberg.com/guides/inspector-controls)
 
 ## Example
 
