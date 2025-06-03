@@ -32,6 +32,8 @@ If you created your blocks plugin using `@wordpress/create-block` with the `html
         └── ...
 ```
 
+You can create a block named `[namespace]/hero` by creating a new `hero.html` file inside your `inputDirectory`, or by creating an `index.html` file inside a new `hero` folder inside your `inputDirectory`. Both options will output the exact same files.
+
 ## With custom webpack config
 
 If you've created a custom webpack configuration to build your blocks, you can add a new block by creating a new `.html` file inside the `options.inputDirectory` folder.
