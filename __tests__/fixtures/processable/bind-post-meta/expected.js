@@ -8,6 +8,7 @@ export default ({ attributes, setAttributes }) => {
     (select) => select("core/editor").getCurrentPostType(),
     [],
   );
+
   const [meta, setMeta] = useEntityProp("postType", postType, "meta");
 
   return (
