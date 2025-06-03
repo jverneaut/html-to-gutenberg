@@ -4,6 +4,8 @@
  * work well for content-centric websites.
  */
 
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
 /* You can override the default Infima variables here. */
 :root {
   /* --ifm-color-primary: #2e8555;
@@ -14,7 +16,9 @@
   --ifm-color-primary-lighter: #359962;
   --ifm-color-primary-lightest: #3cad6e; */
 
-  --ifm-font-size: 10%;
+  --ifm-font-family-base: "Inter";
+  --ifm-heading-font-family: "Inter";
+
   --ifm-code-font-size: 90%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
