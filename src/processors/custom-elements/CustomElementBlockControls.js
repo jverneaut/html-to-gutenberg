@@ -3,7 +3,7 @@ import JSXElementTransformer from "./CustomElementJSXTransformer.js";
 import PrinterRenderPHP from "#printers/PrinterRenderPHP.js";
 import { deleteTagName } from "#utils-html/index.js";
 
-export default class CustomElementToolbar extends JSXElementTransformer {
+export default class CustomElementBlockControls extends JSXElementTransformer {
   static JSXTagName = "BlockControls";
   static HTMLTagName = "block-controls";
 
