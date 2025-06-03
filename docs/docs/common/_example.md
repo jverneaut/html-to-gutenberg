@@ -22,9 +22,9 @@ Visit the [official documentation](https://html-to-gutenberg.com) to try this co
           <inner-block name="core/group">
             <inner-block name="core/heading" level="3"></inner-block>
             <inner-block name="core/paragraph">
-              <data-attribute name="content">
+              <block-attribute name="content">
                 Lorem ipsum dolor sit amet consectetur.
-              </data-attribute>
+              </block-attribute>
             </inner-block>
           </inner-block>
         </inner-blocks>
