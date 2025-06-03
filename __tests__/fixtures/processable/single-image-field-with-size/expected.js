@@ -1,5 +1,5 @@
 import { useBlockProps, MediaUpload } from "@wordpress/block-editor";
-import { Image } from "@10up/block-components";
+import { Image } from "@10up/block-components/components/image";
 
 export default ({ attributes, setAttributes }) => {
   return (
