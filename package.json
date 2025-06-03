@@ -1,14 +1,16 @@
 {
   "name": "@jverneaut/html-to-gutenberg",
-  "version": "1.7.5",
+  "version": "2.0.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jverneaut/html-to-gutenberg.git"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" jest",
-    "start": "node index.js"
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" jest"
   },
   "keywords": [
     "Gutenberg",
@@ -31,8 +33,11 @@
     "chalk": "^5.4.1",
     "chokidar": "^4.0.3",
     "commander": "^13.1.0",
+    "fast-glob": "^3.3.3",
+    "fs-extra": "^11.3.0",
     "glob": "^11.0.1",
     "hast-util-to-html": "^9.0.5",
+    "he": "^1.2.0",
     "mustache": "^4.2.0",
     "prettier": "^3.5.3",
     "rehype-parse": "^9.0.1",
@@ -41,7 +46,13 @@
     "unist-util-flatmap": "^1.0.0",
     "unist-util-remove": "^4.0.0",
     "unist-util-source": "^5.0.0",
-    "unist-util-visit": "^5.0.0",
-    "zod": "^3.24.2"
+    "unist-util-visit": "^5.0.0"
+  },
+  "imports": {
+    "#processors/*": "./src/processors/*",
+    "#printers/*": "./src/printers/*",
+    "#utils-html/*": "./src/utils-html/*",
+    "#utils-string/*": "./src/utils-string/*",
+    "#constants": "./src/constants.js"
   }
 }

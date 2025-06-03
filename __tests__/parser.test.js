@@ -1,10 +1,13 @@
 import fs from "fs";
 import path, { dirname } from "path";
-
+import * as glob from "glob";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+import printers from "#printers/index.js";
+import processors from "#processors/index.js";
 
 import HTMLToGutenberg from "../src/HTMLToGutenberg.js";
 
@@ -14,22 +17,34 @@ const UNPROCESSABLE_FIXTURES_DIR = path.join(
   "fixtures/unprocessable",
 );
 
-const getGenerateFileByFilename = (generateFiles, filename) =>
-  generateFiles.filter((file) => file.filename === filename)[0].content;
-
-const generateFiles = async (caseDir) => {
+const generateFiles = async (htmlFileContent) => {
   const htmlToGutenberg = new HTMLToGutenberg({
-    inputDirectory: caseDir,
+    printers,
+    processors,
   });
 
-  const generatedFiles = await htmlToGutenberg.generateFiles();
+  const generatedFiles = await htmlToGutenberg.printBlockFromHTMLFileContent(
+    htmlFileContent,
+    {
+      name: "custom/input",
+      title: "Input",
+      textdomain: "input",
+    },
+  );
 
   return {
-    index: getGenerateFileByFilename(generatedFiles, "index.js"),
-    edit: getGenerateFileByFilename(generatedFiles, "edit.js"),
-    php: getGenerateFileByFilename(generatedFiles, "render.php"),
-    json: getGenerateFileByFilename(generatedFiles, "block.json"),
+    index: generatedFiles.files["index.js"],
+    edit: generatedFiles.files["edit.js"],
+    php: generatedFiles.files["render.php"],
+    json: generatedFiles.files["block.json"],
   };
+};
+
+const generateFilesForDirectory = async (caseDir) => {
+  const htmlFile = glob.sync("*.html", { cwd: caseDir, absolute: true })[0];
+  const htmlFileContent = fs.readFileSync(htmlFile, "utf-8");
+
+  return generateFiles(htmlFileContent);
 };
 
 describe("HTML Parser", () => {
@@ -40,7 +55,8 @@ describe("HTML Parser", () => {
     test(`should correctly parse ${testCase}`, async () => {
       const caseDir = path.join(PROCESSABLE_FIXTURES_DIR, testCase);
 
-      const { json, edit, php, index } = await generateFiles(caseDir);
+      const { json, edit, php, index } =
+        await generateFilesForDirectory(caseDir);
 
       const expectedJSONPath = path.join(caseDir, "expected.json");
       if (fs.existsSync(expectedJSONPath)) {
@@ -70,12 +86,10 @@ describe("HTML Parser", () => {
 
   unProcessableTestCases.forEach((testCase) => {
     test(`should fail to parse ${testCase}`, async () => {
-      const inputHTML = fs.readFileSync(
-        path.join(UNPROCESSABLE_FIXTURES_DIR, testCase),
-        "utf-8",
-      );
+      const htmlFile = path.join(UNPROCESSABLE_FIXTURES_DIR, testCase);
+      const htmlFileContent = fs.readFileSync(htmlFile, "utf-8");
 
-      await expect(generateFiles(inputHTML)).rejects.toThrow();
+      await expect(generateFiles(htmlFileContent)).rejects.toThrow();
     });
   });
 });

@@ -6,7 +6,7 @@ export default ({ attributes, setAttributes }) => {
     <section {...useBlockProps()}>
       <ServerSideRender
         block="custom/server-side-rendered"
-        attributes={{ title: attributes.title }}
+        attributes={attributes}
       ></ServerSideRender>
     </section>
   );

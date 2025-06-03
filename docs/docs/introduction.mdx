@@ -9,9 +9,13 @@ import LiveEditor from "@site/src/components/LiveEditor";
 import Introduction from "@site/docs/common/_introduction.md";
 import QuickStart from "@site/docs/common/_quick-start.md";
 
-<img src="/img/logo.svg" alt="HTML To Gutenberg" width="100" />
+export const title = "HTML To Gutenberg - Convert HTML to Gutenberg blocks";
 
-# HTML To Gutenberg
+# {title}
+
+<head>
+  <title>{title}</title>
+</head>
 
 <Introduction />
 
@@ -34,32 +38,47 @@ It works great whether you're a developer in quest of a better blocks developer 
 Type some HTML. Add attributes. Add InnerBlocks. Done. 🎉
 
 <LiveEditor>
-  ```
-  <section class="py-20 bg-blue-200" data-parent="custom/parent-block" data-editing-mode="contentOnly">
-    <div class="container">
-      <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-12 md:col-span-6">
-          <h2 class="text-2xl" data-attribute="section_title">I am editable – awesome, right?</h2>
-          <img class="aspect-square object-cover" data-attribute="section_image" />
-        </div>
+```
+<section
+  class="py-20 bg-blue-200"
+  data-parent="custom/parent-block"
+  data-editing-mode="contentOnly"
+>
+  <inspector-controls>
+    <panel-body title="Settings">
+      <select-control data-bind="postType" label="Post Type">
+        <select-control-option value="posts">Posts</select-control-option>
+        <select-control-option value="pages">Pages</select-control-option>
+      </select-control>
+    </panel-body>
+  </inspector-controls>
 
-        <div class="col-span-12 md:col-span-6">
-          <blocks allowedBlocks="all" templateLock="all">
-            <block name="core/group">
-              <block name="core/heading" level="3"></block>
-              <block name="core/paragraph">
-                <attribute name="content">
-                  Lorem ipsum dolor sit amet consectetur.
-                </attribute>
-              </block>
-            </block>
-          </blocks>
-        </div>
+  <div class="container">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 md:col-span-6">
+        <h2 class="text-2xl" data-bind="sectionTitle">
+          Edit me inside the editor
+        </h2>
+        <img class="aspect-square object-cover" data-bind="sectionImage" />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <inner-blocks allowedBlocks="all" templateLock="all">
+          <inner-block name="core/group">
+            <inner-block name="core/heading" level="3"></inner-block>
+            <inner-block name="core/paragraph">
+              <block-attribute name="content">
+                Lorem ipsum dolor sit amet consectetur.
+              </block-attribute>
+            </inner-block>
+          </inner-block>
+        </inner-blocks>
       </div>
     </div>
 
-  </section>
-  ```
+  </div>
+</section>
+```
 </LiveEditor>
 
 ## Quick start
@@ -78,6 +97,7 @@ Type some HTML. Add attributes. Add InnerBlocks. Done. 🎉
 | Block editing mode          | :white_check_mark: |
 | Block parent blocks         | :white_check_mark: |
 | `block.json` metadata       | :white_check_mark: |
+| InspectorControls           | :white_check_mark: |
 
 ## How it works
 

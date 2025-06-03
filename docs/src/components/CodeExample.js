@@ -4,12 +4,10 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import CodeBlock from "@theme/CodeBlock";
 
-import getBlockData from "../../../src/lib/common/getBlockData";
+import HTMLToGutenberg from "../../../src/HTMLToGutenberg.js";
 
-import printEditJS from "../../../src/lib/printEditJS.js";
-import printRenderPHP from "../../../src/lib/printRenderPHP.js";
-import printBlockJSON from "../../../src/lib/printBlockJSON.js";
-import printIndexJS from "../../../src/lib/printIndexJS.js";
+import processors from "../../../src/processors/index.js";
+import printers from "../../../src/printers/index.js";
 
 export default ({
   children,
@@ -31,25 +29,21 @@ export default ({
 
   useEffect(() => {
     (async () => {
-      const blockData = await getBlockData(code, {
-        blockName,
-        blockSlug,
-        blockTitle,
+      const htmlToGutenberg = new HTMLToGutenberg({
+        printers,
+        processors,
       });
 
-      const [indexJs, editJS, renderPHP, blockJSON] = await Promise.all([
-        printIndexJS(blockData),
-        printEditJS(blockData),
-        printRenderPHP(blockData),
-        printBlockJSON(blockData),
-      ]);
+      const { files } = await htmlToGutenberg.printBlockFromHTMLFileContent(
+        code,
+        {
+          textdomain: blockSlug,
+          name: blockName,
+          title: blockTitle,
+        },
+      );
 
-      setGeneratedFiles({
-        "index.js": indexJs,
-        "edit.js": editJS,
-        "render.php": renderPHP,
-        "block.json": blockJSON,
-      });
+      setGeneratedFiles(files);
     })();
   }, []);
 

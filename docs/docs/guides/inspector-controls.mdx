@@ -1,0 +1,69 @@
+---
+siderbar_position: 7
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Adding InspectorControls
+
+Once your block looks the way you want, you might want to make it configurable to let editors choose options, or adjust content.
+
+**HTML to Gutenberg** lets you do that using `<inspector-controls>`, a custom element that maps directly to the native Gutenberg component.
+
+## Adding panels
+
+Use `<panel-body>` to group your controls into collapsible panels in the block sidebar.
+
+<CodeExample>
+  ```
+  <section>
+    <inspector-controls>
+      <panel-body title="Query settings"><!-- ... --></panel-body>
+      <panel-body title="Display settings"><!-- ... --></panel-body>
+    </inspector-controls>
+  </section>
+  ```
+</CodeExample>
+
+This gives you a clean structure for organizing settings.
+
+## Adding controls
+
+HTML to Gutenberg supports the main Gutenberg form controls, all of which can be bound to block attributes or post meta using data-bind:
+
+- `<text-control>`
+- `<checkbox-control>`
+- `<toggle-control>`
+- `<radio-control>`
+- `<select-control>`
+
+Controls that need options (like `<radio-control>` and `<select-control>`) use child elements:
+
+- `<radio-control-option>`
+- `<select-control-option>`
+
+<CodeExample>
+  ```
+  <section>
+    <inspector-controls>
+      <panel-body title="Settings">
+        <text-control label="Checkbox" data-bind="isChecked"></text-control>
+        <toggle-control label="Toggle" data-bind="isToggled"></toggle-control>
+
+        <radio-control label="Radio" data-bind="choice">
+          <radio-control-option value="a">Option A</radio-control-option>
+          <radio-control-option value="b">Option B</radio-control-option>
+          <radio-control-option value="c">Option C</radio-control-option>
+        </radio-control>
+
+        <select-control label="Select" data-bind="selectChoice">
+          <select-control-option value="a">Option A</select-control-option>
+          <select-control-option value="b">Option B</select-control-option>
+          <select-control-option value="c">Option C</select-control-option>
+        </select-control>
+      </panel-body>
+    </inspector-controls>
+
+  </section>
+  ```
+</CodeExample>

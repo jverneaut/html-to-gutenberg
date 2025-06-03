@@ -1,0 +1,31 @@
+<section>
+  <p data-bind="title"></p>
+  <p data-bind="attributes.title"></p>
+  <p data-bind="postMeta.test"></p>
+
+  <input data-bind="input" />
+  <input data-bind="attributes.input" />
+  <input data-bind="postMeta.input" />
+
+  <input data-bind="checkbox" type="checkbox" />
+  <input data-bind="attributes.checkbox" type="checkbox" />
+  <input data-bind="postMeta.checkbox" type="checkbox" />
+
+  <select-control data-bind="select">
+    <select-control-option value="a">A</select-control-option>
+    <select-control-option value="b">B</select-control-option>
+    <select-control-option value="c">C</select-control-option>
+  </select-control>
+
+  <select-control data-bind="attributes.select">
+    <select-control-option value="a">A</select-control-option>
+    <select-control-option value="b">B</select-control-option>
+    <select-control-option value="c">C</select-control-option>
+  </select-control>
+
+  <select-control data-bind="postMeta.select">
+    <select-control-option value="a">A</select-control-option>
+    <select-control-option value="b">B</select-control-option>
+    <select-control-option value="c">C</select-control-option>
+  </select-control>
+</section>

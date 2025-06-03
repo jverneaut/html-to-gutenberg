@@ -1,3 +1,4 @@
+![Node LTS](https://img.shields.io/node/v-lts/@jverneaut/html-to-gutenberg)
 ![Tests Status](https://github.com/jverneaut/html-to-gutenberg/actions/workflows/test.yml/badge.svg)
 ![GitHub Release](https://img.shields.io/github/v/release/jverneaut/html-to-gutenberg)
 
@@ -5,16 +6,18 @@
 
 # HTML To Gutenberg
 
-**Create custom Gutenberg blocks from the HTML templates you already have.**
+**HTML To Gutenberg** is a powerful Webpack plugin that transforms HTML files into fully functional _native_ WordPress Gutenberg blocks, automatically generating all the necessary files like `edit.js`, `render.php`, `block.json`, and `index.js` for you.
 
-**HTML To Gutenberg** is a tool that transforms a single html file into a fully functional Gutenberg block. With just a few intuitive attributes in your markup, it generates the full block structure — including `edit.js`, `render.php`, `block.json`, and `index.js`.
+Designed for developers who want **simplicity and speed without sacrificing control**, it enables you to keep your familiar HTML workflow while seamlessly integrating with the **native WordPress block editor experience**. Just add a few intuitive attributes to your markup, and the plugin takes care of the rest — **no React knowledge required**.
 
-It’s designed for developers who value simplicity, speed, and control — without sacrificing the native block editor experience.
+[Try it out in the Live Editor](https://html-to-gutenberg.com/live-editor) to see how quickly you can convert your HTML into reusable Gutenberg blocks.
 
 
 ![HTML To Gutenberg WordCamp Demo](docs/static/img/wordcamp-demo.png)
 
 ## Quick start
+
+**This project is built with ESM and requires Node.js version 20.0.0 or later.**
 
 ### 1. Scaffold an HTML To Gutenberg blocks plugin
 
@@ -106,8 +109,9 @@ Visit the [official documentation](https://html-to-gutenberg.com).
 - [Installation](https://html-to-gutenberg.com/getting-started/installation)
 - [Registering blocks](https://html-to-gutenberg.com/getting-started/registering-blocks)
 - [Creating a block](https://html-to-gutenberg.com/guides/creating-a-block)
-- [Editing content using inline attributes](https://html-to-gutenberg.com/guides/editing-content/using-inline-attributes)
-- [Editing content using InnerBlocks](https://html-to-gutenberg.com/guides/editing-content/using-innerblocks)
+- [Binding data to elements](https://html-to-gutenberg.com/guides/data-binding)
+- [Using InnerBlocks](https://html-to-gutenberg.com/guides/innerblocks)
+- [Adding InspectorControls](https://html-to-gutenberg.com/guides/inspector-controls)
 
 ## Example
 
@@ -121,29 +125,35 @@ Visit the [official documentation](https://html-to-gutenberg.com) to try this co
   data-parent="custom/parent-block"
   data-editing-mode="contentOnly"
 >
+  <inspector-controls>
+    <panel-body title="Settings">
+      <select-control data-bind="postType" label="Post Type">
+        <select-control-option value="posts">Posts</select-control-option>
+        <select-control-option value="pages">Pages</select-control-option>
+      </select-control>
+    </panel-body>
+  </inspector-controls>
+
   <div class="container">
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-12 md:col-span-6">
-        <h2 class="text-2xl" data-attribute="section_title">
-          I am editable – awesome, right?
+        <h2 class="text-2xl" data-bind="sectionTitle">
+          Edit me inside the editor
         </h2>
-        <img
-          class="aspect-square object-cover"
-          data-attribute="section_image"
-        />
+        <img class="aspect-square object-cover" data-bind="sectionImage" />
       </div>
 
       <div class="col-span-12 md:col-span-6">
-        <blocks allowedBlocks="all" templateLock="all">
-          <block name="core/group">
-            <block name="core/heading" level="3"></block>
-            <block name="core/paragraph">
-              <attribute name="content">
+        <inner-blocks allowedBlocks="all" templateLock="all">
+          <inner-block name="core/group">
+            <inner-block name="core/heading" level="3"></inner-block>
+            <inner-block name="core/paragraph">
+              <block-attribute name="content">
                 Lorem ipsum dolor sit amet consectetur.
-              </attribute>
-            </block>
-          </block>
-        </blocks>
+              </block-attribute>
+            </inner-block>
+          </inner-block>
+        </inner-blocks>
       </div>
     </div>
   </div>
@@ -159,35 +169,51 @@ import {
   InnerBlocks,
   RichText,
   MediaUpload,
+  InspectorControls,
 } from "@wordpress/block-editor";
-import { Image } from "@10up/block-components";
+import { PanelBody, SelectControl } from "@wordpress/components";
+import { Image } from "@10up/block-components/components/image";
 
 export default ({ attributes, setAttributes }) => {
   useBlockEditingMode("contentOnly");
 
   return (
     <section {...useBlockProps({ className: "py-20 bg-blue-200" })}>
+      <InspectorControls>
+        <PanelBody title="Settings">
+          <SelectControl
+            label="Post Type"
+            value={attributes.postType}
+            onChange={(postType) => setAttributes({ postType })}
+            options={[
+              { label: "Posts", value: "posts" },
+              { label: "Pages", value: "pages" },
+            ]}
+          ></SelectControl>
+        </PanelBody>
+      </InspectorControls>
+
       <div className="container">
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 md:col-span-6">
             <RichText
               className="text-2xl"
               tagName="h2"
-              value={attributes.section_title}
-              onChange={(section_title) => setAttributes({ section_title })}
+              value={attributes.sectionTitle}
+              onChange={(sectionTitle) => setAttributes({ sectionTitle })}
               placeholder="Section title"
             ></RichText>
             <MediaUpload
-              value={attributes.section_image}
-              onSelect={(image) => setAttributes({ section_image: image.id })}
+              value={attributes.sectionImage}
+              onSelect={(image) => setAttributes({ sectionImage: image.id })}
               render={({ open }) => (
                 <Image
                   style={{ cursor: "pointer", pointerEvents: "all" }}
                   onClick={open}
                   className="aspect-square object-cover"
-                  id={attributes.section_image}
+                  id={attributes.sectionImage}
                   onSelect={(image) =>
-                    setAttributes({ section_image: image.id })
+                    setAttributes({ sectionImage: image.id })
                   }
                 />
               )}
@@ -224,12 +250,12 @@ export default ({ attributes, setAttributes }) => {
 ```php
 <?php
 
-$section_image_id = $attributes['section_image'] ?? '';
-$section_image = $section_image_id ? wp_get_attachment_image_src($section_image_id, 'full') : [''];
-$section_image_src = $section_image[0] ?? '';
-$section_image_srcset = $section_image_id ? wp_get_attachment_image_srcset($section_image_id, 'full') : '';
-$section_image_sizes = $section_image_id ? wp_get_attachment_image_sizes($section_image_id, 'full') : '';
-$section_image_alt = $section_image_id ? get_post_meta($section_image_id, '_wp_attachment_image_alt', true) : '';
+$sectionImage_id = $attributes['sectionImage'] ?? '';
+$sectionImage = $sectionImage_id ? wp_get_attachment_image_src($sectionImage_id, 'full') : [''];
+$sectionImage_src = $sectionImage[0] ?? '';
+$sectionImage_srcset = $sectionImage_id ? wp_get_attachment_image_srcset($sectionImage_id, 'full') : '';
+$sectionImage_sizes = $sectionImage_id ? wp_get_attachment_image_sizes($sectionImage_id, 'full') : '';
+$sectionImage_alt = $sectionImage_id ? get_post_meta($sectionImage_id, '_wp_attachment_image_alt', true) : '';
 
 ?>
 
@@ -237,10 +263,9 @@ $section_image_alt = $section_image_id ? get_post_meta($section_image_id, '_wp_a
   <div class="container">
     <div class="grid grid-cols-12 gap-4">
       <div class="col-span-12 md:col-span-6">
-        <h2 class="text-2xl"><?php echo wp_kses_post($attributes['section_title'] ?? ''); ?></h2>
-        <img class="aspect-square object-cover" src="<?php echo esc_url($section_image_src); ?>" srcset="<?php echo esc_attr($section_image_srcset); ?>" sizes="<?php echo esc_attr($section_image_sizes); ?>" alt="<?php echo esc_attr($section_image_alt); ?>" />
+        <h2 class="text-2xl"><?php echo wp_kses_post($attributes['sectionTitle'] ?? ''); ?></h2>
+        <img class="aspect-square object-cover" src="<?php echo esc_url($sectionImage_src); ?>" srcset="<?php echo esc_attr($sectionImage_srcset); ?>" sizes="<?php echo esc_attr($sectionImage_sizes); ?>" alt="<?php echo esc_attr($sectionImage_alt); ?>" />
       </div>
-
       <div class="col-span-12 md:col-span-6">
         <?php echo $content; ?>
       </div>
@@ -258,15 +283,15 @@ $section_image_alt = $section_image_id ? get_post_meta($section_image_id, '_wp_a
   "textdomain": "block",
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
+  "version": "0.1.0",
+  "category": "theme",
   "example": {},
   "parent": ["custom/parent-block"],
   "attributes": {
     "align": { "type": "string", "default": "full" },
-    "section_title": {
-      "type": "string",
-      "default": "I am editable – awesome, right?"
-    },
-    "section_image": { "type": "integer" }
+    "sectionImage": { "type": "integer" },
+    "postType": { "type": "string", "default": "posts" },
+    "sectionTitle": { "type": "string", "default": "Edit me inside the editor" }
   },
   "supports": { "html": false, "align": ["full"] },
   "editorScript": "file:./index.js",

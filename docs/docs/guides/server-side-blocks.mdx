@@ -1,0 +1,93 @@
+---
+sidebar_position: 5
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Server side blocks
+
+The `<server-side>` element can be used to render a block server side using the `<ServerSideRender />` component from `@wordpress/server-side-render` package.
+
+To use it, first install the package with:
+
+```
+npm install @wordpress/server-side-render --save
+```
+
+## Rendering blocks on the server
+
+Use the `name` attribute to define which block should be rendered.
+
+<CodeExample>
+  ```
+  <section>
+    <server-block name="custom/latest-posts-slider"></server-block>
+  </section>
+  ```
+</CodeExample>
+
+## Attributes are automatically passed to PHP
+
+Any attributes defined in your block are automatically passed to the server-side renderer. These are made available in the `$attributes` array in your `render.php` file.
+
+No need for manual wiring, everything is synced between the editor UI and the server render.
+
+## Full example with InspectorControls
+
+Let’s build a block where editors can choose the post type via inspector controls, and the selected type is passed to the server.
+
+In a `latest-posts.html` file:
+
+<CodeExample>
+  ```
+  <section>
+    <inspector-controls>
+      <panel-body title="Query Settings">
+        <select-control label="Post Type" data-bind="postType">
+          <select-control-option value="post">Post</select-control-option>
+          <select-control-option value="page">Page</select-control-option>
+          <select-control-option value="product">Product</select-control-option>
+        </select-control>
+      </panel-body>
+    </inspector-controls>
+
+    <!-- The block calls itself to display posts using the latest-posts.render.php override -->
+    <server-block name="custom/latest-posts"></server-block>
+
+  </section>
+  ```
+</CodeExample>
+
+`latest-posts.render.php`:
+
+```php
+<?php
+
+$post_type = $attributes['postType'] ?? 'post';
+
+$latest_posts = get_posts([
+  'post_type' => $post_type,
+  'posts_per_page' => 5,
+]);
+
+?>
+
+<section <?= get_block_wrapper_attributes(); ?>>
+  <?php foreach ($latest_posts as $post) : ?>
+    <article>
+      <h3><?= esc_html($post->post_title); ?></h3>
+      <a href="<?= esc_url(get_permalink($post)); ?>">Read more</a>
+    </article>
+  <?php endforeach; ?>
+</section>
+```
+
+## When to use server side blocks
+
+Use server-side blocks when:
+
+- You need dynamic data like post listings or custom queries
+- You want to keep markup generation in PHP for better performance or consistency
+- You rely on WordPress APIs not available in the frontend
+
+They're ideal for data-rich components that need real-time or context-aware rendering without duplicating logic in both PHP and JavaScript.

@@ -6,7 +6,8 @@ const chalk = require("chalk").default;
 
 const packageJSON = require("../package.json");
 
-const HTMLToGutenberg = require("../src/HTMLToGutenberg.js").default;
+const HTMLToGutenbergProcessor =
+  require("../src/HTMLToGutenbergProcessor.js").default;
 
 program
   .name("npx " + packageJSON.name)
@@ -25,13 +26,15 @@ program.parse();
 
 const options = program.opts();
 
-const htmlToGutenbergOptions = {
+const htmlToGutenbergProcessorOptions = {
   inputDirectory: options.input,
   outputDirectory: options.output || options.input,
   defaultNamespace: options.defaultNamespace,
 };
 
-const htmlToGutenberg = new HTMLToGutenberg(htmlToGutenbergOptions);
+const htmlToGutenbergProcessor = new HTMLToGutenbergProcessor(
+  htmlToGutenbergProcessorOptions,
+);
 
 const generateAndWriteFiles = async () => {
   try {
@@ -40,17 +43,9 @@ const generateAndWriteFiles = async () => {
     }
 
     console.log(chalk.cyan("Generating Gutenberg blocks..."));
-    const generatedFiles = await htmlToGutenberg.generateFiles();
+    await htmlToGutenbergProcessor.processBlocks(__dirname);
 
-    console.log(chalk.cyan("Writing generated files..."));
-    const generatedBlocksPaths = htmlToGutenberg.writeFiles(generatedFiles);
-
-    console.log(chalk.green("Block generation complete."));
-    generatedBlocksPaths.forEach((path, index) => {
-      console.log(
-        chalk.green("\t✓") + chalk.dim(` ${index + 1}. ${chalk.bold(path)}`),
-      );
-    });
+    console.log(chalk.green("✓ Block generation complete."));
   } catch (error) {
     console.error(chalk.red("Error occurred:"), chalk.red(error.message));
   }
@@ -59,11 +54,9 @@ const generateAndWriteFiles = async () => {
 // If the watch option is set, use chokidar to watch for changes
 if (options.watch) {
   console.log(
-    chalk.yellow(
-      `Watching for changes in ${htmlToGutenberg.inputDirectory}...`,
-    ),
+    chalk.yellow(`Watching for changes in ${htmlToGutenbergProcessor}...`),
   );
-  const watcher = chokidar.watch(htmlToGutenberg.inputDirectory, {
+  const watcher = chokidar.watch(htmlToGutenbergProcessor.inputDirectory, {
     persistent: true,
     ignored: /node_modules|\.git/,
   });

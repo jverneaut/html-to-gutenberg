@@ -1,0 +1,53 @@
+---
+title: Migrating to v2
+sidebar_position: 1
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+HTML to Gutenberg v2.0.0 introduces a complete engine rewrite and a powerful new set of features enabling developers to build even more advanced editing experiences with Gutenberg.
+
+## Replacing `data-attributes` with `data-bind`
+
+As part of the core rewrite, the `data-attribute` attribute has been deprecated in favor of a new, more powerful API: `data-bind`.
+
+While `data-attribute` was limited to binding block attributes, `data-bind` allows you to bind not only block attributes but also post meta and certain post-level attributes, like the post title.
+
+Here’s what the new syntax looks like:
+
+<CodeExample>
+  ```
+  <section class="hero">
+    <!-- Binding to the post title and custom post meta -->
+    <h1 data-bind="post.title">Post title</h1>
+    <p data-bind="postMeta.description">Custom post description meta</p>
+
+    <!-- Equivalent, data-bind defaults to attributes.[key] -->
+    <input type="text" data-bind="customAttributes">
+    <input type="text" data-bind="attributes.customAttribute">
+
+  </section>
+  ```
+</CodeExample>
+
+## Replacing `<blocks>` and `<block>` with `<inner-blocks>` and `<inner-block>`
+
+To unify the API and align more closely with Gutenberg conventions, some element names have been updated.
+
+The `<blocks>` and `<block>` elements have been renamed to `<inner-blocks>` and `<inner-block>` respectively. These new names follow the convention of using hyphenated tag names, similar to how custom elements are defined in HTML.
+
+As part of this, the `<blocks>` and `<block>` elements have been renamed to `<inner-blocks>` and `<inner-block>` respectively.
+
+<CodeExample>
+  ```
+  <section>
+    <inner-blocks>
+      <inner-block name="custom/child-block"></inner-block>
+    </inner-blocks>
+  </section>
+  ```
+</CodeExample>
+
+## Replacing `<attribute>` with `<block-attribute>`
+
+As part of the API unification, the `<attribute>` element has been renamed to `<block-attribute>` for greater clarity and consistency.

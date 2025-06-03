@@ -1,0 +1,154 @@
+---
+sidebar_position: 3
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Adding styles and scripts
+
+Using the `data-style`, `data-editor-style` and `data-view-script` attributes together with the files overriding mechanism, it is possible to add the corresponding `"style"`, `"editorStyle"` and `"viewScript"` entries to the generated `block.json`.
+
+## Adding a global stylesheet to your block
+
+Given a `hero.html` block and a `hero.style.css` stylesheet (you can use any other file name and SCSS if you're webpack configuration supports it), HTML To Gutenberg will generate the following structure:
+
+```txt
+.
+├── src/
+│   ├── hero.html
+│   └── hero.style.css # can be freely named and use SCSS
+└── build/
+    └── hero
+        ├── index.js
+        ├── edit.js
+        ├── render.php
+        ├── block.json
+        └── style.css # the file gets copied to the generated folder
+```
+
+This is the files overriding system in action.
+
+To actually use the generated `hero/style.css` file as a global block style, use the `data-style` attribute with the generated file name as its value:
+
+<CodeExample>
+  ```
+  <section data-style="style.css"></section>
+  ```
+</CodeExample>
+
+This will add an import inside the generated `hero/index.js` file.
+
+```jsx title="hero/index.js"
+import { registerBlockType } from "@wordpress/blocks";
+
+// highlight-next-line
+import "./style.css";
+
+import Edit from "./edit.js";
+import metadata from "./block.json";
+
+registerBlockType(metadata.name, {
+  edit: Edit,
+  save: () => null,
+});
+```
+
+This file will get picked by webpack and compiled down to `style-index.css` when using `@wordress/scripts` or `@jverneaut/gutenberg-webpack-plugin`.
+
+This entry is then automatically added to the block metadata which will be picked up by WordPress and loaded alongside your block both in the editor and on the frontend.
+
+```json title="hero/block.json" highlightline="4"
+{
+  "name": "custom/block",
+  "title": "Block",
+  "textdomain": "block",
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "example": {},
+  "attributes": { "align": { "type": "string", "default": "full" } },
+  "supports": { "html": false, "align": ["full"] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php",
+  // highlight-next-line
+  "style": "file:./style-index.css"
+}
+```
+
+## Adding an editor stylesheet to your block
+
+The same principle applies for adding an editor stylesheet to your block.
+
+To add an editor stylesheet, create a new CSS/SCSS file using the block override system and use the `data-editor-style` attribute to load it inside your block.
+
+<CodeExample>
+  ```
+  <section data-editor-style="edit.css"></section>
+  ```
+</CodeExample>
+
+This will add an import inside the generated `edit.js` file.
+
+```jsx title="hero/index.js"
+import { useBlockProps } from "@wordpress/block-editor";
+
+// highlight-next-line
+import "./edit.css";
+
+export default () => {
+  return <section {...useBlockProps()}></section>;
+};
+```
+
+This file will get picked by webpack and compiled down to `index.css` when using `@wordress/scripts` or `@jverneaut/gutenberg-webpack-plugin`.
+
+This entry is then automatically added to the block metadata which will be picked up by WordPress and loaded alongside your block in the editor.
+
+```json title="hero/block.json" highlightline="4"
+{
+  "name": "custom/block",
+  "title": "Block",
+  "textdomain": "block",
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "example": {},
+  "attributes": { "align": { "type": "string", "default": "full" } },
+  "supports": { "html": false, "align": ["full"] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php",
+  // highlight-next-line
+  "editorStyle": "file:./index.css"
+}
+```
+
+## Adding a view script to your block
+
+To add a script used for the frontend of your block, add a `[blockName].[scriptName].js` file alongside `[blockName].html` and use the `data-view-script` attribute to load it.
+
+Given a `hero.html` block and a `hero.viewScript.js` script:
+
+<CodeExample>
+  ```
+  <section data-view-script="viewScript.js"></section>
+  ```
+</CodeExample>
+
+This file will be added to your webpack entries and compiled alongside your block when using `@wordress/scripts` or `@jverneaut/gutenberg-webpack-plugin`.
+
+This entry is then automatically added to the block metadata which will be picked up by WordPress and loaded alongside your block on the frontend.
+
+```json title="hero/block.json" highlightline="4"
+{
+  "name": "custom/block",
+  "title": "Block",
+  "textdomain": "block",
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "example": {},
+  "attributes": { "align": { "type": "string", "default": "full" } },
+  "supports": { "html": false, "align": ["full"] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php",
+  // highlight-next-line
+  "viewScript": "file:./viewScript.js" # Can be any other file name, no transform happens here
+}
+```

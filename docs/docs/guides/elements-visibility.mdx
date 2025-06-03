@@ -1,0 +1,32 @@
+---
+sidebar_position: 6
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Controlling block elements visibility
+
+Use the `data-display` attribute to control when a specific element should be visible whether on the frontend, in the editor, or under certain editor conditions.
+
+Supported values are:
+
+- `frontend`: Renders only on the frontend
+- `editor`: Renders only in the editor (regardless of block selection)
+- `selected`: Renders only when the block is selected in the editor
+- `not-selected`: Renders only when the block is not selected in the editor
+
+<CodeExample filenmae="block-with-styles.html">
+  ```
+  <section>
+    <div>Visible everywhere</div>
+    <div data-display="frontend">Visible on the frontend only</div>
+    <div data-display="editor">Visible in the editor only</div>
+    <div data-display="selected">
+      Visible in the editor when the block is selected only
+    </div>
+    <div data-display="not-selected">
+      Visible in the editor when the block is not selected only
+    </div>
+  </section>
+  ```
+</CodeExample>

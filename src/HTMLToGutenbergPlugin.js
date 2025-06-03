@@ -1,68 +1,77 @@
-import { globSync } from "glob";
 import path from "path";
-import HTMLToGutenberg from "./HTMLToGutenberg.js";
 
-/** @typedef {import("./schemas/HTMLToGutenbergOptions.js").HTMLToGutenbergOptions} HTMLToGutenbergOptions */
+import HTMLToGutenbergProcessor from "./HTMLToGutenbergProcessor.js";
 
-class HTMLToGutenbergPlugin {
-  /**
-   * @param {HTMLToGutenbergOptions} options
-   */
-  constructor(options) {
-    this.htmlToGutenberg = new HTMLToGutenberg(options);
+export default class HtmlToGutenbergPlugin {
+  constructor({
+    inputDirectory,
+    outputDirectory,
+
+    defaultNamespace = "custom",
+    defaultCategory = "theme",
+    defaultVersion = "0.1.0",
+    defaultIcon = null,
+  }) {
+    this.inputDirectory = inputDirectory;
+
+    this.htmlToGutenbergProcessor = new HTMLToGutenbergProcessor({
+      inputDirectory,
+      outputDirectory,
+
+      defaultNamespace,
+      defaultCategory,
+      defaultVersion,
+      defaultIcon,
+    });
   }
 
   async apply(compiler) {
-    this.maybeRemoveDeletedBlocks();
-    await this.generateAndWriteFiles();
-
-    compiler.hooks.afterCompile.tap("HTMLToGutenbergPlugin", (compiler) => {
-      const files = globSync(this.htmlToGutenberg.inputDirectory + "/**/*.*");
-      files.forEach((file) => compiler.fileDependencies.add(file));
-
-      compiler.contextDependencies.add(this.htmlToGutenberg.inputDirectory);
+    compiler.hooks.beforeRun.tapPromise(this.constructor.name, async () => {
+      await this.htmlToGutenbergProcessor.processBlocks(compiler.context);
     });
 
     compiler.hooks.watchRun.tapPromise(
-      "HTMLToGutenbergPlugin",
-      async (compiler) => {
-        const blocksFolders = this.htmlToGutenberg.HTMLFiles.map((htmlFile) =>
-          path.dirname(htmlFile),
+      this.constructor.name,
+      async (compilation) => {
+        const changedFiles = [
+          ...(compilation.modifiedFiles || []),
+          ...(compilation.removedFiles || []),
+        ];
+
+        const inputDirectory = path.join(
+          compilation.context,
+          this.inputDirectory,
         );
 
-        const changedFiles = compiler.modifiedFiles || [];
-
         if (
-          [...changedFiles].some((file) =>
-            blocksFolders.includes(path.dirname(file)),
+          changedFiles.length === 0 ||
+          [...changedFiles].some(
+            (changedFile) => changedFile.indexOf(inputDirectory) === 0,
           )
         ) {
-          await this.generateAndWriteFiles();
+          await this.htmlToGutenbergProcessor.processBlocks(compiler.context);
         }
       },
     );
 
-    // Trigger maybeRemoveDeletedBlocks on every watch run
-    compiler.hooks.watchRun.tapPromise("HTMLToGutenbergPlugin", async () => {
-      this.maybeRemoveDeletedBlocks();
-    });
-  }
+    compiler.hooks.afterCompile.tapPromise(
+      this.constructor.name,
+      async (compilation) => {
+        const blocksDefinition =
+          await this.htmlToGutenbergProcessor.getBlocksDefinition();
 
-  maybeRemoveDeletedBlocks() {
-    if (this.htmlToGutenberg.shouldRemoveDeletedBlocks) {
-      this.htmlToGutenberg.removeDeletedBlocks();
-    }
-  }
+        compilation.contextDependencies.add(
+          path.join(compiler.context, this.inputDirectory),
+        );
 
-  async generateAndWriteFiles() {
-    const generatedFiles = await this.htmlToGutenberg.generateFiles();
-    const filesOverrides = await this.htmlToGutenberg.getFilesOverrides();
+        blocksDefinition.forEach((blockDefinition) => {
+          compilation.fileDependencies.add(blockDefinition.htmlFile);
 
-    this.htmlToGutenberg.cleanOutputAndWriteFiles([
-      ...generatedFiles,
-      ...filesOverrides,
-    ]);
+          blockDefinition.overrides.forEach((override) => {
+            compilation.fileDependencies.add(override.file);
+          });
+        });
+      },
+    );
   }
 }
-
-export default HTMLToGutenbergPlugin;

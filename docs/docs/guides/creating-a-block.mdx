@@ -2,17 +2,19 @@
 sidebar_position: 0
 ---
 
-# Creating a block
+# Creating an HTML To Gutenberg block
 
 ## With `@wordpress/create-block`
 
-If you created your blocks plugin using `@wordpress/create-block` with the `html-to-gutenberg-template`, adding a new block is as simple as creating a new `.html` file inside the `src/` folder.
+If you created your plugin with `@wordpress/create-block` and the `html-to-gutenberg-template`, adding a new block is as easy as dropping an `.html` file into the `src/` folder.
 
 ```txt
 .
 ├── src/
 │   ├── first-block.html
 │   ├── second-block.html
+│   └── ... # Add more blocks by adding files here
+├── generated-blocks/
 │   ├── first-block/
 │   │   ├── block.json
 │   │   ├── edit.js
@@ -30,19 +32,25 @@ If you created your blocks plugin using `@wordpress/create-block` with the `html
         └── ...
 ```
 
+To create a block named `[namespace]/hero`, either:
+
+- Add a `hero.html` file to the `src/` folder
+  **or**
+- Create a `hero/index.html` file inside a subfolder of `src/`
+
+Both approaches produce the same result.
+
 ## With custom webpack config
 
-If you've created a custom webpack configuration to build your blocks, you can add a new block by creating a new `.html` file inside the `options.inputDirectory` folder.
+If you're using a custom webpack setup, add `.html` files to your configured `inputDirectory` (usually `src/`) to generate new blocks.
 
 ## Git ignore recommendation
 
-If you're compiling blocks as part of a CI/CD pipeline, you can (and should) safely `.gitignore` the generated folders inside `src/` and the `dist` directory.
-
-Add the following entries to your plugin’s `.gitignore` file:
+When using a CI/CD workflow, avoid committing generated files by adding the following to your `.gitignore`:
 
 ```txt
-src/*/
+generated-blocks # The folder where your blocks are generated
 dist
 ```
 
-This keeps your repository clean and avoids committing auto-generated code.
+This keeps your repository clean and free of compiled output.

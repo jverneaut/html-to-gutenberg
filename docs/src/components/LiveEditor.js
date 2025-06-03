@@ -12,12 +12,10 @@ import CodeBlock from "@theme/CodeBlock";
 import Admonition from "@theme/Admonition";
 import Details from "@theme/Details";
 
-import getBlockData from "../../../src/lib/common/getBlockData.js";
+import HTMLToGutenberg from "../../../src/HTMLToGutenberg.js";
 
-import printEditJS from "../../../src/lib/printEditJS.js";
-import printRenderPHP from "../../../src/lib/printRenderPHP.js";
-import printBlockJSON from "../../../src/lib/printBlockJSON.js";
-import printIndexJS from "../../../src/lib/printIndexJS.js";
+import processors from "../../../src/processors/index.js";
+import printers from "../../../src/printers/index.js";
 
 export default ({
   children,
@@ -41,25 +39,21 @@ export default ({
       try {
         setError(null);
 
-        const blockData = await getBlockData(code, {
-          blockName: "custom/block",
-          blockSlug: "block",
-          blockTitle: "Block",
+        const htmlToGutenberg = new HTMLToGutenberg({
+          printers,
+          processors,
         });
 
-        const [indexJs, editJS, renderPHP, blockJSON] = await Promise.all([
-          printIndexJS(blockData),
-          printEditJS(blockData),
-          printRenderPHP(blockData),
-          printBlockJSON(blockData),
-        ]);
+        const files = await htmlToGutenberg.printBlockFromHTMLFileContent(
+          code,
+          {
+            textdomain: "block",
+            name: "custom/block",
+            title: "Block title",
+          },
+        );
 
-        setGeneratedFiles({
-          "index.js": indexJs,
-          "edit.js": editJS,
-          "render.php": renderPHP,
-          "block.json": blockJSON,
-        });
+        setGeneratedFiles(files.files);
       } catch (err) {
         setError(err);
       }
