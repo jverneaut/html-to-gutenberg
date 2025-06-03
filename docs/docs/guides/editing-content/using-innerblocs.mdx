@@ -14,9 +14,9 @@ The `<InnerBlocks />` component is one of the most powerful constructs in Gutenb
       <inner-block name="core/group">
         <inner-block name="core/heading" level="3"></inner-block>
         <inner-block name="core/paragraph">
-          <data-attribute name="content">
+          <block-attribute name="content">
             Lorem <strong>ipsum</strong>
-          </data-attribute>
+          </block-attribute>
         </inner-block>
       </inner-block>
     </inner-blocks>
@@ -152,23 +152,23 @@ Pass simple values (strings, numbers, booleans) as props directly on the `<block
   ```
 </CodeExample>
 
-### 2. Using `<data-attribute name value>` syntax
+### 2. Using `<block-attribute name value>` syntax
 
-Use the `<data-attribute>` element with name and value attributes to explicitly set block attributes.
+Use the `<block-attribute>` element with name and value attributes to explicitly set block attributes.
 
 <CodeExample>
   ```
   <section>
     <inner-blocks>
       <inner-block name="core/heading" level="2">
-        <data-attribute name="content" value="Section title"></data-attribute>
+        <block-attribute name="content" value="Section title"></block-attribute>
       </inner-block>
     </inner-blocks>
   </section>
   ```
 </CodeExample>
 
-### 3. Using `<data-attribute>` children
+### 3. Using `<block-attribute>` children
 
 To embed rich content, such as HTML, within an attribute, omit the value attribute and place the content inside the element.
 
@@ -177,9 +177,9 @@ To embed rich content, such as HTML, within an attribute, omit the value attribu
   <section>
     <inner-blocks>
       <inner-block name="core/paragraph">
-        <data-attribute name="content">
+        <block-attribute name="content">
           This is some <strong>strong</strong> and <em>italic</em> text.
-        </data-attribute>
+        </block-attribute>
       </inner-block>
     </inner-blocks>
   </section>
