@@ -38,32 +38,47 @@ It works great whether you're a developer in quest of a better blocks developer 
 Type some HTML. Add attributes. Add InnerBlocks. Done. 🎉
 
 <LiveEditor>
-  ```
-  <section class="py-20 bg-blue-200" data-parent="custom/parent-block" data-editing-mode="contentOnly">
-    <div class="container">
-      <div class="grid grid-cols-12 gap-4">
-        <div class="col-span-12 md:col-span-6">
-          <h2 class="text-2xl" data-bind="section_title">I am editable – awesome, right?</h2>
-          <img class="aspect-square object-cover" data-bind="section_image" />
-        </div>
+```
+<section
+  class="py-20 bg-blue-200"
+  data-parent="custom/parent-block"
+  data-editing-mode="contentOnly"
+>
+  <inspector-controls>
+    <panel-body title="Settings">
+      <select-control data-bind="postType" label="Post Type">
+        <select-control-option value="posts">Posts</select-control-option>
+        <select-control-option value="pages">Pages</select-control-option>
+      </select-control>
+    </panel-body>
+  </inspector-controls>
 
-        <div class="col-span-12 md:col-span-6">
-          <inner-blocks allowedBlocks="all" templateLock="all">
-            <inner-block name="core/group">
-              <inner-block name="core/heading" level="3"></inner-block>
-              <inner-block name="core/paragraph">
-                <block-attribute name="content">
-                  Lorem ipsum dolor sit amet consectetur.
-                </block-attribute>
-              </inner-block>
+  <div class="container">
+    <div class="grid grid-cols-12 gap-4">
+      <div class="col-span-12 md:col-span-6">
+        <h2 class="text-2xl" data-bind="sectionTitle">
+          Edit me inside the editor
+        </h2>
+        <img class="aspect-square object-cover" data-bind="sectionImage" />
+      </div>
+
+      <div class="col-span-12 md:col-span-6">
+        <inner-blocks allowedBlocks="all" templateLock="all">
+          <inner-block name="core/group">
+            <inner-block name="core/heading" level="3"></inner-block>
+            <inner-block name="core/paragraph">
+              <block-attribute name="content">
+                Lorem ipsum dolor sit amet consectetur.
+              </block-attribute>
             </inner-block>
-          </inner-blocks>
-        </div>
+          </inner-block>
+        </inner-blocks>
       </div>
     </div>
 
-  </section>
-  ```
+  </div>
+</section>
+```
 </LiveEditor>
 
 ## Quick start
