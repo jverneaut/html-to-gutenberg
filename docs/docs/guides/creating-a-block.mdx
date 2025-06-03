@@ -13,6 +13,8 @@ If you created your blocks plugin using `@wordpress/create-block` with the `html
 ├── src/
 │   ├── first-block.html
 │   ├── second-block.html
+│   └── ... # Add more blocks by adding files here
+├── generated-blocks/
 │   ├── first-block/
 │   │   ├── block.json
 │   │   ├── edit.js
@@ -36,12 +38,12 @@ If you've created a custom webpack configuration to build your blocks, you can a
 
 ## Git ignore recommendation
 
-If you're compiling blocks as part of a CI/CD pipeline, you can (and should) safely `.gitignore` the generated folders inside `src/` and the `dist` directory.
+If you're compiling blocks as part of a CI/CD pipeline, you can (and should) safely `.gitignore` the folder where your blocks are generated and the `dist` directory.
 
 Add the following entries to your plugin’s `.gitignore` file:
 
 ```txt
-src/*/
+generated-blocks # The folder where your blocks are generated
 dist
 ```
 
