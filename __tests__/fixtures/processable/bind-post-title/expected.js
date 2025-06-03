@@ -20,6 +20,7 @@ export default () => {
         tagName="p"
         value={postTitle}
         onChange={(postTitle) => setPostTitle(postTitle)}
+        placeholder="Post title"
       ></RichText>
     </section>
   );
