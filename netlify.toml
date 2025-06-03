@@ -20,15 +20,65 @@
 
 [[redirects]]
   from = "/usage/innerblocks"
-  to = "/guides/editing-content/using-innerblocs"
+  to = "/guides/inner-blocks"
   status = 301
 
 [[redirects]]
   from = "/usage/style-variations"
-  to = "/guides/modifying-block-attributes/defining-block-styles"
+  to = "/guides/block-attributes/block-styles"
   status = 301
 
 [[redirects]]
   from = "/usage/parent-child"
-  to = "/guides/modifying-block-attributes/defining-parent-blocks"
+  to = "/guides/block-attributes/parent-blocks"
+  status = 301
+
+[[redirects]]
+  from = "/guides/editing-content/using-inline-attributes"
+  to = "/guides/data-binding"
+  status = 301
+
+[[redirects]]
+  from = "/guides/editing-content/using-innerblocks"
+  to = "/guides/data-binding"
+  status = 301
+
+[[redirects]]
+  from = "/guides/modifying-block-attributes/block-information"
+  to = "/guides/block-attributes/block-information"
+  status = 301
+
+[[redirects]]
+  from = "/guides/modifying-block-attributes/defining-block-styles"
+  to = "/guides/block-attributes/block-styles"
+  status = 301
+
+[[redirects]]
+  from = "/guides/modifying-block-attributes/setting-block-editing-mode"
+  to = "/guides/block-attributes/block-editing-mode"
+  status = 301
+
+[[redirects]]
+  from = "/guides/modifying-block-attributes/defining-parent-blocks"
+  to = "/guides/block-attributes/parent-blocks"
+  status = 301
+
+[[redirects]]
+  from = "/advanced-guides/different-markup-frontend-editor"
+  to = "/guides/elements-visibility"
+  status = 301
+
+[[redirects]]
+  from = "/advanced-guides/overriding-generated-files"
+  to = "/guides/overrides"
+  status = 301
+
+[[redirects]]
+  from = "/advanced-guides/loading-scripts-and-stylesheets"
+  to = "/guides/styles-and-scripts"
+  status = 301
+
+[[redirects]]
+  from = "/experimental/server-side-blocks"
+  to = "/guides/server-side-blocks"
   status = 301
