@@ -1,3 +1,5 @@
+**This project is built with ESM and requires Node.js version 20.0.0 or later.**
+
 ### 1. Scaffold an HTML To Gutenberg blocks plugin
 
 ```bash
