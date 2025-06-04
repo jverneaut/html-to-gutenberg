@@ -7,7 +7,7 @@ $image_1_srcset = $image_1_id ? wp_get_attachment_image_srcset($image_1_id, 'ful
 $image_1_sizes = $image_1_id ? wp_get_attachment_image_sizes($image_1_id, 'full') : '';
 $image_1_alt = $image_1_id ? get_post_meta($image_1_id, '_wp_attachment_image_alt', true) : '';
 
-$image_2_id = $attributes['image_2'] ?? '';
+$image_2_id = get_post_meta(get_the_ID(), 'image_2', true) ?? '';
 $image_2 = $image_2_id ? wp_get_attachment_image_src($image_2_id, 'full') : [''];
 $image_2_src = $image_2[0] ?? '';
 $image_2_srcset = $image_2_id ? wp_get_attachment_image_srcset($image_2_id, 'full') : '';
