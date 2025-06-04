@@ -29,6 +29,21 @@ const config = {
   organizationName: "jverneaut", // Usually your GitHub org/user name.
   projectName: packageJSON.name, // Usually your repo name.
 
+  headTags: [
+    {
+      tagName: "script",
+      attributes: {
+        type: "application/json",
+      },
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "HTML To Gutenberg",
+        url: "https://html-to-gutenberg.com",
+      }),
+    },
+  ],
+
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
 
