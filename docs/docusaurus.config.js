@@ -33,7 +33,7 @@ const config = {
     {
       tagName: "script",
       attributes: {
-        type: "application/json",
+        type: "application/ld+json",
       },
       innerHTML: JSON.stringify({
         "@context": "https://schema.org",
