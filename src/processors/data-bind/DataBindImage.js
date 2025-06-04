@@ -35,6 +35,9 @@ export default class DataBindImage extends ProcessorBase {
           }
 
           if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+            this.blockData._hasPostType = true;
+            this.blockData._hasPostMeta = true;
+
             node.properties.value = `$\${meta.${dataBindInfo.key}}$$`;
             node.properties.onSelect = `$\${(image) => setMeta({ ...meta, ${dataBindInfo.key}: image.id })}$$`;
 

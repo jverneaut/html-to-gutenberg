@@ -1,7 +1,16 @@
 import { useBlockProps, MediaUpload } from "@wordpress/block-editor";
+import { useSelect } from "@wordpress/data";
+import { useEntityProp } from "@wordpress/core-data";
 import { Image } from "@10up/block-components/components/image";
 
 export default ({ attributes, setAttributes }) => {
+  const postType = useSelect(
+    (select) => select("core/editor").getCurrentPostType(),
+    [],
+  );
+
+  const [meta, setMeta] = useEntityProp("postType", postType, "meta");
+
   return (
     <section {...useBlockProps()}>
       <MediaUpload
@@ -17,14 +26,14 @@ export default ({ attributes, setAttributes }) => {
         )}
       ></MediaUpload>
       <MediaUpload
-        value={attributes.image_2}
-        onSelect={(image) => setAttributes({ image_2: image.id })}
+        value={meta.image_2}
+        onSelect={(image) => setMeta({ ...meta, image_2: image.id })}
         render={({ open }) => (
           <Image
             style={{ cursor: "pointer", pointerEvents: "all" }}
             onClick={open}
-            id={attributes.image_2}
-            onSelect={(image) => setAttributes({ image_2: image.id })}
+            id={meta.image_2}
+            onSelect={(image) => setMeta({ ...meta, image_2: image.id })}
           />
         )}
       ></MediaUpload>
