@@ -9,6 +9,7 @@
     "type": "git",
     "url": "https://github.com/jverneaut/html-to-gutenberg.git"
   },
+  "homepage": "https://html-to-gutenberg.com",
   "scripts": {
     "test": "NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" jest"
   },
