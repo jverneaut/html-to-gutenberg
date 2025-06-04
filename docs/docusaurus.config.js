@@ -113,6 +113,14 @@ const config = {
         indexName: "html-to-gutenberg",
       },
     }),
+
+  scripts: [
+    {
+      src: "https://plausible.io/js/script.js",
+      defer: true,
+      "data-domain": "html-to-gutenberg.com",
+    },
+  ],
 };
 
 export default config;
