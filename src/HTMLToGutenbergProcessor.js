@@ -33,13 +33,15 @@ export default class HTMLToGutenbergProcessor {
     });
   }
 
-  async processBlocks(context) {
-    fs.rmSync(path.join(context, this.outputDirectory), {
-      recursive: true,
-      force: true,
-    });
+  async processBlocks(context, changedFiles = []) {
+    if (!changedFiles.length) {
+      fs.rmSync(path.join(context, this.outputDirectory), {
+        recursive: true,
+        force: true,
+      });
+    }
 
-    const blocksDefinition = await this.getBlocksDefinition();
+    const blocksDefinition = await this.getBlocksDefinition(changedFiles);
 
     for (const blockDefinition of blocksDefinition) {
       await this.processBlock(blockDefinition);
@@ -76,7 +78,7 @@ export default class HTMLToGutenbergProcessor {
     }
   }
 
-  async getBlocksDefinition() {
+  async getBlocksDefinition(changedFiles = []) {
     const blocksDefinition = [];
 
     const htmlFiles = await fastGlob(["**/*.html"], {
@@ -84,7 +86,16 @@ export default class HTMLToGutenbergProcessor {
       absolute: true,
     });
 
-    for (const htmlFile of htmlFiles) {
+    const htmlFilesToProcess = changedFiles.length
+      ? htmlFiles.filter((htmlFile) =>
+          changedFiles.some(
+            (changedFile) =>
+              path.basename(changedFile) === path.basename(htmlFile),
+          ),
+        )
+      : htmlFiles;
+
+    for (const htmlFile of htmlFilesToProcess) {
       const dirname = path.dirname(htmlFile);
       const baseFolder = path.basename(dirname);
       const baseName = path.basename(htmlFile, ".html");
