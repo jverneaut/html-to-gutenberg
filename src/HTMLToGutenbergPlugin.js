@@ -49,7 +49,10 @@ export default class HtmlToGutenbergPlugin {
             (changedFile) => changedFile.indexOf(inputDirectory) === 0,
           )
         ) {
-          await this.htmlToGutenbergProcessor.processBlocks(compiler.context);
+          await this.htmlToGutenbergProcessor.processBlocks(
+            compiler.context,
+            changedFiles,
+          );
         }
       },
     );
