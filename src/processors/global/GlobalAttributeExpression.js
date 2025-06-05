@@ -184,6 +184,8 @@ export default class GlobalAttributeExpression extends ProcessorBase {
           if (typeof value === "boolean") return;
 
           const attrValue = Array.isArray(value) ? value.join(" ") : value;
+
+          if (!attrValue || typeof attrValue !== "string") return;
           if (attrValue.startsWith("$$")) return;
 
           const ir = parseDslString(attrValue);
