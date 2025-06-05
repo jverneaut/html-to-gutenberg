@@ -1,0 +1,94 @@
+# Using logical expressions inside attributes
+
+**HTML To Gutenberg** supports using JavaScript-like expressions directly inside HTML attributes. These expressions are dynamically evaluated in both **JavaScript (for the editor)** and **PHP (for rendering on the front end)**.
+
+Because the same expression must work in both languages, there are a few rules and limitations you should follow.
+
+## Basic syntax
+
+Use curly braces `{}` inside attribute values to insert dynamic expressions. These expressions can include conditional logic and common data-binding variable references.
+
+```html
+<div
+  class="card card--{attributes.variant === 'featured' ? 'highlight' : 'normal'}"
+></div>
+```
+
+This will generate:
+
+**JS (editor):**
+
+```jsx
+<div
+  className={`card card--${attributes.variant === "featured" ? "highlight" : "normal"}`}
+/>
+```
+
+**PHP (render):**
+
+```php
+<div class="<?= "card card--" . (($attributes['variant'] ?? '') === 'featured' ? 'highlight' : 'normal'); ?>"></div>
+```
+
+## Referencing Data
+
+You can reference values the same way you would in [data binding](data-binding.mdx):
+
+- `attributes.key`
+- `postMeta.key`
+- `post.title`
+
+**Example:**
+
+```html
+<div
+  id="{attributes.id}"
+  class="{postMeta.theme === 'dark' ? 'theme-dark' : 'theme-light'}"
+></div>
+```
+
+## What won’t work
+
+Because the expressions must be valid **both in JS and PHP**, avoid language-specific features. For example:
+
+```html
+<!-- ❌ This will not work in PHP -->
+<div class="hero--{attributes.type.length < 20 ? 'short' : 'long'}"></div>
+```
+
+- `length` is a JavaScript property.
+- PHP uses `count()` or `strlen()` depending on the type, but that’s not interchangeable.
+
+## Multiple expressions per attribute
+
+You can include as many expressions as you want inside a single attribute string. Example:
+
+```html
+<div
+  class="hero hero--{attributes.variant} hero--{attributes.layout} {attributes.active ? 'is-active' : ''}"
+></div>
+```
+
+## Supported expression features
+
+| Feature                                 | Supported | Example                                 |
+| --------------------------------------- | --------- | --------------------------------------- |
+| Static strings                          | ✅        | `"hero"`                                |
+| Variable references                     | ✅        | `{attributes.title}`                    |
+| Ternary expressions                     | ✅        | `{attributes.type === 'x' ? 'a' : 'b'}` |
+| Property access                         | ✅        | `{post.title}`                          |
+| Short-circuit evaluation (`&&`, `\|\|`) | ❌        | `{attributes.isVisible && 'show'}`      |
+| `.length`, `count()`                    | ❌        | Avoid language-specific APIs            |
+
+### Why short-circuit logic is not supported
+
+Expressions like `{condition && 'value'}` or `{value || 'fallback'}` are common in JavaScript, but they **don’t translate reliably to PHP**. These expressions may return `false`, `null`, or even integers, and when inserted into HTML attributes in PHP, they won't behave as expected.
+
+✅ Instead, use explicit ternary logic:
+
+```html
+<!-- Preferred -->
+<div class="{attributes.isVisible ? 'show' : ''}"></div>
+```
+
+This gives consistent results in both PHP and JavaScript renderers.
