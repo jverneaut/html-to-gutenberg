@@ -20,6 +20,19 @@ export default class DataBindImage extends ProcessorBase {
           this.blockData._hasMediaUploadImport = true;
           node.tagName = "MediaUpload";
 
+          const generateRender = (getter, setter) => {
+            const hasSrc =
+              node.properties?.src && node.properties.src.trim() !== "";
+
+            const imageComponent = `<Image style={{ cursor: "pointer", pointerEvents: "all" }} onClick={open} ${node.properties.className ? `className="${node.properties.className.join(" ")}"` : ""} ${node.properties.width ? `width="${node.properties.width}"` : ""} ${node.properties.height ? `height="${node.properties.height}"` : ""} id={${getter}} ${node.properties.dataImageSize ? `size="${node.properties.dataImageSize}"` : ""} onSelect={${setter}} />`;
+            const originalImage = `<img src="${node.properties.src}" style={{ cursor: "pointer", pointerEvents: "all" }} onClick={open} ${node.properties.className ? `className="${node.properties.className.join(" ")}"` : ""} ${node.properties.width ? `width="${node.properties.width}"` : ""} ${node.properties.height ? `height="${node.properties.height}"` : ""} />`;
+            if (hasSrc) {
+              return `$\${({ open }) => ${getter} ? (${imageComponent}) : (${originalImage})}$$`;
+            }
+
+            return `$\${({ open }) => ${imageComponent}}$$`;
+          };
+
           if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
             this.blockData._hasAttributesProps = true;
 
@@ -31,7 +44,10 @@ export default class DataBindImage extends ProcessorBase {
             node.properties.value = `$\${attributes.${dataBindInfo.key}}$$`;
             node.properties.onSelect = `$\${(image) => setAttributes({${dataBindInfo.key}: image.id})}$$`;
 
-            node.properties.render = `$\${({open}) => <Image style={{ cursor: "pointer", pointerEvents: "all" }} onClick={open} ${node.properties.className ? `className="${node.properties.className.join(" ")}"` : ""} ${node.properties.width ? `width="${node.properties.width}"` : ""} ${node.properties.height ? `height="${node.properties.height}"` : ""} id={attributes.${dataBindInfo.key}} ${node.properties.dataImageSize ? `size="${node.properties.dataImageSize}"` : ""} onSelect={image => setAttributes({${dataBindInfo.key}: image.id})} />}$$`;
+            node.properties.render = generateRender(
+              `attributes.${dataBindInfo.key}`,
+              `image => setAttributes({${dataBindInfo.key}: image.id})`,
+            );
           }
 
           if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
@@ -41,10 +57,14 @@ export default class DataBindImage extends ProcessorBase {
             node.properties.value = `$\${meta.${dataBindInfo.key}}$$`;
             node.properties.onSelect = `$\${(image) => setMeta({ ...meta, ${dataBindInfo.key}: image.id })}$$`;
 
-            node.properties.render = `$\${({open}) => <Image style={{ cursor: "pointer", pointerEvents: "all" }} onClick={open} ${node.properties.className ? `className="${node.properties.className.join(" ")}"` : ""} ${node.properties.width ? `width="${node.properties.width}"` : ""} ${node.properties.height ? `height="${node.properties.height}"` : ""} id={meta.${dataBindInfo.key}} ${node.properties.dataImageSize ? `size="${node.properties.dataImageSize}"` : ""} onSelect={image => setMeta({ ...meta, ${dataBindInfo.key}: image.id })} />}$$`;
+            node.properties.render = generateRender(
+              `meta.${dataBindInfo.key}`,
+              `image => setMeta({ ...meta, ${dataBindInfo.key}: image.id})`,
+            );
           }
 
           delete node.children;
+          delete node.properties.src;
           delete node.properties.className;
           delete node.properties.dataBind;
           delete node.properties.dataImageSize;
@@ -65,12 +85,15 @@ export default class DataBindImage extends ProcessorBase {
 
           this.blockData._boundImages.push(dataBindInfo);
 
-          node.properties.src = `<?php echo esc_url($${dataBindInfo.key}_src); ?>`;
+          const hasSrc =
+            node.properties?.src && node.properties.src.trim() !== "";
+
+          node.properties.src = `<?php echo${hasSrc ? ` empty($${dataBindInfo.key}_src) ? ${hasSrc ? `'${node.properties.src}'` : "''"} :` : ""} esc_url($${dataBindInfo.key}_src); ?>`;
           node.properties.srcset = `<?php echo esc_attr($${dataBindInfo.key}_srcset); ?>`;
           node.properties.sizes = `<?php echo esc_attr($${dataBindInfo.key}_sizes); ?>`;
           node.properties.alt = `<?php echo esc_attr($${dataBindInfo.key}_alt); ?>`;
 
-          delete node.properties.dataAttribute;
+          delete node.properties.dataBind;
           delete node.properties.dataImageSize;
         }
       });
