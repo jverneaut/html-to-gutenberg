@@ -17,6 +17,7 @@ import CustomElementToolbarItem from "./custom-elements/CustomElementToolbarItem
 
 import DataBind from "./data-bind/index.js";
 
+import GlobalAttributeExpression from "./global/GlobalAttributeExpression.js";
 import GlobalDepreciations from "./global/GlobalDepreciations.js";
 import GlobalErrors from "./global/GlobalErrors.js";
 import GlobalJSXAttributes from "./global/GlobalJSXAttributes.js";
@@ -46,6 +47,7 @@ export default [
   CustomElementToolbarGroup,
   CustomElementToolbarItem,
 
+  GlobalAttributeExpression,
   GlobalJSXAttributes,
   GlobalRawExpressions,
 ];
