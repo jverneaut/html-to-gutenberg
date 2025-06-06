@@ -10,8 +10,14 @@ export default class RootBlockWrapperAttributes extends ProcessorBase {
     }
   }
 
-  generateRootProps(className) {
-    const wrapperAttributes = className ? `['class' => '${className}']` : "";
+  generateRootProps(
+    className = { jsValue: "", phpValue: "", isExpression: false },
+  ) {
+    const wrapperAttributes = className
+      ? className.isExpression
+        ? `['class' => ${className.phpValue}]`
+        : `['class' => '${className.phpValue}']`
+      : "";
 
     return `<?php echo get_block_wrapper_attributes(${wrapperAttributes}); ?>`;
   }
