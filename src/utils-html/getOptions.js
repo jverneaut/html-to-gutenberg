@@ -6,6 +6,8 @@ export default (node) => {
 
   visit(node, "element", (node) => {
     if (node.tagName.endsWith("-option")) {
+      const option = {};
+
       const label = node.children
         ? toHtml(node.children)
             .trim()
@@ -14,26 +16,32 @@ export default (node) => {
             .join(" ")
         : false;
 
+      if (node.properties?.icon) {
+        option.icon = node.properties.icon.trim();
+      }
+
       if (node.properties?.value !== undefined) {
         if (label) {
-          options.push({
+          Object.assign(option, {
             label: label,
             value: node.properties?.value,
           });
         } else {
-          options.push({
-            label: node.properties.value,
-            value: node.properties.value,
+          Object.assign(option, {
+            label: node.properties?.value,
+            value: node.properties?.value,
           });
         }
       } else {
         if (label) {
-          options.push({
+          Object.assign(option, {
             label: label,
             value: label,
           });
         }
       }
+
+      options.push(option);
     }
   });
 

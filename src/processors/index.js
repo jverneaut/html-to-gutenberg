@@ -13,6 +13,7 @@ import CustomElementRootBlockAttribute from "./custom-elements/CustomElementRoot
 import CustomElementServerBlock from "./custom-elements/CustomElementServerBlock.js";
 import CustomElementToolbar from "./custom-elements/CustomElementToolbar.js";
 import CustomElementToolbarButton from "./custom-elements/CustomElementToolbarButton.js";
+import CustomElementToolbarDropdownMenu from "./custom-elements/CustomElementToolbarDropdownMenu.js";
 import CustomElementToolbarGroup from "./custom-elements/CustomElementToolbarGroup.js";
 import CustomElementToolbarItem from "./custom-elements/CustomElementToolbarItem.js";
 
@@ -45,6 +46,7 @@ export default [
   CustomElementServerBlock,
   CustomElementToolbar,
   CustomElementToolbarButton,
+  CustomElementToolbarDropdownMenu,
   CustomElementToolbarGroup,
   CustomElementToolbarItem,
 

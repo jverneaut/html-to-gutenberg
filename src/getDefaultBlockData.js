@@ -16,6 +16,7 @@ const defaultBlockData = {
   _hasToolbarItemImport: false,
   _hasToolbarGroupImport: false,
   _hasToolbarButtonImport: false,
+  _hasToolbarDropdownMenuImport: false,
   _hasBlockControlsImport: false,
 
   _hasWordPressComponents: false,

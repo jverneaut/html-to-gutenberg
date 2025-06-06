@@ -59,6 +59,9 @@ ToolbarGroup,
 {{#_hasToolbarButtonImport}}
 ToolbarButton,
 {{/_hasToolbarButtonImport}}
+{{#_hasToolbarDropdownMenuImport}}
+ToolbarDropdownMenu,
+{{/_hasToolbarDropdownMenuImport}}
 } from '@wordpress/components';
 {{/_hasWordPressComponents}}
 {{#_hasPostType}}

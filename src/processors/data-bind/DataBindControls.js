@@ -4,7 +4,11 @@ import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 
 import { getDataBindInfo } from "#utils-string/index.js";
-import { deleteAttribute, getAttributeDeclaration } from "#utils-html/index.js";
+import {
+  deleteAttribute,
+  getAttributeDeclaration,
+  getOptions,
+} from "#utils-html/index.js";
 import {
   DATA_BIND_CONTROLS_ELEMENTS,
   DATA_BIND_TYPES,
@@ -82,6 +86,50 @@ export default class DataBindControls extends ProcessorBase {
                 node.properties.isActive = `$\${meta.${dataBindInfo.key}}$$`;
                 node.properties.onClick = `$\${() => setMeta({ ...meta, ${dataBindInfo.key}: !meta.${dataBindInfo.key} })}$$`;
               }
+
+              break;
+
+            case "toolbar-dropdown-menu":
+              const options = getOptions(node);
+
+              options.forEach((option) => {
+                if (option.icon) {
+                  this.blockData._icons.push(option.icon);
+                }
+              });
+
+              if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
+                this.blockData.attributes = {
+                  ...this.blockData.attributes,
+                  [dataBindInfo.key]: getAttributeDeclaration(node, "string"),
+                };
+
+                if (options.length) {
+                  node.properties.controls = `$\${${JSON.stringify(
+                    options.map((option) => ({
+                      title: option.label,
+                      ...(option.icon ? { icon: `$$${option.icon}$$` } : {}),
+                      isActive: `$$attributes.${dataBindInfo.key} === '${option.value}'$$`,
+                      onClick: `$$() => setAttributes({ ${dataBindInfo.key}: '${option.value}' })$$`,
+                    })),
+                  )}}$$`;
+                }
+              }
+
+              if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+                if (options.length) {
+                  node.properties.controls = `$\${${JSON.stringify(
+                    options.map((option) => ({
+                      title: option.label,
+                      ...(option.icon ? { icon: `$$${option.icon}$$` } : {}),
+                      isActive: `$$meta.${dataBindInfo.key} === '${option.value}'$$`,
+                      onClick: `$$() => setMeta({ ...meta, ${dataBindInfo.key}: '${option.value}' })$$`,
+                    })),
+                  )}}$$`;
+                }
+              }
+
+              delete node.children;
 
               break;
 
