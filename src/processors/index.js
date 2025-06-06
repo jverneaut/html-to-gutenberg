@@ -3,6 +3,7 @@ import RootBlockWrapperAttributes from "./root/RootBlockWrapperAttributes.js";
 import RootUseBlockProps from "./root/RootUseBlockProps.js";
 
 import AttributeDataDisplay from "./attributes/AttributeDataDisplay.js";
+import AttributeIcon from "./attributes/AttributeIcon.js";
 import AttributeStyle from "./attributes/AttributeStyle.js";
 
 import CustomElementBlockControls from "./custom-elements/CustomElementBlockControls.js";
@@ -12,6 +13,7 @@ import CustomElementRootBlockAttribute from "./custom-elements/CustomElementRoot
 import CustomElementServerBlock from "./custom-elements/CustomElementServerBlock.js";
 import CustomElementToolbar from "./custom-elements/CustomElementToolbar.js";
 import CustomElementToolbarButton from "./custom-elements/CustomElementToolbarButton.js";
+import CustomElementToolbarDropdownMenu from "./custom-elements/CustomElementToolbarDropdownMenu.js";
 import CustomElementToolbarGroup from "./custom-elements/CustomElementToolbarGroup.js";
 import CustomElementToolbarItem from "./custom-elements/CustomElementToolbarItem.js";
 
@@ -44,8 +46,11 @@ export default [
   CustomElementServerBlock,
   CustomElementToolbar,
   CustomElementToolbarButton,
+  CustomElementToolbarDropdownMenu,
   CustomElementToolbarGroup,
   CustomElementToolbarItem,
+
+  AttributeIcon,
 
   GlobalAttributeExpression,
   GlobalJSXAttributes,

@@ -8,6 +8,7 @@ export default class CustomElementToolbarGroup extends JSXElementTransformer {
   static HTMLTagName = "toolbar-group";
 
   onMatch(node) {
+    this.blockData._hasWordPressComponents = true;
     this.blockData._hasToolbarGroupImport = true;
   }
 

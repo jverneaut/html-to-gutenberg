@@ -7,12 +7,15 @@ export const DATA_BIND_CONTROLS_ELEMENTS = [
   "text-control",
   "toggle-control",
   "select-control",
+  "toolbar-button",
+  "toolbar-dropdown-menu",
 ];
 
 export const DATA_BIND_WITH_OPTIONS_ELEMENTS = [
   "select",
   "select-control",
   "radio-control",
+  "toolbar-dropdown-menu",
 ];
 
 export const DATA_BIND_NON_RICH_TEXT_ELEMENTS = [

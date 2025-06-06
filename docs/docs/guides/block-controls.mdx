@@ -1,0 +1,67 @@
+---
+siderbar_position: 7
+---
+
+import CodeExample from "@site/src/components/CodeExample";
+
+# Adding BlockControls to the toolbar
+
+**HTML to Gutenberg** supports a limited set of toolbar controls using the `<block-controls>` custom element, which maps directly to the native Gutenberg `BlockControls` component.
+
+## Toolbar control groups
+
+Use `<toolbar-group>` to organize your toolbar controls into groups:
+
+<CodeExample>
+  ```
+  <section>
+    <block-controls>
+      <toolbar-group>
+        <!-- Your grouped controls here -->
+      </toolbar-group>
+    </block-controls>
+  </section>
+  ```
+</CodeExample>
+
+## Supported Toolbar Controls
+
+HTML to Gutenberg supports the following toolbar controls:
+
+- `<toolbar-button>` — Toggle a boolean value.
+- `<toolbar-dropdown-menu>` — Choose from a set of options.
+
+These elements can be [data-bound](data-binding.mdx) to block attributes or post meta using `data-bind`.
+
+## Behavior
+
+- `<toolbar-button>`:
+
+  **Acts as a toggle**. When bound with data-bind, it toggles the associated boolean attribute.
+
+- `<toolbar-dropdown-menu>`:
+
+  **Acts like a `<select>`**. Options are defined using `<toolbar-dropdown-menu-option>`.
+
+<CodeExample>
+  ```
+  <section>
+    <block-controls>
+      <toolbar-group>
+        <toolbar-button data-bind="darkMode" icon="styles"></toolbar-button>
+        <toolbar-dropdown-menu
+          icon="more"
+          label="Select a direction"
+          data-bind="direction"
+        >
+          <toolbar-dropdown-menu-option icon="arrowUp" value="up">Up</toolbar-dropdown-menu-option>
+          <toolbar-dropdown-menu-option icon="arrowRight" value="right">Right</toolbar-dropdown-menu-option>
+          <toolbar-dropdown-menu-option icon="arrowDown" value="down">Down</toolbar-dropdown-menu-option>
+          <toolbar-dropdown-menu-option icon="arrowLeft" value="left">Left</toolbar-dropdown-menu-option>
+        </toolbar-dropdown-menu>
+      </toolbar-group>
+    </block-controls>
+
+  </section>
+  ```
+</CodeExample>

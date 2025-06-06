@@ -59,6 +59,9 @@ ToolbarGroup,
 {{#_hasToolbarButtonImport}}
 ToolbarButton,
 {{/_hasToolbarButtonImport}}
+{{#_hasToolbarDropdownMenuImport}}
+ToolbarDropdownMenu,
+{{/_hasToolbarDropdownMenuImport}}
 } from '@wordpress/components';
 {{/_hasWordPressComponents}}
 {{#_hasPostType}}
@@ -72,7 +75,7 @@ import { Image } from "@10up/block-components/components/image";
 {{#_hasServerSideRender}}
 import ServerSideRender from '@wordpress/server-side-render';
 {{/_hasServerSideRender}}
-
+{{#iconsString}}{{{iconsString}}}{{/iconsString}}
 {{#editorStyle}}
 import './{{{editorStyle}}}';
 {{/editorStyle}}
@@ -117,9 +120,18 @@ export default class PrinterEditJS extends PrinterBase {
 
     const propsString = props.length ? `{${props.join(", ")}}` : "";
 
+    const iconsString = this.blockData._icons.length
+      ? [
+          "import {",
+          ...[...new Set(this.blockData._icons)].map((icon) => `${icon},`),
+          "} from '@wordpress/icons';\n",
+        ].join("\n")
+      : false;
+
     const renderedTemplate = Mustache.render(template, {
       content: htmlString,
       propsString,
+      iconsString,
       ...this.blockData,
     });
 

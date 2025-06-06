@@ -1,0 +1,45 @@
+<section>
+  <block-controls>
+    <toolbar-group>
+      <toolbar-button data-bind="darkMode" icon="styles"></toolbar-button>
+      <toolbar-button
+        data-bind="postMeta.bold"
+        icon="formatBold"
+      ></toolbar-button>
+    </toolbar-group>
+
+    <toolbar-group>
+      <toolbar-dropdown-menu
+        icon="more"
+        label="Select a direction"
+        data-bind="direction"
+      >
+        <toolbar-dropdown-menu-option icon="arrowUp" value="up"
+          >Up</toolbar-dropdown-menu-option
+        >
+        <toolbar-dropdown-menu-option icon="arrowRight" value="right"
+          >Right</toolbar-dropdown-menu-option
+        >
+        <toolbar-dropdown-menu-option icon="arrowDown" value="down"
+          >Down</toolbar-dropdown-menu-option
+        >
+        <toolbar-dropdown-menu-option icon="arrowLeft" value="left"
+          >Left</toolbar-dropdown-menu-option
+        >
+      </toolbar-dropdown-menu>
+
+      <toolbar-dropdown-menu
+        icon="more"
+        label="Select a size"
+        data-bind="postMeta.size"
+      >
+        <toolbar-dropdown-menu-option value="small"
+          >Small</toolbar-dropdown-menu-option
+        >
+        <toolbar-dropdown-menu-option value="big"
+          >big</toolbar-dropdown-menu-option
+        >
+      </toolbar-dropdown-menu>
+    </toolbar-group>
+  </block-controls>
+</section>

@@ -1,5 +1,5 @@
 ---
-siderbar_position: 7
+siderbar_position: 8
 ---
 
 import CodeExample from "@site/src/components/CodeExample";
@@ -8,7 +8,7 @@ import CodeExample from "@site/src/components/CodeExample";
 
 Once your block looks the way you want, you might want to make it configurable to let editors choose options, or adjust content.
 
-**HTML to Gutenberg** lets you do that using `<inspector-controls>`, a custom element that maps directly to the native Gutenberg component.
+**HTML to Gutenberg** lets you do that using `<inspector-controls>`, a custom element that maps directly to the native Gutenberg `InspectorControls` component.
 
 ## Adding panels
 
@@ -18,8 +18,12 @@ Use `<panel-body>` to group your controls into collapsible panels in the block s
   ```
   <section>
     <inspector-controls>
-      <panel-body title="Query settings"><!-- ... --></panel-body>
-      <panel-body title="Display settings"><!-- ... --></panel-body>
+      <panel-body title="Query settings">
+        <!-- ... -->
+      </panel-body>
+      <panel-body title="Display settings">
+        <!-- ... -->
+      </panel-body>
     </inspector-controls>
   </section>
   ```
