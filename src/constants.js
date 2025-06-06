@@ -7,6 +7,7 @@ export const DATA_BIND_CONTROLS_ELEMENTS = [
   "text-control",
   "toggle-control",
   "select-control",
+  "toolbar-button",
 ];
 
 export const DATA_BIND_WITH_OPTIONS_ELEMENTS = [

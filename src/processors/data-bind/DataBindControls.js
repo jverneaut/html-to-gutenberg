@@ -10,7 +10,7 @@ import {
   DATA_BIND_TYPES,
 } from "../../constants.js";
 
-export default class DataBindInspectorControls extends ProcessorBase {
+export default class DataBindControls extends ProcessorBase {
   processAstByFilename(printerFilename) {
     if (printerFilename === PrinterEditJS.filename) {
       visit(this.asts[printerFilename], "element", (node) => {
@@ -63,6 +63,24 @@ export default class DataBindInspectorControls extends ProcessorBase {
               if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
                 node.properties.selected = `$\${meta.${dataBindInfo.key}}$$`;
                 node.properties.onChange = `$\${(${dataBindInfo.key}) => setMeta({ ...meta, ${dataBindInfo.key} })}$$`;
+              }
+
+              break;
+
+            case "toolbar-button":
+              if (dataBindInfo.type === DATA_BIND_TYPES.attributes) {
+                this.blockData.attributes = {
+                  ...this.blockData.attributes,
+                  [dataBindInfo.key]: getAttributeDeclaration(node, "boolean"),
+                };
+
+                node.properties.isActive = `$\${attributes.${dataBindInfo.key}}$$`;
+                node.properties.onClick = `$\${() => setAttributes({ ${dataBindInfo.key}: !attributes.${dataBindInfo.key} })}$$`;
+              }
+
+              if (dataBindInfo.type === DATA_BIND_TYPES.postMeta) {
+                node.properties.isActive = `$\${meta.${dataBindInfo.key}}$$`;
+                node.properties.onClick = `$\${() => setMeta({ ...meta, ${dataBindInfo.key}: !meta.${dataBindInfo.key} })}$$`;
               }
 
               break;

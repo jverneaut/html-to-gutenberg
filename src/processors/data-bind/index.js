@@ -2,7 +2,7 @@ import ProcessorBase from "#processors/ProcessorBase.js";
 
 import DataBindImageProcessor from "./DataBindImage.js";
 import DataBindInputProcessor from "./DataBindInput.js";
-import DataBindInspectorControlsProcessor from "./DataBindInspectorControls.js";
+import DataBindControlsProcessor from "./DataBindControls.js";
 import DataBindRichTextProcessor from "./DataBindRichText.js";
 
 export default class DataBind extends ProcessorBase {
@@ -10,7 +10,7 @@ export default class DataBind extends ProcessorBase {
     return [
       DataBindImageProcessor,
       DataBindInputProcessor,
-      DataBindInspectorControlsProcessor,
+      DataBindControlsProcessor,
       DataBindRichTextProcessor,
     ];
   }

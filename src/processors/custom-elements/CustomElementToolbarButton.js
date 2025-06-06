@@ -8,6 +8,7 @@ export default class CustomElementToolbarButton extends JSXElementTransformer {
   static HTMLTagName = "toolbar-button";
 
   onMatch(node) {
+    this.blockData._hasWordPressComponents = true;
     this.blockData._hasToolbarButtonImport = true;
   }
 
