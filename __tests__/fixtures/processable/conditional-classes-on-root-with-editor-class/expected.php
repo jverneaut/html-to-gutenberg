@@ -1,0 +1,1 @@
+<section <?php echo get_block_wrapper_attributes(['class' => "hero " . (($attributes['test'] ?? '')) . " hero--" . (($attributes['heroType'] ?? '')) . " " . (($attributes['isChecked'] ?? '') ? 'yes' : 'no')]); ?>></section>

@@ -9,17 +9,28 @@ export default class RootUseBlockProps extends ProcessorBase {
       setRootAttribute(this.asts[filename], "root-placeholder");
     }
   }
+  generateRootProps(
+    className = { jsValue: "", phpValue: "", isExpression: false },
+    editorClassName = "",
+  ) {
+    const editorClass = editorClassName ? editorClassName.trim() : "";
 
-  generateRootProps(className = "", editorClassName = "") {
-    const concatenatedClasses = [className, editorClassName]
-      .filter((str) => str && str.trim() !== "")
-      .join(" ");
+    if ((!className || !className.jsValue) && !editorClass) {
+      return `{ ...useBlockProps() }`;
+    }
 
-    const blockProps = `{...useBlockProps(${
-      concatenatedClasses ? `{ className: "${concatenatedClasses}" }` : ""
-    })}`;
+    let finalClassName;
 
-    return blockProps;
+    if (className?.isExpression) {
+      finalClassName = editorClass
+        ? `\`\${${className.jsValue}} ${editorClass}\``
+        : className.jsValue;
+    } else {
+      const parts = [className?.jsValue, editorClass].filter(Boolean);
+      finalClassName = `"${parts.join(" ")}"`;
+    }
+
+    return `{ ...useBlockProps({ className: ${finalClassName} }) }`;
   }
 
   processHTMLStringByFilename(filename, htmlString) {
