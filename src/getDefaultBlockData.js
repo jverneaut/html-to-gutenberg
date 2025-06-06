@@ -29,6 +29,7 @@ const defaultBlockData = {
 
   _boundImages: [], // {key: string, type: string, size?: string}[]
   _dependencies: [], // string[],
+  _icons: [], // string[]
 
   // Block.json metadata
   name: null,

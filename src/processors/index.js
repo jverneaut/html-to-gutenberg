@@ -3,6 +3,7 @@ import RootBlockWrapperAttributes from "./root/RootBlockWrapperAttributes.js";
 import RootUseBlockProps from "./root/RootUseBlockProps.js";
 
 import AttributeDataDisplay from "./attributes/AttributeDataDisplay.js";
+import AttributeIcon from "./attributes/AttributeIcon.js";
 import AttributeStyle from "./attributes/AttributeStyle.js";
 
 import CustomElementBlockControls from "./custom-elements/CustomElementBlockControls.js";
@@ -46,6 +47,8 @@ export default [
   CustomElementToolbarButton,
   CustomElementToolbarGroup,
   CustomElementToolbarItem,
+
+  AttributeIcon,
 
   GlobalAttributeExpression,
   GlobalJSXAttributes,
