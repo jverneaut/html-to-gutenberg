@@ -10,6 +10,8 @@ import {
   useSandpack,
 } from "@codesandbox/sandpack-react";
 
+import defaultExample from "../examples/default.html";
+
 import HTMLToGutenberg from "../../../src/HTMLToGutenberg.js";
 
 import processors from "../../../src/processors/index.js";
@@ -132,42 +134,9 @@ const LiveEditorOutput = ({ inputFiles }) => {
   );
 };
 
-const defaultFileValue = `<section class="py-20 bg-blue-200" data-parent="custom/parent-block" data-editing-mode="contentOnly">
-  <inspector-controls>
-    <panel-body title="Settings">
-      <select-control data-bind="postType" label="Post Type">
-        <select-control-option value="posts">Posts</select-control-option>
-        <select-control-option value="pages">Pages</select-control-option>
-      </select-control>
-    </panel-body>
-  </inspector-controls>
-
-  <div class="container">
-    <div class="grid grid-cols-12 gap-4">
-      <div class="col-span-12 md:col-span-6">
-        <h2 class="text-2xl" data-bind="sectionTitle">Edit me inside the editor</h2>
-        <img class="aspect-square object-cover" data-bind="sectionImage" />
-      </div>
-
-      <div class="col-span-12 md:col-span-6">
-        <inner-blocks allowedBlocks="all" templateLock="all">
-          <inner-block name="core/group">
-            <inner-block name="core/heading" level="3"></inner-block>
-            <inner-block name="core/paragraph">
-              <block-attribute name="content">
-                Lorem ipsum dolor sit amet consectetur.
-              </block-attribute>
-            </inner-block>
-          </inner-block>
-        </inner-blocks>
-      </div>
-    </div>
-  </div>
-</section>`;
-
 const LiveEditorPage = () => {
   const [inputFiles, setInputFiles] = useState({
-    "/block.html": defaultFileValue,
+    "/block.html": defaultExample,
   });
 
   return (
