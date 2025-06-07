@@ -49,9 +49,14 @@ const LiveEditorOutputEditor = ({ inputFiles }) => {
   const { sandpack } = useSandpack();
   const [error, setError] = useState("");
 
-  const updateFiles = async () => {
-    const activeFile = sandpack.activeFile;
+  const [outputFiles, setOutputFiles] = useState({
+    "/render.php": "",
+    "/block.json": "",
+    "/index.js": "",
+    "/edit.js": "",
+  });
 
+  const updateFiles = async () => {
     try {
       const htmlToGutenberg = new HTMLToGutenberg({
         printers,
@@ -67,22 +72,33 @@ const LiveEditorOutputEditor = ({ inputFiles }) => {
         },
       );
 
-      sandpack.updateFile("/render.php", files["render.php"]);
-      sandpack.updateFile("/edit.js", files["edit.js"]);
-      sandpack.updateFile("/block.json", files["block.json"]);
-      sandpack.updateFile("/index.js", files["index.js"]);
+      setOutputFiles({
+        "/render.php": files["render.php"],
+        "/block.json": files["block.json"],
+        "/index.js": files["index.js"],
+        "/edit.js": files["edit.js"],
+      });
 
       setError("");
     } catch (err) {
       setError(err.message);
     }
-
-    sandpack.setActiveFile(activeFile);
   };
 
   useEffect(() => {
     updateFiles();
   }, [inputFiles["/block.html"], sandpack.editorState]);
+
+  useEffect(() => {
+    const activeFile = sandpack.activeFile;
+
+    sandpack.updateFile("/render.php", outputFiles["/render.php"]);
+    sandpack.updateFile("/edit.js", outputFiles["/edit.js"]);
+    sandpack.updateFile("/block.json", outputFiles["/block.json"]);
+    sandpack.updateFile("/index.js", outputFiles["/index.js"]);
+
+    sandpack.setActiveFile(activeFile);
+  }, [Object.values(outputFiles)]);
 
   return (
     <>
