@@ -4,6 +4,12 @@ import { emmetHTML } from "emmet-monaco-es";
 import Layout from "@theme/Layout";
 
 import defaultExample from "../examples/default.html";
+import innerBlocksExample from "../examples/inner-blocks.html";
+
+const examples = [
+  { name: "Default", content: defaultExample },
+  { name: "InnerBlocks", content: innerBlocksExample },
+];
 
 import HTMLToGutenberg from "../../../src/HTMLToGutenberg.js";
 
@@ -23,12 +29,7 @@ const editorOptions = {
 };
 
 const LiveEditor = () => {
-  const [outputFiles, setOutputFiles] = useState({
-    "/render.php": "",
-    "/block.json": "",
-    "/index.js": "",
-    "/edit.js": "",
-  });
+  const [outputFiles, setOutputFiles] = useState([]);
 
   const [error, setError] = useState("");
 
@@ -59,7 +60,11 @@ const LiveEditor = () => {
     };
   }, [monaco]);
 
+  const [value, setValue] = useState("");
+
   const onChange = async (value) => {
+    setValue(value);
+
     try {
       const htmlToGutenberg = new HTMLToGutenberg({
         printers,
@@ -75,12 +80,28 @@ const LiveEditor = () => {
         },
       );
 
-      setOutputFiles({
-        "/render.php": files["render.php"],
-        "/block.json": files["block.json"],
-        "/index.js": files["index.js"],
-        "/edit.js": files["edit.js"],
-      });
+      setOutputFiles([
+        {
+          filename: "edit.js",
+          content: files["edit.js"],
+          language: "javascript",
+        },
+        {
+          filename: "render.php",
+          content: files["render.php"],
+          language: "php",
+        },
+        {
+          filename: "block.json",
+          content: files["block.json"],
+          language: "json",
+        },
+        {
+          filename: "index.js",
+          content: files["index.js"],
+          language: "javascript",
+        },
+      ]);
 
       setError("");
     } catch (err) {
@@ -92,14 +113,37 @@ const LiveEditor = () => {
     onChange(defaultExample);
   }, []);
 
+  const [selectedExampleIndex, setSelectedExampleIndex] = useState(0);
+  const [selectedFileIndex, setSelectedFileIndex] = useState(0);
+
+  useEffect(() => {
+    setValue(examples[selectedExampleIndex].content);
+    onChange(examples[selectedExampleIndex].content);
+  }, [selectedExampleIndex]);
+
   return (
     <Layout title="Live Editor">
       <div className="live-editor">
         <div className="live-editor__input">
+          <div className="live-editor__select">
+            <select
+              onChange={(e) =>
+                setSelectedExampleIndex(parseInt(e.target.value))
+              }
+            >
+              {examples.map((example, index) => (
+                <option key={index} value={index}>
+                  {example.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="live-editor__code">
             <Editor
-              defaultValue={defaultExample}
-              defaultLanguage="html"
+              defaultValue={examples[selectedExampleIndex]}
+              value={value}
+              language="html"
               options={editorOptions}
               onChange={onChange}
             />
@@ -107,11 +151,27 @@ const LiveEditor = () => {
         </div>
 
         <div className="live-editor__output">
-          <div className="live-editor__tabs"></div>
+          <div className="live-editor__tabs">
+            {outputFiles.map((outputFile, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedFileIndex(index)}
+                className={[
+                  "editor__tab",
+                  index === selectedFileIndex ? "editor__tab--active" : false,
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                {outputFile.filename}
+              </button>
+            ))}
+          </div>
+
           <div className="live-editor__code">
             <Editor
-              value={outputFiles["/edit.js"]}
-              defaultLanguage="javascript"
+              value={outputFiles[selectedFileIndex]?.content}
+              language={outputFiles[selectedFileIndex]?.language}
               options={{ ...editorOptions, readOnly: true }}
             />
           </div>
