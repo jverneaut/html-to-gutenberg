@@ -178,3 +178,20 @@ h3 {
 .live-editor__code {
   flex: 1;
 }
+
+.live-editor__tabs {
+}
+
+.live-editor__tab {
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-top: 2px solid transparent;
+  background: var(--ifm-color-emphasis-200);
+  padding: 12px 32px;
+  cursor: pointer;
+}
+
+.live-editor__tab--active {
+  background: var(--ifm-color-emphasis-50);
+  border-bottom-color: var(--ifm-color-primary);
+}

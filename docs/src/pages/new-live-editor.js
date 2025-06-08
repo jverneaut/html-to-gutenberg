@@ -157,8 +157,10 @@ const LiveEditor = () => {
                 key={index}
                 onClick={() => setSelectedFileIndex(index)}
                 className={[
-                  "editor__tab",
-                  index === selectedFileIndex ? "editor__tab--active" : false,
+                  "live-editor__tab",
+                  index === selectedFileIndex
+                    ? "live-editor__tab--active"
+                    : false,
                 ]
                   .filter(Boolean)
                   .join(" ")}
