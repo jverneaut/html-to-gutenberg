@@ -162,3 +162,18 @@ h3 {
 .theme-layout-main [class*="sidebar-container"] {
   background-color: var(--ifm-color-emphasis-100);
 }
+
+.live-editor {
+  flex: 1;
+  display: flex;
+}
+
+.live-editor__input,
+.live-editor__output {
+  flex: 1;
+  display: flex;
+}
+
+.live-editor__code {
+  flex: 1;
+}
