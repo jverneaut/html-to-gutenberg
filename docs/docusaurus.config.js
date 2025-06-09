@@ -137,6 +137,8 @@ const config = {
       "data-domain": "html-to-gutenberg.com",
     },
   ],
+
+  plugins: ["html-loader"],
 };
 
 export default config;
