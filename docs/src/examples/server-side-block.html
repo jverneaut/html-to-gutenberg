@@ -1,0 +1,12 @@
+<section>
+  <inspector-controls>
+    <panel-body title="Settings">
+      <select-control label="Post Type" data-bind="postType">
+        <select-control-option value="pages">Pages</select-control-option>
+        <select-control-option value="posts">Posts</select-control-option>
+      </select-control>
+    </panel-body>
+  </inspector-controls>
+
+  <server-block name="custom/latest-posts"></server-block>
+</section>

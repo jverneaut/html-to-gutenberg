@@ -1,64 +1,114 @@
 import { useState, useEffect } from "react";
+import { emmetHTML } from "emmet-monaco-es";
+
+import Editor, { useMonaco } from "@monaco-editor/react";
 import Layout from "@theme/Layout";
-import { useColorMode } from "@docusaurus/theme-common";
 
-import {
-  useActiveCode,
-  SandpackProvider,
-  SandpackLayout,
-  SandpackCodeEditor,
-  useSandpack,
-} from "@codesandbox/sandpack-react";
-
-import defaultExample from "../examples/default.html";
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 
 import HTMLToGutenberg from "../../../src/HTMLToGutenberg.js";
 
 import processors from "../../../src/processors/index.js";
 import printers from "../../../src/printers/index.js";
 
-const LiveEditorInputEditor = ({ setInputFiles }) => {
-  const { code } = useActiveCode();
+import defaultExample from "../examples/default.html";
+import innerBlocksExample from "../examples/inner-blocks.html";
+import serverSideBlockExample from "../examples/server-side-block.html";
 
-  useEffect(() => {
-    setInputFiles({
-      "/block.html": code,
-    });
-  }, [code]);
+const examples = [
+  { title: "Default", content: defaultExample },
+  { title: "InnerBlocks", content: innerBlocksExample },
+  { title: "Server-side Block", content: serverSideBlockExample },
+];
 
-  return <SandpackCodeEditor showLineNumbers showTabs />;
+const editorOptions = {
+  fontSize: 14,
+  minimap: { enabled: false },
+
+  overviewRulerLanes: 0,
+  hideCursorInOverviewRuler: true,
+  scrollbar: {
+    vertical: "hidden",
+    horizontal: "hidden",
+  },
+  overviewRulerBorder: false,
 };
 
-const LiveEditorInput = ({ inputFiles, setInputFiles }) => {
-  const { colorMode } = useColorMode();
+const Select = ({ index, setIndex, options }) => {
+  const prev = () => {
+    setIndex((index - 1 + options.length) % options.length);
+  };
+
+  const next = () => {
+    setIndex((index + 1) % options.length);
+  };
 
   return (
-    <SandpackProvider
-      theme={colorMode}
-      files={inputFiles}
-      customSetup={{
-        entry: "/block.html",
-      }}
-    >
-      <SandpackLayout>
-        <LiveEditorInputEditor setInputFiles={setInputFiles} />
-      </SandpackLayout>
-    </SandpackProvider>
+    <div className="live-editor__select">
+      <div className="live-editor__select-title">
+        <span>{options[index].title}</span>
+        <ChevronDown size={16} />
+
+        <select onChange={(e) => setIndex(parseInt(e.target.value))}>
+          {options.map((option, index) => (
+            <option key={index} value={index}>
+              {option.title}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="live-editor__select-buttons">
+        <button
+          onClick={prev}
+          className="live-editor__select-button live-editor__select-button--prev"
+        >
+          <ArrowLeft size={16} />
+        </button>
+
+        <button
+          onClick={next}
+          className="live-editor__select-button live-editor__select-button--next"
+        >
+          <ArrowRight size={16} />
+        </button>
+      </div>
+    </div>
   );
 };
 
-const LiveEditorOutputEditor = ({ inputFiles }) => {
-  const { sandpack } = useSandpack();
+const FileTabs = ({ index, setIndex, options }) => {
+  return (
+    <div className="live-editor__files">
+      {options.map((option, optionIndex) => (
+        <button
+          key={optionIndex}
+          onClick={() => setIndex(optionIndex)}
+          className={[
+            "live-editor__file",
+            index === optionIndex ? "live-editor__file--selected" : false,
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          {option}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+const LiveEditor = () => {
+  const monaco = useMonaco();
+
+  const [outputFiles, setOutputFiles] = useState([]);
+
+  const [value, setValue] = useState("");
   const [error, setError] = useState("");
 
-  const [outputFiles, setOutputFiles] = useState({
-    "/render.php": "",
-    "/block.json": "",
-    "/index.js": "",
-    "/edit.js": "",
-  });
+  const onChange = async (value) => {
+    setValue(value);
 
-  const updateFiles = async () => {
     try {
       const htmlToGutenberg = new HTMLToGutenberg({
         printers,
@@ -66,7 +116,7 @@ const LiveEditorOutputEditor = ({ inputFiles }) => {
       });
 
       const { files } = await htmlToGutenberg.printBlockFromHTMLFileContent(
-        inputFiles["/block.html"],
+        value,
         {
           name: "custom/block",
           title: "Block",
@@ -74,12 +124,28 @@ const LiveEditorOutputEditor = ({ inputFiles }) => {
         },
       );
 
-      setOutputFiles({
-        "/render.php": files["render.php"],
-        "/block.json": files["block.json"],
-        "/index.js": files["index.js"],
-        "/edit.js": files["edit.js"],
-      });
+      setOutputFiles([
+        {
+          filename: "edit.js",
+          content: files["edit.js"],
+          language: "javascript",
+        },
+        {
+          filename: "render.php",
+          content: files["render.php"],
+          language: "php",
+        },
+        {
+          filename: "block.json",
+          content: files["block.json"],
+          language: "json",
+        },
+        {
+          filename: "index.js",
+          content: files["index.js"],
+          language: "javascript",
+        },
+      ]);
 
       setError("");
     } catch (err) {
@@ -88,69 +154,98 @@ const LiveEditorOutputEditor = ({ inputFiles }) => {
   };
 
   useEffect(() => {
-    updateFiles();
-  }, [inputFiles["/block.html"], sandpack.editorState]);
+    onChange(defaultExample);
+  }, []);
+
+  const [selectedExampleIndex, setSelectedExampleIndex] = useState(0);
+  const [selectedFileIndex, setSelectedFileIndex] = useState(0);
 
   useEffect(() => {
-    const activeFile = sandpack.activeFile;
+    setValue(examples[selectedExampleIndex].content);
+    onChange(examples[selectedExampleIndex].content);
+  }, [selectedExampleIndex]);
 
-    sandpack.updateFile("/render.php", outputFiles["/render.php"]);
-    sandpack.updateFile("/edit.js", outputFiles["/edit.js"]);
-    sandpack.updateFile("/block.json", outputFiles["/block.json"]);
-    sandpack.updateFile("/index.js", outputFiles["/index.js"]);
+  const onResize = () => {
+    if (monaco) {
+      const editors = monaco.editor.getEditors();
 
-    sandpack.setActiveFile(activeFile);
-  }, [Object.values(outputFiles)]);
+      editors.forEach((editor) => {
+        if (editor) {
+          editor.layout({});
+        }
+      });
+    }
+  };
 
-  return (
-    <>
-      <SandpackCodeEditor showTabs readOnly />
-      {error && <pre className="error">{error}</pre>}
-    </>
-  );
-};
+  useEffect(() => {
+    if (monaco) {
+      emmetHTML(monaco);
+    }
 
-const LiveEditorOutput = ({ inputFiles }) => {
-  const { colorMode } = useColorMode();
+    import("monaco-themes/themes/GitHub Dark.json").then((data) => {
+      if (monaco) {
+        monaco.editor.defineTheme("github-dark", data);
+        monaco.editor.setTheme("github-dark");
+      }
+    });
 
-  return (
-    <SandpackProvider
-      theme={colorMode}
-      files={{
-        "/render.php": "",
-        "/block.json": "",
-        "/index.js": "",
-        "/edit.js": "",
-      }}
-      options={{
-        visibleFiles: ["/edit.js", "/render.php", "/block.json", "index.js"],
-        activeFile: "/edit.js",
-      }}
-    >
-      <SandpackLayout>
-        <LiveEditorOutputEditor inputFiles={inputFiles} />
-      </SandpackLayout>
-    </SandpackProvider>
-  );
-};
-
-const LiveEditorPage = () => {
-  const [inputFiles, setInputFiles] = useState({
-    "/block.html": defaultExample,
-  });
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, [monaco]);
 
   return (
-    <Layout title="Live Editor">
-      <div className="live-editor-layout">
-        <LiveEditorInput
-          inputFiles={inputFiles}
-          setInputFiles={setInputFiles}
+    <Layout>
+      <div className="live-editor">
+        <Select
+          index={selectedExampleIndex}
+          setIndex={setSelectedExampleIndex}
+          options={examples}
         />
 
-        <LiveEditorOutput inputFiles={inputFiles} />
+        <div className="live-editor__code">
+          <div className="live-editor__input">
+            <FileTabs index={0} setIndex={() => {}} options={["block.html"]} />
+
+            <div className="live-editor__editor">
+              <Editor
+                value={value}
+                defaultValue={examples[selectedExampleIndex]}
+                language="html"
+                options={editorOptions}
+                onChange={onChange}
+                theme="github-dark"
+              />
+            </div>
+          </div>
+
+          <div className="live-editor__output">
+            <FileTabs
+              index={selectedFileIndex}
+              setIndex={setSelectedFileIndex}
+              options={["edit.js", "render.php", "block.json", "index.js"]}
+            />
+
+            <div className="live-editor__editor">
+              <Editor
+                value={outputFiles[selectedFileIndex]?.content}
+                language={outputFiles[selectedFileIndex]?.language}
+                options={{ ...editorOptions, readOnly: true }}
+                theme="github-dark"
+              />
+            </div>
+
+            {error && (
+              <div className="live-editor__error">
+                <pre>{error}</pre>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </Layout>
   );
 };
 
-export default LiveEditorPage;
+export default LiveEditor;
