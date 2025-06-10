@@ -18,10 +18,13 @@ export const DATA_BIND_WITH_OPTIONS_ELEMENTS = [
   "toolbar-dropdown-menu",
 ];
 
+export const DATA_BIND_CONTENT_PICKER_ELEMENT = "content-picker";
+
 export const DATA_BIND_NON_RICH_TEXT_ELEMENTS = [
   ...DATA_BIND_INPUT_ELEMENTS,
   ...DATA_BIND_IMAGE_ELEMENTS,
   ...DATA_BIND_CONTROLS_ELEMENTS,
+  DATA_BIND_CONTENT_PICKER_ELEMENT,
 ];
 
 export const DATA_BIND_TYPES = {
