@@ -1,0 +1,26 @@
+import CodeExample from "@site/src/components/CodeExample";
+
+# Using the ContentPicker component
+
+**HTML To Gutenberg** supports integration with the `ContentPicker` component from [@10up/block-components](https://github.com/10up/block-components) through the custom element `<content-picker>`.
+
+Currently, this component supports [data binding](data-binding.mdx) only to attributes via the `data-bind` attribute (e.g., `data-bind="attributeName"`). Additionally, you can control how many posts can be selected by setting the `max-content-items` attribute.
+
+## Typical Use Case
+
+A common scenario for using this component is to let editors select posts directly within the editor interface, and then render those posts server-side in your block’s `render.php` file using [file overrides](overrides.mdx).
+
+<CodeExample>
+  ```
+  <section>
+    <inspector-controls>
+      <panel-body title="Settings">
+        <content-picker data-bind="posts"></content-picker>
+      </panel-body>
+    </inspector-controls>
+
+    <server-block name="custom/posts-slider"></server-block>
+
+  </section>
+  ```
+</CodeExample>
