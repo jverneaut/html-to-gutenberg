@@ -7,6 +7,7 @@ import AttributeIcon from "./attributes/AttributeIcon.js";
 import AttributeStyle from "./attributes/AttributeStyle.js";
 
 import CustomElementBlockControls from "./custom-elements/CustomElementBlockControls.js";
+import CustomElementContentPicker from "./custom-elements/CustomElementContentPicker.js";
 import CustomElementInnerBlocks from "./custom-elements/CustomElementInnerBlocks.js";
 import CustomElementInspectorControls from "./custom-elements/CustomElementInspectorControls/index.js";
 import CustomElementRootBlockAttribute from "./custom-elements/CustomElementRootBlockAttribute.js";
@@ -40,6 +41,7 @@ export default [
   DataBind,
 
   CustomElementBlockControls,
+  CustomElementContentPicker,
   CustomElementInnerBlocks,
   CustomElementInspectorControls,
   CustomElementRootBlockAttribute,

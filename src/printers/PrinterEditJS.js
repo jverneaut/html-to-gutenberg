@@ -71,6 +71,9 @@ import { useEntityProp } from '@wordpress/core-data';
 {{#_hasMediaUploadImport}}
 import { Image } from "@10up/block-components/components/image";
 {{/_hasMediaUploadImport}}
+{{#_hasContentPickerImport}}
+import { ContentPicker } from "@10up/block-components/components/content-picker";
+{{/_hasContentPickerImport}}
 {{/content}}
 {{#_hasServerSideRender}}
 import ServerSideRender from '@wordpress/server-side-render';
