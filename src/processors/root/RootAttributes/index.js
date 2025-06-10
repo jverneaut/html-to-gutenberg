@@ -1,5 +1,6 @@
 import ProcessorBase from "#processors/ProcessorBase.js";
 
+import DataAlign from "./DataAlign.js";
 import DataBlockName from "./DataBlockName.js";
 import DataCategory from "./DataCategory.js";
 import DataClassName from "./DataClassName.js";
@@ -18,6 +19,7 @@ import DataViewScript from "./DataViewScript.js";
 export default class RootAttributes extends ProcessorBase {
   get processors() {
     return [
+      DataAlign,
       DataBlockName,
       DataCategory,
       DataClassName,

@@ -1,0 +1,15 @@
+import CodeExample from "@site/src/components/CodeExample";
+
+# Defining the block alignment
+
+By default, **HTML To Gutebnerg** assumes your block supports the `"full"` alignment only.
+
+If you want to override this behavior, use the `data-align` attribute on the root element. This attribute accepts a space-separated list of alignments with the first one being used as the default.
+
+You can also opt-out of supporting the alignment attribute by setting `data-align` to `false`.
+
+<CodeExample>
+  ```
+  <section data-align="full wide"></section>
+  ```
+</CodeExample>
