@@ -29,12 +29,20 @@ export default class PrinterBlockJSON extends PrinterBase {
         : {}),
       ...(this.blockData.parent ? { parent: this.blockData.parent } : {}),
       attributes: {
-        align: { type: "string", default: "full" },
+        ...(this.blockData._align.length
+          ? {
+              align: { type: "string", default: this.blockData._align[0] },
+            }
+          : {}),
         ...this.blockData.attributes,
       },
       supports: {
         html: false,
-        align: ["full"],
+        ...(this.blockData._align.length
+          ? {
+              align: this.blockData._align,
+            }
+          : {}),
       },
       editorScript: "file:./index.js",
       render: "file:./render.php",

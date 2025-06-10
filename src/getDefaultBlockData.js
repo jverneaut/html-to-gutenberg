@@ -1,5 +1,6 @@
 const defaultBlockData = {
   // Internal properties set in the processing stage and used by printers
+  _align: ["full"],
   _className: null,
   _editorClassName: null,
   _hasAttributesProps: false,
