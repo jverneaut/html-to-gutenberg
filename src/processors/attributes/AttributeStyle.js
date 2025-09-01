@@ -29,6 +29,22 @@ export default class AttributeStyle extends ProcessorBase {
             parse(styleString, (name, value) => {
               styleObject[kebabCaseToCamelCase(name)] =
                 normalizeStyleString(value);
+
+              // Add basic support for attributes and post meta references
+              if (value.startsWith("{attributes.")) {
+                const key = value.replace("{attributes.", "").trim();
+                this.blockData._hasAttributesProps = true;
+
+                styleObject[kebabCaseToCamelCase(name)] =
+                  `\$\$attributes.${key}$$`;
+              }
+
+              if (value.startsWith("{postMeta.")) {
+                const key = value.replace("{postMeta.", "").trim();
+                this.blockData._hasPostMeta = true;
+
+                styleObject[kebabCaseToCamelCase(name)] = `\$\$meta.${key}$$`;
+              }
             });
 
             node.properties.style = `$\${${JSON.stringify(styleObject)}}$$`;

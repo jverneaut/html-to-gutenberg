@@ -13,6 +13,7 @@ const defaultBlockData = {
   _hasPostType: false,
   _hasPostMeta: false,
   _hasPostTitle: false,
+  _hasColorSettingImport: false,
   _hasToolbarImport: false,
   _hasToolbarItemImport: false,
   _hasToolbarGroupImport: false,
