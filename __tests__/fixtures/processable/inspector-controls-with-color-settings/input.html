@@ -1,0 +1,11 @@
+<section class="bg-gray-200 p-12" style="background-color: {attributes.color}">
+  <inspector-controls>
+    <panel-body title="Settings">
+      <color-setting label="Color Setting" data-bind="color"></color-setting>
+    </panel-body>
+  </inspector-controls>
+
+  <div style="background-color: {attributes.color}" class="p-8">
+    The current color is <strong data-bind="color"></strong>
+  </div>
+</section>
