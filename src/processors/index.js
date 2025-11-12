@@ -1,6 +1,7 @@
 import RootAttributes from "./root/RootAttributes/index.js";
 import RootBlockWrapperAttributes from "./root/RootBlockWrapperAttributes.js";
 import RootUseBlockProps from "./root/RootUseBlockProps.js";
+import RootInlineStyle from "./root/RootInlineStyle.js";
 
 import AttributeDataDisplay from "./attributes/AttributeDataDisplay.js";
 import AttributeIcon from "./attributes/AttributeIcon.js";
@@ -35,6 +36,7 @@ export default [
   RootAttributes,
   RootBlockWrapperAttributes,
   RootUseBlockProps,
+  RootInlineStyle,
 
   AttributeDataDisplay,
   AttributeStyle,

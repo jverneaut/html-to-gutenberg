@@ -55,6 +55,7 @@
     "#printers/*": "./src/printers/*",
     "#utils-html/*": "./src/utils-html/*",
     "#utils-string/*": "./src/utils-string/*",
+    "#utils-style/*": "./src/utils-style/*",
     "#constants": "./src/constants.js"
   }
 }

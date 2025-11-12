@@ -3,6 +3,7 @@ const defaultBlockData = {
   _align: ["full"],
   _className: null,
   _editorClassName: null,
+  _rootStyle: null,
   _hasAttributesProps: false,
   _editingMode: null,
   _hasServerSideRender: false,

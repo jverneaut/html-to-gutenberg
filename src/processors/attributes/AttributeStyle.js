@@ -2,7 +2,8 @@ import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 
 import { visit } from "unist-util-visit";
-import parse from "style-to-object";
+
+import { parseStyleString } from "#utils-style/index.js";
 
 export default class AttributeStyle extends ProcessorBase {
   processAstByFilename(filename) {
