@@ -28,8 +28,7 @@ export default class RootBlockWrapperAttributes extends ProcessorBase {
     }
 
     if (style?.phpValue) {
-      const sanitizedStyle = style.phpValue.replace(/'/g, "\\'");
-      attributesParts.push(`'style' => '${sanitizedStyle}'`);
+      attributesParts.push(`'style' => ${style.phpValue}`);
     }
 
     const wrapperAttributes = attributesParts.length
