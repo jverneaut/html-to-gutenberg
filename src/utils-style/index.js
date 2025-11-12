@@ -1,1 +1,4 @@
-export { default as parseStyleString } from "./parseStyleString.js";
+export {
+  default as parseStyleString,
+  buildStyleObjectExpression,
+} from "./parseStyleString.js";

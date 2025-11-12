@@ -9,6 +9,7 @@ import AttributeStyle from "./attributes/AttributeStyle.js";
 
 import CustomElementBlockControls from "./custom-elements/CustomElementBlockControls.js";
 import CustomElementContentPicker from "./custom-elements/CustomElementContentPicker.js";
+import CustomElementColorSetting from "./custom-elements/CustomElementColorSetting.js";
 import CustomElementInnerBlocks from "./custom-elements/CustomElementInnerBlocks.js";
 import CustomElementInspectorControls from "./custom-elements/CustomElementInspectorControls/index.js";
 import CustomElementRootBlockAttribute from "./custom-elements/CustomElementRootBlockAttribute.js";
@@ -44,6 +45,7 @@ export default [
 
   CustomElementBlockControls,
   CustomElementContentPicker,
+  CustomElementColorSetting,
   CustomElementInnerBlocks,
   CustomElementInspectorControls,
   CustomElementRootBlockAttribute,

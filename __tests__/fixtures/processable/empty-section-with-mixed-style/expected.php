@@ -1,0 +1,1 @@
+<section <?php echo get_block_wrapper_attributes(['style' => "color: red; background: " . (($attributes['background'] ?? '')) . "; text-align: " . (($attributes['center'] ?? '') ? 'center' : '')]); ?>></section>

@@ -3,7 +3,7 @@ import PrinterEditJS from "#printers/PrinterEditJS.js";
 
 import { visit } from "unist-util-visit";
 
-import { parseStyleString } from "#utils-style/index.js";
+import { buildStyleObjectExpression } from "#utils-style/index.js";
 
 export default class AttributeStyle extends ProcessorBase {
   processAstByFilename(filename) {
@@ -13,9 +13,14 @@ export default class AttributeStyle extends ProcessorBase {
 
         if (styleString) {
           try {
-            const styleObject = parseStyleString(styleString);
+            const styleExpression = buildStyleObjectExpression(
+              styleString,
+              this,
+            );
 
-            node.properties.style = `$\${${JSON.stringify(styleObject)}}$$`;
+            if (styleExpression) {
+              node.properties.style = `$\${${styleExpression}}$$`;
+            }
           } catch (err) {
             console.warn("Failed to parse style string:", styleString, err);
           }

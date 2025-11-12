@@ -6,6 +6,7 @@ import DataBindImageProcessor from "./DataBindImage.js";
 import DataBindInputProcessor from "./DataBindInput.js";
 import DataBindControlsProcessor from "./DataBindControls.js";
 import DataBindRichTextProcessor from "./DataBindRichText.js";
+import DataBindColorSetting from "./DataBindColorSetting.js";
 
 export default class DataBind extends ProcessorBase {
   get processors() {
@@ -16,6 +17,7 @@ export default class DataBind extends ProcessorBase {
       DataBindInputProcessor,
       DataBindControlsProcessor,
       DataBindRichTextProcessor,
+      DataBindColorSetting,
     ];
   }
 }

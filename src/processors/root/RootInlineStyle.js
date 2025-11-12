@@ -2,7 +2,8 @@ import ProcessorBase from "#processors/ProcessorBase.js";
 import PrinterEditJS from "#printers/PrinterEditJS.js";
 import PrinterRenderPHP from "#printers/PrinterRenderPHP.js";
 
-import { parseStyleString } from "#utils-style/index.js";
+import { buildStyleObjectExpression } from "#utils-style/index.js";
+import { parseAttributeExpression } from "#utils-string/index.js";
 import { visit } from "unist-util-visit";
 
 const TARGET_FILENAMES = new Set([
@@ -40,14 +41,28 @@ export default class RootInlineStyle extends ProcessorBase {
 
       if (!this.blockData._rootStyle) {
         try {
-          const styleObject = parseStyleString(normalizedStyle);
+          const styleExpression = buildStyleObjectExpression(
+            normalizedStyle,
+            this,
+          );
 
-          this.blockData._rootStyle = {
-            jsValue: JSON.stringify(styleObject),
-            phpValue: normalizedStyle,
-          };
+          if (styleExpression) {
+            const expressionResult = parseAttributeExpression(
+              normalizedStyle,
+              this,
+            );
 
-          shouldRemoveStyle = true;
+            const phpValue = expressionResult.isExpression
+              ? expressionResult.phpValue
+              : `'${normalizedStyle.replace(/'/g, "\\'")}'`;
+
+            this.blockData._rootStyle = {
+              jsValue: styleExpression,
+              phpValue,
+            };
+
+            shouldRemoveStyle = true;
+          }
         } catch (err) {
           console.warn("Failed to parse style string:", normalizedStyle, err);
           shouldRemoveStyle = false;
