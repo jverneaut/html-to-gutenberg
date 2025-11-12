@@ -1,5 +1,4 @@
-<section style="
-    clip-path: polygon(
+<section <?php echo get_block_wrapper_attributes(['class' => 'relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]', 'style' => 'clip-path: polygon(
       74.1% 44.1%,
       100% 61.6%,
       97.5% 26.9%,
@@ -16,5 +15,4 @@
       27.6% 76.8%,
       76.1% 97.7%,
       74.1% 44.1%
-    );
-  " <?php echo get_block_wrapper_attributes(['class' => 'relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]']); ?>></section>
+    );']); ?>></section>
