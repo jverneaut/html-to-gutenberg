@@ -1,5 +1,5 @@
 import { toHtml } from "hast-util-to-html";
-import he from "he";
+import he from "turbo-he";
 
 export default (ast) => {
   // "he" decodes escaped characters

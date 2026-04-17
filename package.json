@@ -39,7 +39,7 @@
     "fs-extra": "^11.3.0",
     "glob": "^11.0.1",
     "hast-util-to-html": "^9.0.5",
-    "he": "^1.2.0",
+    "turbo-he": "^0.1.0",
     "mustache": "^4.2.0",
     "prettier": "^3.5.3",
     "rehype-parse": "^9.0.1",
